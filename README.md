@@ -6,7 +6,7 @@ Figma：https://www.figma.com/design/kLYQcceyEps8ZfeX1nv39J/Shortcut-Hub?node-id
 
 ### ER 図
 
-[![Image from Gyazo](https://i.gyazo.com/8ccbe875290269d6f59b6fc7f760469e.png)](https://gyazo.com/8ccbe875290269d6f59b6fc7f760469e)
+[![Image from Gyazo](https://i.gyazo.com/ab06a3111cf4efa3557b7bba30319809.png)](https://gyazo.com/ab06a3111cf4efa3557b7bba30319809)
 
 ### README に記載した機能
 
