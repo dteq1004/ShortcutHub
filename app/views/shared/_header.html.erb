@@ -1,0 +1,15 @@
+<header class="flex justify-between items-center px-2 shadow-md h-12 sm:h-14 bg-white">
+    <div class="flex-none flex">
+        <%= image_tag 'logo.png', class: "h-8 sm:h-10" %>
+    </div>
+    <div class="flex-none max-sm:hidden">
+        <%= link_to "ホーム", root_path, class: "mr-3" %>
+        <%= link_to "フォロー中", root_path, class: "mr-3" %>
+        <%= link_to "新規作成", root_path, class: "mr-3" %>
+        <%= link_to "検索", root_path, class: "mr-3" %>
+        <%= link_to "マイページ", root_path %>
+    </div>
+    <div class="flex-none flex items-center">
+        <%= link_to "ログイン", root_path, class: "px-3 py-2 bg-teal-400 rounded-full text-xs text-zinc-100 font-bold" %>
+    </div>
+</header>
