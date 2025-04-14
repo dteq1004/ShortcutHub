@@ -17,7 +17,10 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
-ENV RAILS_ENV="production" \
+ARG RAILS_ENV \
+    RAILS_MASTER_KEY
+ENV RAILS_ENV=$RAILS_ENV \
+    RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
