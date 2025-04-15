@@ -81,5 +81,35 @@
         <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
             有効なURLを入力してください
         </p>
+
+        <div class="w-full flex justify-start items-center mb-2">
+            <p class="ml-[2px] mr-1 font-bold">使い方</p>
+            <p class="bg-zinc-500 text-[10px] text-white p-1 py-[2px] rounded-sm">任意</p>
+        </div>
+        <div data-controller="instruction" class="w-full">
+            <div data-instruction-target="instructions" class="w-full flex flex-col gap-4 divide-y-1 divide-dotted divide-teal-500 px-[2px]">
+                <% if @shortcut.instructions.present? %>
+                    <% @shortcut.instructions.each_with_index do |instruction, index| %>
+                        <div class="flex items-center gap-4 pb-4">
+                            <div class="flex-none flex justify-center items-center bg-zinc-700 rounded-full size-5">
+                                <p class="text-white text-xs"><%= index + 1 %></p>
+                            </div>
+                            <textarea class="resize-none overflow-hidden auto-adjust outline-none border border-zinc-300 focus:border-teal-700 h-10 w-full p-2 bg-white rounded-xl", placeholder="ここに使い方を入力してください", name="shortcut[instructions][]", required><%= instruction.content %></textarea>
+                            <div class="dropdown dropdown-top dropdown-end">
+                                <div tabindex="0" role="button" class="pb-2">...</div>
+                                <div tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm">
+                                    <button data-action="click->instruction#remove" type="button" class="text-rose-500">
+                                        削除する
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="flex justify-center">
+                <button data-action="click->instruction#append" type="button" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">＋説明を追加する</button>
+            </div>
+        </div>
     </div>
 <% end %>
