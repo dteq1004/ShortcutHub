@@ -18,7 +18,9 @@
   </head>
 
   <body class="bg-teal-50">
-    <%= render 'shared/header' %>
+    <% if @show_header %>
+      <%= render 'shared/header' %>
+    <% end %>
     <%= render 'shared/dock' %>
     <main class="min-h-screen">
       <%= yield %>
