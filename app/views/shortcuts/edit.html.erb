@@ -1,6 +1,25 @@
+<%= javascript_include_tag "edit_shortcut" %>
 <%= form_with model: @shortcut, url: shortcut_path, method: :put do |f| %>
-    <div class="w-full flex justify-end shadow-sm bg-white p-2">
-        <%= f.submit "保存", class: "px-3 py-2 bg-teal-500 rounded-full text-xs text-zinc-100 font-bold" %>
+    <div class="bg-white w-full p-2 flex justify-end shadow-sm">
+        <% if @shortcut.status != 'published' %>
+            <%= f.submit "下書きを保存", class: "px-3 py-2 bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
+            <button type="button" id="openPublishedModal" class="ml-2 px-3 py-2 bg-teal-500 rounded-full text-xs text-white font-bold">公開設定</button>
+            <dialog id="published_modal" class="modal">
+                <div class="modal-box" id="publishedModalContainer">
+                    <h3 class="text-lg font-bold">公開しますか？</h3>
+                    <p class="py-4">
+                        ｢<%= link_to "投稿ガイドライン", root_path, class: "text-teal-700" %>」をご確認のうえ投稿してください
+                    </p>
+                    <div class="mt-2 grid grid-cols-2 gap-3">
+                        <%= f.submit "公開する", class: "col-span-1 py-2 bg-teal-500 rounded-lg text-sm text-white font-bold" %>
+                        <button type="button" id="closePublishedModal" class="col-span-1 py-2 border border-zinc-300 rounded-md text-xs text-zinc-500 font-bold">閉じる</button>
+                    </div>
+                </div>
+            </dialog>
+        <% else %>
+            <%= f.submit "内容を更新", class: "px-3 py-2 bg-teal-500 rounded-full text-xs text-zinc-100 font-bold" %>
+        <% end %>
+        <%= f.hidden_field :status, value: @shortcut.status, id: 'shortcut_status' %>
     </div>
 
     <div class="flex flex-col justify-center items-center pt-10 px-4">

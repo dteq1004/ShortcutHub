@@ -1,6 +1,7 @@
 class ShortcutsController < ApplicationController
   before_action :hide_header, except: [:index, :show]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :ensure_user, only: [:edit, :update, :destroy]
 
   def index
     @shortcuts = Shortcut.includes(:user)
@@ -25,11 +26,9 @@ class ShortcutsController < ApplicationController
   end
 
   def edit
-    @shortcut = current_user.shortcuts.find(params[:id])
   end
 
   def update
-    @shortcut = current_user.shortcuts.find(params[:id])
     if @shortcut.update(shortcut_update_params)
       redirect_to shortcut_path(@shortcut)
     else
@@ -37,14 +36,24 @@ class ShortcutsController < ApplicationController
     end
   end
 
+  def destroy
+  end
+
   private
 
   def shortcut_new_params
-    params.require(:shortcut).permit(:title)
+    params.require(:shortcut).permit(:title, :status)
   end
 
   def shortcut_update_params
-    params.require(:shortcut).permit(:title, :description, :download_url)
+    params.require(:shortcut).permit(:title, :description, :download_url, :status)
+  end
+
+  def ensure_user
+    @shortcut = Shortcut.find(params[:id])
+    if @shortcut.user != current_user
+      redirect_to shortcut_path(@shortcut)
+    end
   end
 
   def hide_header

@@ -65,3 +65,6 @@
     </div>
 </div>
 
+<% if user_signed_in? && @shortcut.user == current_user %>
+    <%= link_to "編集", edit_shortcut_path %>
+<% end %>
