@@ -9,7 +9,10 @@
         <%= link_to "検索", root_path, class: "mr-3" %>
         <%= link_to "マイページ", root_path %>
     </div>
-    <div class="flex-none flex items-center">
-        <%= link_to "ログイン", root_path, class: "px-3 py-2 bg-teal-400 rounded-full text-xs text-zinc-100 font-bold" %>
-    </div>
+    <% if user_signed_in? %>
+    <% else %>
+        <div class="flex-none flex items-center">
+            <%= link_to "ログイン", new_user_session_path, class: "px-3 py-2 bg-teal-400 rounded-full text-xs text-zinc-100 font-bold" %>
+        </div>
+    <% end %>
 </header>
