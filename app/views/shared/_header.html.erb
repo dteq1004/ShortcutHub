@@ -1,13 +1,15 @@
 <header class="flex justify-between items-center px-2 shadow-md h-12 sm:h-14 bg-white">
     <div class="flex-none flex">
-        <%= image_tag 'logo.png', class: "h-8 sm:h-10" %>
+        <%= link_to shortcuts_path do %>
+            <%= image_tag 'logo.png', class: "h-8 sm:h-10" %>
+        <% end %>
     </div>
     <div class="flex-none max-sm:hidden">
         <%= link_to "ホーム", root_path, class: "mr-3" %>
         <%= link_to "フォロー中", root_path, class: "mr-3" %>
-        <%= link_to "新規作成", root_path, class: "mr-3" %>
+        <%= link_to "新規作成", new_shortcut_path, class: "mr-3" %>
         <%= link_to "検索", root_path, class: "mr-3" %>
-        <%= link_to "マイページ", root_path %>
+        <%= link_to "マイページ", root_path, class: "mr-3" %>
     </div>
     <% if user_signed_in? %>
     <% else %>

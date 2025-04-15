@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, on: :update
   validates :email, presence: true, uniqueness: { case_insensitive: true }, format: { with: Devise.email_regexp }
 
+  has_many :shortcuts, dependent: :destroy
+
   def to_param
     uid
   end
