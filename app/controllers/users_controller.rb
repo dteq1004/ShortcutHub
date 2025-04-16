@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user.avatar.attach(params[:user][:avatar]) if @user.avatar.blank?
     if @user.update(user_params)
       redirect_to mypage_path
     else
@@ -34,7 +35,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :uid)
+    params.require(:user).permit(:name, :uid, :avatar)
   end
 
   def ensure_user
