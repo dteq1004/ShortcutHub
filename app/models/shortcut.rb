@@ -5,7 +5,10 @@ class Shortcut < ApplicationRecord
   validates :description, presence: true, length: { maximum: 65_535 }, on: :update
   validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
 
+  has_many :instructions, dependent: :destroy
   belongs_to :user
+
+  enum status: { draft: 0, published: 1, archived: 2 }
 
   private
 
