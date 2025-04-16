@@ -1,7 +1,7 @@
 <%= javascript_include_tag "edit_shortcut", "data-turbo-track": "reload", type: "module" %>
 <%= form_with model: @shortcut, url: shortcut_path, method: :put do |f| %>
     <div class="bg-white w-full p-2 flex justify-end shadow-sm">
-        <% if @shortcut.status != 'published' %>
+        <% if @shortcut.status != "published" %>
             <%= f.submit "下書きを保存", class: "px-3 py-2 bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
             <button type="button" id="openPublishedModal" class="ml-2 px-3 py-2 bg-teal-500 rounded-full text-xs text-white font-bold">公開設定</button>
             <dialog id="published_modal" class="modal">
@@ -19,7 +19,7 @@
         <% else %>
             <%= f.submit "内容更新", class: "px-3 py-2 bg-teal-500 rounded-full text-xs text-zinc-100 font-bold" %>
         <% end %>
-        <%= f.hidden_field :status, value: @shortcut.status, id: 'shortcut_status' %>
+        <%= f.hidden_field :status, value: @shortcut.status, id: "shortcut_status" %>
     </div>
 
     <div class="flex flex-col justify-center items-center pt-10 px-4">
@@ -72,7 +72,7 @@
                 </div>
                 <div tabindex="0" class="dropdown-content menu bg-zinc-100 rounded-box z-1 w-52 p-2 mb-1 shadow-sm">
                     <p>URLの共有方法がわからない方は
-                        <%= link_to 'こちら', root_path, class: "underline decoration-teal-700 text-teal-700" %>
+                        <%= link_to "こちら", root_path, class: "underline decoration-teal-700 text-teal-700" %>
                     </p>
                 </div>
             </div>
