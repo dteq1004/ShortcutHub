@@ -1,7 +1,9 @@
 <div class="flex justify-between items-center bg-white sticky z-40 top-0 p-2 shadow-sm">
-    <%= link_to root_path, class: "flex items-center " do %>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-        <p class="pl-1 text-sm"><%= @shortcut.user.name %></p>
+    <%= link_to user_path(@shortcut.user), class: "flex items-center " do %>
+        <div class="size-6">
+            <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+        </div>
+        <p class="pl-1 text-base"><%= @shortcut.user.name %></p>
     <% end %>
 </div>
 <div class="flex justify-start items-center bg-zinc-100 inset-shadow-sm">
@@ -82,8 +84,4 @@
             <% end %>
         </div>
     </div>
-<% end %>
-
-<% if user_signed_in? && @shortcut.user == current_user %>
-    <%= link_to "編集", edit_shortcut_path, data: {"turbolinks" => false} %>
 <% end %>

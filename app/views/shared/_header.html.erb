@@ -9,7 +9,7 @@
         <%= link_to "フォロー中", root_path, class: "mr-3" %>
         <%= link_to "新規作成", new_shortcut_path, class: "mr-3" %>
         <%= link_to "検索", root_path, class: "mr-3" %>
-        <%= link_to "マイページ", root_path, class: "mr-3" %>
+        <%= link_to "マイページ", mypage_path, class: "mr-3" %>
     </div>
     <% if user_signed_in? %>
     <% else %>

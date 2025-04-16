@@ -1,14 +1,17 @@
 class ShortcutsController < ApplicationController
   before_action :hide_header, except: [:index, :show]
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :ensure_user, only: [:edit, :update, :destroy]
+  before_action :ensure_user, only: [:edit, :update]
 
   def index
-    @shortcuts = Shortcut.includes(:user)
+    @shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc)
   end
 
   def show
     @shortcut = Shortcut.find(params[:id])
+    if @shortcut.status != "published"
+      redirect_to shortcuts_path
+    end
   end
 
   def new
@@ -46,6 +49,19 @@ class ShortcutsController < ApplicationController
   end
 
   def destroy
+    shortcut = current_user.shortcuts.find(params[:id])
+    shortcut.destroy!
+    redirect_to mypage_path
+  end
+
+  def archived
+    shortcut = current_user.shortcuts.find(params[:id])
+    shortcut.status = "archived"
+    if shortcut.save
+      redirect_to mypage_path, notice: "非公開にしました！"
+    else
+      redirect_to mypage_path, alert: "エラーが発生しました"
+    end
   end
 
   private
