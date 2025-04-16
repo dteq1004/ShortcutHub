@@ -18,7 +18,11 @@
     <% end %>
     <%= link_to mypage_path, class: "flex flex-col justify-items-start items-center pt-1" do %>
         <div class="size-5">
-            <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+            <% if user_signed_in? && current_user.avatar.present? %>
+                <%= image_tag current_user.avatar, class: "rounded-full object-cover aspect-1/1" %>
+            <% else %>
+                <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+            <% end %>
         </div>
         <p class="text-[10px]">マイページ</p>
     <% end %>

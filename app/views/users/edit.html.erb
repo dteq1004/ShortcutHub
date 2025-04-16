@@ -1,13 +1,22 @@
-<div class="p-3">
-    <div class="rounded-xl bg-white shadow-sm p-3">
-        <%= form_with model: @user, url: user_path, method: :put do |f| %>
+<div class="flex flex-col items-center p-3">
+    <div class="w-full sm:max-w-2xl rounded-xl bg-white shadow-sm p-3">
+        <%= form_with model: @user, url: user_path, method: :put, class: "w-full" do |f| %>
             <div class="flex justify-end">
-                <%= f.submit '保存する', class: "px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
+                <%= f.submit '保存する', class: "px-2 py-[6px] bg-teal-500 rounded-full text-xs text-white align-center font-bold" %>
             </div>
             <div class="flex flex-col items-center">
-                <div class="mt-4 max-w-25">
-                    <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                <div class="max-w-25 relative">
+                    <% if @user.avatar.present? %>
+                        <%= image_tag @user.avatar, class: "rounded-full object-cover aspect-1/1" %>
+                    <% else %>
+                        <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                    <% end %>
+                    <div id="avatar" class="absolute top-0 left-0 bg-white">
+                        <img id="avatar_preview" class="rounded-full object-cover aspect-1/1">
+                    </div>
                 </div>
+                <%= f.label :avatar, '画像を設定', class: "form-label my-2 px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
+                <%= f.file_field :avatar, onchange: "avatarImage(this);", accept: "image/jpeg,image/gif,image/png", class: "hidden" %>
                 <div class="w-full mt-3 p-1">
                     <div class="mb-5">
                         <p>ユーザーネーム</p>
@@ -28,8 +37,19 @@
             </div>
         <% end %>
     </div>
-    <div class="flex flex-col items-center mt-8">
+    <div class="sm:max-w-2xl flex flex-col items-center mt-20">
         <%= link_to "アカウントを削除する", user_path, data: { turbo_method: :delete, turbo_confirm: "本当にアカウントを削除しますか？" }, class: "w-full mb-2 p-2 bg-white rounded-full border border-rose-500 text-rose-500 text-center" %>
         <p class="text-rose-500">削除するとすべてのデータが消去されます</p>
     </div>
 </div>
+
+<!------ プレビュー表示用の JavaScript ------->
+<script>
+    function avatarImage(obj){
+        var fileReader = new FileReader();
+        fileReader.onload = (function() {
+        document.querySelector('#avatar_preview').src = fileReader.result;
+        });
+        fileReader.readAsDataURL(obj.files[0]);
+    }
+</script>

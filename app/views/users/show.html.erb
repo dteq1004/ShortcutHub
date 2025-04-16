@@ -2,7 +2,11 @@
     <div class="w-full sm:max-w-2xl p-3 pb-1">
         <div class="grid grid-cols-4 gap-4 bg-white rounded-xl shadow-sm p-2 pl-3 pb-5">
             <div class="col-span-1 mt-4 sm:max-w-25">
-                <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                <% if @user.avatar.present? %>
+                    <%= image_tag @user.avatar, class: "rounded-full object-cover aspect-1/1" %>
+                <% else %>
+                    <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                <% end %>
             </div>
             <div class="col-span-3">
                 <div class="flex justify-end mb-1">
