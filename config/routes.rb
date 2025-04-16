@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
-  resources :users, param: :uid, only: [:show]
+  resources :users, param: :uid, only: [:show, :edit, :update, :destroy]
   get "mypage" => "users#mypage"
   resources :shortcuts do
     member do

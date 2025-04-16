@@ -9,7 +9,11 @@
         <div class="flex justify-between items-center p-2 truncate">
             <%= link_to user_path(shortcut.user), class: "flex items-center " do %>
                 <div class="size-5">
-                    <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                    <% if shortcut.user.avatar.present? %>
+                        <%= image_tag shortcut.user.avatar, class: "rounded-full object-cover aspect-1/1" %>
+                    <% else %>
+                        <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+                    <% end %>
                 </div>
                 <p class="pl-1 text-xs"><%= shortcut.user.name %></p>
             <% end %>

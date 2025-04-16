@@ -1,6 +1,7 @@
 <h1>ホーム</h1>
 <% if user_signed_in? %>
     ログイン済
+    <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "p-2 text-rose-500" %>
 <% else %>
     未ログイン
 <% end %>
