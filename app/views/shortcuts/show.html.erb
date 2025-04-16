@@ -85,8 +85,3 @@
         </div>
     </div>
 <% end %>
-
-<% if user_signed_in? && @shortcut.user == current_user %>
-    <%= link_to "編集", edit_shortcut_path, data: {"turbolinks" => false} %>
-    <%= link_to "削除", shortcut_path, data: { turbo_method: :delete, turbo_confirm: "削除してよろしいですか？" } %>
-<% end %>
