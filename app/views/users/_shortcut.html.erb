@@ -54,7 +54,7 @@
                     <% if shortcut.status == 'published' %>
                         <%= link_to '非公開にする', archived_shortcut_path(shortcut), class: "w-full p-1" %>
                     <% end %>
-                    <%= link_to '編集する', edit_shortcut_path(shortcut), class: "w-full p-1" %>
+                    <%= link_to '編集する', edit_shortcut_path(shortcut), class: "w-full p-1", data: { "turbolinks": false } %>
                 </div>
             </div>
         </div>
