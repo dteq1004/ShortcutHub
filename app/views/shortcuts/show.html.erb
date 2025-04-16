@@ -65,3 +65,25 @@
     </div>
 </div>
 
+<% if @shortcut.instructions.present? %>
+    <div class="bg-white mb-2 p-5">
+        <div class="flex items-center mb-7">
+            <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+            <p class="text-lg font-bold">使い方</p>
+        </div>
+        <div class="flex flex-col gap-4 divide-y-1 divide-dotted divide-teal-500">
+            <% @shortcut.instructions.each_with_index do |instruction, index|%>
+                <div class="flex items-start gap-4 pb-4">
+                    <div class="flex-none flex justify-center items-center bg-zinc-500 text-white text-sm rounded-full size-6">
+                        <p><%= index + 1 %></p>
+                    </div>
+                    <p><%= instruction.content %></p>
+                </div>
+            <% end %>
+        </div>
+    </div>
+<% end %>
+
+<% if user_signed_in? && @shortcut.user == current_user %>
+    <%= link_to "編集", edit_shortcut_path, data: {"turbolinks" => false} %>
+<% end %>
