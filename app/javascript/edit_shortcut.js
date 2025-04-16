@@ -25,3 +25,18 @@ publishedModal.addEventListener('click', (event) => {
     }
 });
 
+document.querySelectorAll('.auto-adjust').forEach((targetArea) => {
+    let lineHeight = Number(targetArea.rows);
+    while(targetArea.scrollHeight > targetArea.offsetHeight) {
+        lineHeight++;
+        targetArea.rows = lineHeight;
+    }
+
+    targetArea.addEventListener('input', (e) => {
+        e.target.style.height = 0
+        e.target.style.height = e.target.scrollHeight + "px"
+        if(e.target.offsetHeight < 40){
+            e.target.style.height = 40 + "px"
+        }
+    })
+})

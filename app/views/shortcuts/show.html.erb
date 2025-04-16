@@ -85,5 +85,5 @@
 <% end %>
 
 <% if user_signed_in? && @shortcut.user == current_user %>
-    <%= link_to "編集", edit_shortcut_path %>
+    <%= link_to "編集", edit_shortcut_path, data: {"turbolinks" => false} %>
 <% end %>
