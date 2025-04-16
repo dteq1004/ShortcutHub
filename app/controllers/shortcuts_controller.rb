@@ -1,7 +1,7 @@
 class ShortcutsController < ApplicationController
   before_action :hide_header, except: [:index, :show]
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :ensure_user, only: [:edit, :update, :destroy]
+  before_action :ensure_user, only: [:edit, :update]
 
   def index
     @shortcuts = Shortcut.includes(:user)
@@ -46,6 +46,9 @@ class ShortcutsController < ApplicationController
   end
 
   def destroy
+    shortcut = current_user.shortcuts.find(params[:id])
+    shortcut.destroy!
+    redirect_to shortcuts_path
   end
 
   private
