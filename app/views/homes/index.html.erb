@@ -1,149 +1,105 @@
-・公式のショートカットは詳細画面に動画を埋め込み
-・詳細画面をPC時２列表示に変更
-
-<div class="p-4 pb-8">
-    <div class="rounded-xl bg-white shadow-sm">
-        <%= image_tag 'how-to-use-shortcut.png', class: "rounded-t-xl" %>
-        <div class="flex justify-center p-4">
-            <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
-        </div>
-    </div>
-</div>
-
-<div class="px-4 py-8 bg-zinc-100">
-    <div class="mb-4">
-        <h1 class="text-2xl text-zinc-700 font-bold">新着のショートカット</h1>
-        <p class="text-md text-teal-700 font-sans font-bold">Shortcuts</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
-    </div>
-    <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 my-4 py-2 rounded-full" %>
-</div>
-
-<div class="px-4 py-8">
-    <div class="mb-4">
-        <h1 class="text-2xl text-zinc-700 font-bold">公式のショートカット</h1>
-        <p class="text-md text-teal-700 font-sans font-bold">Official Shortcuts</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="flex flex-col justify-between rounded-xl shadow-sm bg-white">
-            <%= link_to shortcuts_path do %>
-                <div class="flex justify-center items-center bg-teal-500 rounded-t-xl">
-                    <%= image_tag "how-to-use-shortcut.png", class: "rounded-t-xl" %>
+<div class="w-full flex flex-col items-center">
+    <div class="flex flex-wrap md:max-w-3xl">
+        <div class="w-full h-full p-4 md:order-last md:w-1/3 md:sticky md:top-0">
+            <div class="md:rounded-xl bg-white shadow-sm md:mb-4">
+                <%= image_tag 'how-to-use-shortcut.png', class: "md:rounded-t-xl" %>
+                <div class="flex justify-center p-4">
+                    <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
                 </div>
-                <h2 class="text-base p-2">一瞬で電話番号を検索</h2>
-            <% end %>
-            <div>
-                <div class="flex justify-between items-center p-2 truncate">
-                    <%= link_to shortcuts_path, class: "flex items-center " do %>
-                        <div class="size-5">
-                            <%= image_tag "logo-icon.png", class: "rounded-full object-cover aspect-1/1" %>
+            </div>
+            <div class="rounded-xl bg-white shadow-sm max-md:hidden">
+                <%= image_tag 'how-to-use-shortcuthub.png', class: "rounded-t-xl" %>
+                <div class="flex justify-center p-4">
+                    <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-2/3 md:my-4">
+            <div class="px-4 py-6 bg-white max-md:bg-zinc-100 md:mb-2">
+                <div class="mb-4">
+                    <h1 class="text-2xl text-zinc-700 font-bold">新着のショートカット</h1>
+                    <p class="text-md text-teal-700 font-sans font-bold">Shortcuts</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 mb-8">
+                    <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
+                </div>
+                <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
+            </div>
+
+            <div class="px-4 py-6 md:bg-white md:mb-2">
+                <div class="mb-4">
+                    <h1 class="text-2xl text-zinc-700 font-bold">公式のショートカット</h1>
+                    <p class="text-md text-teal-700 font-sans font-bold">Official Shortcuts</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 mb-8">
+                    <%= render partial: 'official_shortcuts/shortcut', collection: @official_shortcuts %>
+                </div>
+                <%= link_to '公式のショートカット一覧を見る', official_shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
+            </div>
+
+            <div class="px-4 py-6 bg-white max-md:bg-zinc-100 md:mb-2">
+                <div class="mb-4">
+                    <h1 class="text-2xl text-zinc-700 font-bold">人気ランキング</h1>
+                    <p class="text-md text-teal-700 font-sans font-bold">Ranking</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 mb-8">
+                    <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
+                </div>
+                <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
+            </div>
+
+            <div class="px-4 py-6 md:bg-white md:mb-2">
+                <div class="mb-4">
+                    <h1 class="text-2xl font-bold">お知らせ</h1>
+                    <p class="text-md text-teal-700 font-sans font-bold ml-[2px]">Information</p>
+                </div>
+                <div class="bg-white shadow-sm flex flex-col divide-y-1 divide-zinc-300 rounded-xl mb-8">
+                    <%= link_to root_path, class: "block p-3 pr-0" do %>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex items-center">
+                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
+                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
+                                </div>
+                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
                         </div>
-                        <p class="pl-1 text-xs">Shortcut Hub</p>
+                    <% end %>
+                    <%= link_to root_path, class: "block p-3 pr-0" do %>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex items-center">
+                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
+                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
+                                </div>
+                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                    <% end %>
+                    <%= link_to root_path, class: "block p-3 pr-0" do %>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex items-center">
+                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
+                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
+                                </div>
+                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
                     <% end %>
                 </div>
-            </div>
-        </div>
-        <div class="flex flex-col justify-between rounded-xl shadow-sm bg-white">
-            <%= link_to shortcuts_path do %>
-                <div class="flex justify-center items-center bg-teal-500 rounded-t-xl">
-                    <%= image_tag "how-to-use-shortcut.png", class: "rounded-t-xl" %>
-                </div>
-                <h2 class="text-base p-2">一瞬で電話番号を検索</h2>
-            <% end %>
-            <div>
-                <div class="flex justify-between items-center p-2 truncate">
-                    <%= link_to shortcuts_path, class: "flex items-center " do %>
-                        <div class="size-5">
-                            <%= image_tag "logo-icon.png", class: "rounded-full object-cover aspect-1/1" %>
-                        </div>
-                        <p class="pl-1 text-xs">Shortcut Hub</p>
-                    <% end %>
-                </div>
-            </div>
-        </div>
-        <div class="flex flex-col justify-between rounded-xl shadow-sm bg-white">
-            <%= link_to shortcuts_path do %>
-                <div class="flex justify-center items-center bg-teal-500 rounded-t-xl">
-                    <%= image_tag "how-to-use-shortcut.png", class: "rounded-t-xl" %>
-                </div>
-                <h2 class="text-base p-2">一瞬で電話番号を検索</h2>
-            <% end %>
-            <div>
-                <div class="flex justify-between items-center p-2 truncate">
-                    <%= link_to shortcuts_path, class: "flex items-center " do %>
-                        <div class="size-5">
-                            <%= image_tag "logo-icon.png", class: "rounded-full object-cover aspect-1/1" %>
-                        </div>
-                        <p class="pl-1 text-xs">Shortcut Hub</p>
-                    <% end %>
-                </div>
+                <%= link_to 'お知らせ一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
             </div>
         </div>
     </div>
-    <%= link_to '公式のショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 my-4 py-2 rounded-full" %>
-</div>
-
-<div class="px-4 py-8 bg-zinc-100">
-    <div class="mb-4">
-        <h1 class="text-2xl text-zinc-700 font-bold">人気ランキング</h1>
-        <p class="text-md text-teal-700 font-sans font-bold">Ranking</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
-    </div>
-    <%= link_to '公式のショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 my-4 py-2 rounded-full" %>
-</div>
-
-<div class="px-4 py-8">
-    <div class="">
-        <h1 class="text-2xl font-bold">お知らせ</h1>
-        <p class="text-md text-teal-700 font-sans font-bold ml-[2px]">Information</p>
-    </div>
-    <div class="bg-white shadow-sm flex flex-col divide-y-1 divide-zinc-300 rounded-xl">
-        <%= link_to root_path, class: "block p-3 pr-0" do %>
-            <div class="flex items-center justify-between">
-                <div>
-                    <div class="flex items-center">
-                        <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                        <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
-                    </div>
-                    <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </div>
-        <% end %>
-        <%= link_to root_path, class: "block p-3 pr-0" do %>
-            <div class="flex items-center justify-between">
-                <div>
-                    <div class="flex items-center">
-                        <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                        <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
-                    </div>
-                    <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </div>
-        <% end %>
-        <%= link_to root_path, class: "block p-3 pr-0" do %>
-            <div class="flex items-center justify-between">
-                <div>
-                    <div class="flex items-center">
-                        <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                        <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
-                    </div>
-                    <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </div>
-        <% end %>
-    </div>
-    <%= link_to 'お知らせ一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 my-4 py-2 rounded-full" %>
 </div>
