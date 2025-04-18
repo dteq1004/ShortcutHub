@@ -1,0 +1,27 @@
+- id: 1
+  thumbnail: "thumbnail1"
+  title: "一瞬で電話番号を検索"
+  description: "知らない番号から電話がかかってきた時に、一瞬で検索できるショートカットです。"
+  youtube_url: "https://www.youtube.com/embed/faSS20oKnhw?si=ZBpJ1Me0IQH9-Xr_"
+  download_url: "https://www.google.com"
+  instructions:
+    - step1: "説明１"
+    - step2: "説明２"
+- id: 2
+  thumbnail: "thumbnail2"
+  title: "一瞬で電話番号を検索"
+  description: "知らない番号から電話がかかってきた時に、一瞬で検索できるショートカットです。"
+  youtube_url: "https://www.youtube.com/embed/faSS20oKnhw?si=ZBpJ1Me0IQH9-Xr_"
+  download_url: "https://www.google.com"
+  instructions:
+    - step1: "説明１"
+    - step2: "説明２"
+    - step3: "説明３"
+- id: 3
+  thumbnail: "thumbnail3"
+  title: "一瞬で電話番号を検索"
+  description: "知らない番号から電話がかかってきた時に、一瞬で検索できるショートカットです。"
+  youtube_url: "https://www.youtube.com/embed/faSS20oKnhw?si=ZBpJ1Me0IQH9-Xr_"
+  download_url: "https://www.google.com"
+  instructions:
+    - step1: "説明１"
