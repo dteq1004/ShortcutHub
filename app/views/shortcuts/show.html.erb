@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="w-full md:w-2/3 flex bg-white mb-2 px-4 py-1">
+        <div class="w-full md:w-2/3 md:order-4 flex bg-white mb-2 px-4 py-1">
             <% @shortcut.tags.each do |tag| %>
                 <div class="flex justify-start mr-2">
                     <div class="flex justify-start items-center rounded-full border border-zinc-300 bg-white px-[2px] py-[2px]">
@@ -70,7 +70,7 @@
             <% end %>
         </div>
 
-        <div class="w-full md:w-2/3 md:order-4 bg-white p-4 mb-2 flex justify-between">
+        <div class="w-full md:w-2/3 md:order-5 bg-white p-4 mb-2 flex justify-between">
             <div class="flex flex-col justify-center items-center w-full">
                 <%= link_to @shortcut.download_url, target: :_blank, rel: "noopener noreferrer", class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
                     <div class="w-full flex justify-between items-center">
@@ -87,7 +87,7 @@
         </div>
 
         <% if @shortcut.instructions.present? %>
-            <div class="w-full md:w-2/3 md:order-5 bg-white mb-2 p-5">
+            <div class="w-full md:w-2/3 md:order-6 bg-white mb-2 p-5">
                 <div class="flex items-center mb-7">
                     <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
                     <p class="text-lg font-bold">使い方</p>

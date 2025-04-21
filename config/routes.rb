@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :archived
     end
   end
+  get "tags/search" => "shortcuts#search"
   resources :official_shortcuts, only: [:index, :show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

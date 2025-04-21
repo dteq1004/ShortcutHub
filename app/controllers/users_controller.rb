@@ -5,9 +5,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(uid: params[:uid])
     if @user === current_user
-      @shortcuts = @user.shortcuts.all.order(created_at: :desc)
+      @shortcuts = @user.shortcuts.all.order(updated_at: :desc)
     else
-      @shortcuts = @user.shortcuts.where(status: :published).order(created_at: :desc)
+      @shortcuts = @user.shortcuts.where(status: :published).order(updated_at: :desc)
     end
   end
 
