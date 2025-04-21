@@ -71,7 +71,7 @@ class ShortcutsController < ApplicationController
   end
 
   def shortcut_update_params
-    params.require(:shortcut).permit(:title, :description, :download_url, :status, :instructions)
+    params.require(:shortcut).permit(:title, :icon, :description, :download_url, :status, :instructions)
   end
 
   def ensure_user

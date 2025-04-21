@@ -2,21 +2,21 @@
     <% if shortcut.status === 'published' %>
         <%= link_to shortcut_path(shortcut) do %>
             <div class="aspect-16/7 flex justify-center items-center p-3 bg-teal-500 rounded-t-xl">
-                <%= image_tag "icon1.svg", class: "size-8" %>
+                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-8" %>
             </div>
             <h2 class="text-base p-2"><%= shortcut.title %></h2>
         <% end %>
     <% elsif shortcut.status === 'draft' %>
         <div>
             <div class="aspect-16/7 flex justify-center items-center p-3 bg-zinc-500 rounded-t-xl">
-                <%= image_tag "icon1.svg", class: "size-8" %>
+                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-8" %>
             </div>
             <h2 class="text-base p-2"><%= shortcut.title %></h2>
         </div>
     <% elsif shortcut.status === 'archived' %>
         <div>
             <div class="aspect-16/7 flex justify-center items-center p-3 bg-zinc-300 rounded-t-xl">
-                <%= image_tag "icon1.svg", class: "size-8" %>
+                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-8" %>
             </div>
             <h2 class="text-base p-2"><%= shortcut.title %></h2>
         </div>
