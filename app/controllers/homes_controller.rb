@@ -1,6 +1,6 @@
 class HomesController < ApplicationController
   def index
-    @shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc)
+    @shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc).limit(10)
     @official_shortcuts = OFFICIAL_SHORTCUTS
   end
 end
