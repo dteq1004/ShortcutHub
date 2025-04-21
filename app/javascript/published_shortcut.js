@@ -1,4 +1,4 @@
-document.addEventListener("turbo:load", function() {
+document.addEventListener("turbolinks:load", function() {
     const openPublishedModalButton = document.getElementById("openPublishedModal");
     const closePublishedModalButton = document.getElementById("closePublishedModal");
     const publishedModal = document.getElementById("published_modal");
