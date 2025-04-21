@@ -6,9 +6,18 @@ class Shortcut < ApplicationRecord
   validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
 
   has_many :instructions, dependent: :destroy
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   belongs_to :user
 
   enum status: { draft: 0, published: 1, archived: 2 }
+
+  def tag_names
+    # NOTE: pluckだと新規作成失敗時に値が残らない(返り値がnilになる)
+    # map{|tag| tag.name}
+    tags.map(&:name).join(" ")
+  end
 
   private
 

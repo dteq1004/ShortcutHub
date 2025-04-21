@@ -33,6 +33,7 @@ class ShortcutsController < ApplicationController
 
   def update
     @shortcut.assign_attributes(shortcut_update_params)
+    @shortcut.tags = params.dig(:shortcut, :tag_names).split(" ").uniq.map { |name| Tag.find_or_initialize_by(name: name.strip) }
     if @shortcut.save
       if params[:shortcut][:instructions].present?
         if @shortcut.instructions.present?

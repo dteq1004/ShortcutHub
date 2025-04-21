@@ -104,6 +104,12 @@
         </p>
 
         <div class="w-full flex justify-start items-center mb-2">
+            <p class="mr-1 font-bold">タグ</p>
+            <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+        </div>
+        <%= f.text_field :tag_names, required: true, class: "input" %>
+
+        <div class="w-full flex justify-start items-center mb-2">
             <p class="ml-[2px] mr-1 font-bold">使い方</p>
             <p class="bg-zinc-500 text-[10px] text-white p-1 py-[2px] rounded-sm">任意</p>
         </div>
