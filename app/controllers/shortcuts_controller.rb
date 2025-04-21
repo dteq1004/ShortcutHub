@@ -33,6 +33,7 @@ class ShortcutsController < ApplicationController
 
   def update
     @shortcut.assign_attributes(shortcut_update_params)
+    @shortcut.tags = params.dig(:shortcut, :tag_names).split(",").uniq.map { |name| Tag.find_or_initialize_by(name: name.strip) }
     if @shortcut.save
       if params[:shortcut][:instructions].present?
         if @shortcut.instructions.present?
@@ -42,7 +43,7 @@ class ShortcutsController < ApplicationController
           @shortcut.instructions.create(step_number: index + 1, content: instruction)
         end
       end
-      redirect_to shortcut_path(@shortcut)
+      redirect_to user_path(current_user)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -62,6 +63,11 @@ class ShortcutsController < ApplicationController
     else
       redirect_to mypage_path, alert: "エラーが発生しました"
     end
+  end
+
+  def search
+    @tags = Tag.where("name LIKE ?", "%#{params[:query]}").order(created_at: :desc).pluck(:name)
+    render json: @tags
   end
 
   private
