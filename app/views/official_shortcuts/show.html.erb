@@ -42,16 +42,20 @@
         <div class="w-full order-3 md:w-2/3 md:shrink">
             <div class="bg-white p-4 mb-2 flex justify-between">
                 <div class="flex flex-col justify-center items-center w-full">
-                    <%= link_to @shortcut["download_url"], class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
-                        <div class="w-full flex justify-between items-center">
-                            <div class="bg-white p-2 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
+                    <% if @shortcut["download_url"].size == 1 %>
+                        <%= link_to @shortcut["download_url"], class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
+                            <div class="w-full flex justify-between items-center">
+                                <div class="bg-white p-2 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                </div>
+                                <p>ダウンロードする</p>
+                                <p></p>
                             </div>
-                            <p>ダウンロードする</p>
-                            <p></p>
-                        </div>
+                        <% end %>
+                    <% else %>
+
                     <% end %>
                 </div>
             </div>
