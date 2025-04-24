@@ -10,5 +10,8 @@ application.register("hello", HelloController)
 import InstructionController from "./instruction_controller"
 application.register("instruction", InstructionController)
 
+import TabController from "./tab_controller"
+application.register("tab", TabController)
+
 import TagController from "./tag_controller"
 application.register("tag", TagController)

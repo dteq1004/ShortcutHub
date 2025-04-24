@@ -1,0 +1,12 @@
+<%= link_to news_path(news.id), class: "w-full flex items-center justify-between bg-white shadow-sm rounded-xl p-3 pr-1" do %>
+    <div>
+        <div class="flex items-center">
+            <p class="text-teal-700 font-bold mr-2"><%= news.published_at.match(/^(\d{4}-\d{2}-\d{2})/)[1] %></p>
+            <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]"><%= news.category.first %></p>
+        </div>
+        <p class="mt-2 font-bold"><%= news.title %></p>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    </svg>
+<% end %>

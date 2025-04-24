@@ -1,0 +1,24 @@
+<div class="p-4">
+    <div class="mb-4">
+        <h1 class="text-2xl text-zinc-700 font-bold">お知らせ</h1>
+        <p class="text-md text-teal-700 font-sans font-bold">News</p>
+    </div>
+    <div class="w-full flex flex-col items-center mb-10">
+        <div class="w-full bg-white rounded-xl shadow-sm p-4">
+            <div class="flex items-center">
+                <p class="text-teal-700 font-bold mr-2"><%= @news.published_at.match(/^(\d{4}-\d{2}-\d{2})/)[1] %></p>
+                <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">お知らせ</p>
+            </div>
+            <p class="mt-2 mb-4 font-bold"><%= @news.title %></p>
+            <p class="text-sm"><%= sanitize(@news.body) %></p>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <%= link_to news_index_path, class: "flex items-center bg-white rounded-full p-1 border border-zinc-300" do %>
+            <div class="flex justify-center items-center bg-zinc-300 rounded-full size-10 mr-2">
+                <p>←</p>
+            </div>
+            <p class="mr-4">一覧に戻る</p>
+        <% end %>
+    </div>
+</div>
