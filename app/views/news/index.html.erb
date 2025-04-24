@@ -1,0 +1,26 @@
+<div class="p-4">
+    <div class="mb-4">
+        <h1 class="text-2xl text-zinc-700 font-bold">お知らせ</h1>
+        <p class="text-md text-teal-700 font-sans font-bold">News</p>
+    </div>
+    <div class="mb-4">
+        <%= link_to "すべて", shortcuts_path, class: "mr-2 px-2 py-1 text-white bg-teal-700 rounded-full font-bold text-xs" %>
+        <%= link_to "お知らせ", root_path, class: "px-2 py-1 text-zinc-500 font-bold text-xs rounded-full hover:bg-zinc-100" %>
+    </div>
+    <div class="w-full flex flex-col items-center gap-4">
+        <% @news.each do |news| %>
+            <%= link_to news_path(news.id), class: "w-full flex items-center justify-between bg-white shadow-sm rounded-xl p-3 pr-1" do %>
+                <div>
+                    <div class="flex items-center">
+                        <p class="text-teal-700 font-bold mr-2"><%= news.published_at.match(/^(\d{4}-\d{2}-\d{2})/)[1] %></p>
+                        <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]"><%= news.category.first %></p>
+                    </div>
+                    <p class="mt-2 font-bold"><%= news.title %></p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            <% end %>
+        <% end %>
+    </div>
+</div>

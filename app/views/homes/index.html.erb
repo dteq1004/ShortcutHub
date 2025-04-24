@@ -54,51 +54,23 @@
                     <h1 class="text-2xl font-bold">お知らせ</h1>
                     <p class="text-md text-teal-700 font-sans font-bold ml-[2px]">Information</p>
                 </div>
-                <div class="bg-white shadow-sm flex flex-col divide-y-1 divide-zinc-300 rounded-xl mb-8">
-                    <%= link_to root_path, class: "block p-3 pr-0" do %>
-                        <div class="flex items-center justify-between">
+                <div class="w-full flex flex-col items-center gap-4 mb-8">
+                    <% @news.each do |news| %>
+                        <%= link_to news_path(news.id), class: "w-full flex items-center justify-between bg-white shadow-sm rounded-xl p-3 pr-1" do %>
                             <div>
                                 <div class="flex items-center">
-                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
+                                    <p class="text-teal-700 font-bold mr-2"><%= news.published_at.match(/^(\d{4}-\d{2}-\d{2})/)[1] %></p>
+                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">お知らせ</p>
                                 </div>
-                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
+                                <p class="mt-2 font-bold"><%= news.title %></p>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
-                        </div>
-                    <% end %>
-                    <%= link_to root_path, class: "block p-3 pr-0" do %>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <div class="flex items-center">
-                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
-                                </div>
-                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </div>
-                    <% end %>
-                    <%= link_to root_path, class: "block p-3 pr-0" do %>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <div class="flex items-center">
-                                    <p class="text-teal-700 font-bold mr-2">2025-03-10</p>
-                                    <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]">プレスリリース</p>
-                                </div>
-                                <p class="mt-2 text-sm">画像のアップロード機能を追加しました。</p>
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </div>
+                        <% end %>
                     <% end %>
                 </div>
-                <%= link_to 'お知らせ一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
+                <%= link_to 'お知らせ一覧を見る', news_index_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full" %>
             </div>
         </div>
     </div>
