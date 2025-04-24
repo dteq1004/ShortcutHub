@@ -4,7 +4,7 @@ class ShortcutsController < ApplicationController
   before_action :ensure_user, only: [:edit, :update]
 
   def index
-    @shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc)
+    @shortcuts = Shortcut.includes(:user).includes(:tags).where(status: :published).order(created_at: :desc)
   end
 
   def show
