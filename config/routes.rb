@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :archived
     end
   end
+  get "shortcut/index_lazy", to: "shortcuts#index_lazy"
   get "tags/search" => "shortcuts#search"
   resources :official_shortcuts, only: [:index, :show]
   resources :news, only: [:index, :show]

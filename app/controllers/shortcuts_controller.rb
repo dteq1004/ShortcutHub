@@ -1,9 +1,12 @@
 class ShortcutsController < ApplicationController
-  before_action :hide_header, except: [:index, :show]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :hide_header, except: [:index, :index_lazy, :show]
+  before_action :authenticate_user!, except: [:index, :index_lazy, :show]
   before_action :ensure_user, only: [:edit, :update]
 
   def index
+  end
+
+  def index_lazy
     @shortcuts = Shortcut.includes(:user).includes(:tags).where(status: :published).order(created_at: :desc)
   end
 
