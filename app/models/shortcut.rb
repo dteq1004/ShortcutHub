@@ -19,6 +19,14 @@ class Shortcut < ApplicationRecord
     tags.map(&:name).join(",")
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["title", "description"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["taggings", "tags"]
+  end
+
   private
 
   def set_id

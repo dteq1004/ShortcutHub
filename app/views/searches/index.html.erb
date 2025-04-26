@@ -1,0 +1,25 @@
+<div class="p-4">
+    <%= render "search_form", q: @q, url: search_index_path %>
+    <% if @q.title_or_description_cont.present? %>
+        <p class="my-4 text-teal-700 font-bold text-xl">「 <span class="text-zinc-700"><%= @q.title_or_description_cont %></span> 」の検索結果：<%= @shortcuts.count %>件</p>
+    <% end %>
+    <% if params[:tag_name].present? %>
+        <div class="flex items-center my-4">
+            <span class="text-xl font-bold text-teal-700 mr-1">「</span>
+            <div class="flex justify-start items-center rounded-full border border-zinc-300 bg-white px-[2px] py-[2px]">
+                <div class="flex justify-center items-center size-4 rounded-full bg-zinc-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3 fill-white"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" /></svg>
+                </div>
+                <p class="mx-1 text-xs"><%= params[:tag_name] %></p>
+            </div>
+            <p class="text-xl font-bold text-teal-700 ml-1">」の検索結果：<%= @shortcuts.count %>件</p>
+        </div>
+    <% end %>
+    <% if @shortcuts.present? %>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
+            <%= render partial: "shortcuts/shortcut", collection: @shortcuts %>
+        </div>
+    <% else %>
+        <p>ショートカットは見つかりませんでした</p>
+    <% end %>
+</div>
