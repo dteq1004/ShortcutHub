@@ -1,0 +1,20 @@
+<div class="flex items-center justify-between py-3">
+    <div class="flex items-center">
+        <div class="flex-none size-12">
+            <% if user.avatar.present? %>
+                <%= image_tag user.avatar, class: "rounded-full object-cover aspect-1/1 size-12" %>
+            <% else %>
+                <%= image_tag 'user_default_icon.png', class: "rounded-full object-cover aspect-1/1" %>
+            <% end %>
+        </div>
+        <%= link_to user_path(user), class: "truncate ml-4" do %>
+            <p class=""><%= user.name %></p>
+            <p class="text-xs text-zinc-500">@<%= user.uid %></p>
+        <% end %>
+    </div>
+    <div class="flex-none">
+        <% if user_signed_in? && user != current_user %>
+            <%= render partial: "relationships/btn", locals: { user: user } %>
+        <% end %>
+    </div>
+</div>
