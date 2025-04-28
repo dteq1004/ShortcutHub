@@ -10,7 +10,9 @@
             </div>
             <div class="col-span-3">
                 <div class="flex justify-end mb-1">
-                    <% if user_signed_in? && @user == current_user %>
+                    <% if user_signed_in? && @user != current_user %>
+                        <%= render partial: "relationships/btn", locals: { user: @user } %>
+                    <% elsif user_signed_in? && @user == current_user %>
                         <div class="dropdown dropdown-end">
                             <div tabindex="0" role="button" class="flex justify-center items-center size-8 rounded-full shadow-sm border border-zinc-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
@@ -20,8 +22,6 @@
                                 <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "p-2 text-rose-500" %>
                             </div>
                         </div>
-                    <% else %>
-                        <%= link_to 'フォローする', root_path, class: "px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
                     <% end %>
                 </div>
                 <p><%= @user.name %></p>

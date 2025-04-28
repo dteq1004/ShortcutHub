@@ -9,6 +9,9 @@
         </div>
         <p class="pl-1 text-base"><%= @shortcut.user.name %></p>
     <% end %>
+    <% if user_signed_in? && @shortcut.user != current_user %>
+        <%= render partial: "relationships/btn", locals: { user: @shortcut.user } %>
+    <% end %>
 </div>
 <div class="flex justify-start items-center bg-zinc-100 inset-shadow-sm">
     <div class="breadcrumbs text-xs px-3">
@@ -110,12 +113,14 @@
                             <%= image_tag "user_default_icon.png", class: "rounded-full object-cover aspect-1/1" %>
                         <% end %>
                     </div>
-                    <div>
+                    <div class="flex flex-col justify-center">
                         <%= link_to user_path(@shortcut.user), class: "flex flex-col" do %>
                             <p class="text-base"><%= @shortcut.user.name %></p>
                             <p class="mb-4 pl-1 text-xs text-zinc-500">@<%= @shortcut.user.uid %></p>
                         <% end %>
-                        <%= link_to 'フォローする', shortcuts_path, data: { turbo_method: :post }, class: "px-2 py-[6px] border border-transparent bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
+                        <% if user_signed_in? && @shortcut.user != current_user %>
+                            <%= render partial: "relationships/btn", locals: { user: @shortcut.user } %>
+                        <% end %>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,10 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
-  resources :users, param: :uid, only: [:show, :edit, :update, :destroy]
+  resources :users, param: :uid, only: [ :show, :edit, :update, :destroy ]
+
+  post "users/:id/relationships", to: "relationships#create", as: :relationships
+  delete "users/:id/relationships", to: "relationships#destroy"
   get "mypage" => "users#mypage"
   resources :shortcuts do
     member do
@@ -12,8 +15,8 @@ Rails.application.routes.draw do
   end
   get "shortcut/index_lazy", to: "shortcuts#index_lazy"
   get "tags/search" => "shortcuts#search"
-  resources :official_shortcuts, only: [:index, :show]
-  resources :news, only: [:index, :show]
+  resources :official_shortcuts, only: [ :index, :show ]
+  resources :news, only: [ :index, :show ]
   get "search", to: "searches#search"
   get "search/index", to: "searches#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

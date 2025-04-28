@@ -1,0 +1,7 @@
+<% if current_user.following?(user) %>
+    <%= link_to "フォロー中", relationships_path(user.id), data: { turbo_method: :delete }, class: "px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
+<% elsif current_user.followed?(user) %>
+    <%= link_to 'フォローバックする', relationships_path(user.id), data: { turbo_method: :post }, class: "px-2 py-[6px] border border-transparent bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
+<% else %>
+    <%= link_to "フォローする", relationships_path(user.id), data: { turbo_method: :post }, class: "px-2 py-[6px] border border-transparent bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
+<% end %>
