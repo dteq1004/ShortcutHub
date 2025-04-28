@@ -3,8 +3,12 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
-  resources :users, param: :uid, only: [ :show, :edit, :update, :destroy ]
-
+  resources :users, param: :uid, only: [ :show, :edit, :update, :destroy ] do
+    member do
+      get "followings", to: "relationships#followings"
+      get "followers", to: "relationships#followers"
+    end
+  end
   post "users/:id/relationships", to: "relationships#create", as: :relationships
   delete "users/:id/relationships", to: "relationships#destroy"
   get "mypage" => "users#mypage"

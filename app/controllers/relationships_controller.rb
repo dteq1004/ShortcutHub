@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [ :create, :destroy ]
 
   def create
     user = User.find(params[:id])
@@ -14,8 +14,14 @@ class RelationshipsController < ApplicationController
   end
 
   def followings
+    @user = User.find_by(uid: params[:uid])
+    @users = @user.followings
+    @shortcuts_count = @user.shortcuts.count
   end
 
   def followers
+    @user = User.find_by(uid: params[:uid])
+    @users = @user.followers
+    @shortcuts_count = @user.shortcuts.count
   end
 end
