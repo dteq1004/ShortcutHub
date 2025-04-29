@@ -1,5 +1,5 @@
 class SearchesController < ApplicationController
-  before_action :set_q, only: [:index, :search]
+  before_action :set_q, only: [ :index, :search ]
 
   def index
     @shortcuts = if (tag_name = params[:tag_name])
