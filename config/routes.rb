@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post "users/:id/relationships", to: "relationships#create", as: :relationships
   delete "users/:id/relationships", to: "relationships#destroy"
   get "mypage" => "users#mypage"
+  get "home/index_lazy", to: "homes#index_lazy"
   resources :shortcuts do
     member do
       get :archived

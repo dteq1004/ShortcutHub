@@ -1,0 +1,108 @@
+<%= turbo_frame_tag :home_index_lazy do %>
+    <div class="w-full flex flex-col items-center">
+        <div class="flex flex-wrap md:max-w-3xl">
+            <div class="w-full h-full p-4 md:order-last md:w-1/3 md:sticky md:top-0">
+                <div class="rounded-xl bg-white shadow-sm md:mb-4">
+                    <%= image_tag 'how-to-use-shortcut.png', class: "rounded-t-xl" %>
+                    <div class="flex justify-center p-4">
+                        <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
+                    </div>
+                </div>
+                <div class="rounded-xl bg-white shadow-sm max-md:hidden">
+                    <%= image_tag 'how-to-use-shortcuthub.png', class: "rounded-t-xl" %>
+                    <div class="flex justify-center p-4">
+                        <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-2/3 md:my-4">
+                <div class="px-4 pt-8 pb-10 bg-white max-md:bg-zinc-100 md:mb-2">
+                    <div class="mb-10">
+                        <h1 class="text-2xl text-zinc-700 font-bold">新着のショートカット</h1>
+                        <p class="text-md text-teal-700 font-sans font-bold">Shortcuts</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
+                    </div>
+                    <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
+                </div>
+
+                <div class="px-4 pt-8 pb-10 md:bg-white md:mb-2">
+                    <div class="mb-10">
+                        <h1 class="text-2xl text-zinc-700 font-bold">公式のショートカット</h1>
+                        <p class="text-md text-teal-700 font-sans font-bold">Official Shortcuts</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 mb-8">
+                        <%= render partial: 'official_shortcuts/shortcut', collection: @official_shortcuts %>
+                    </div>
+                    <%= link_to '公式のショートカット一覧を見る', official_shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
+                </div>
+
+                <div class="px-4 pt-8 pb-10 bg-white max-md:bg-zinc-100 md:mb-2">
+                    <div class="mb-10">
+                        <h1 class="text-2xl text-zinc-700 font-bold">人気ランキング</h1>
+                        <p class="text-md text-teal-700 font-sans font-bold">Ranking</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 mb-8">
+                        <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
+                    </div>
+                    <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
+                </div>
+
+                <div class="px-4 pt-8 pb-10 md:bg-white md:mb-2">
+                    <div class="mb-10">
+                        <h1 class="text-2xl font-bold">お知らせ</h1>
+                        <p class="text-md text-teal-700 font-sans font-bold ml-[2px]">Information</p>
+                    </div>
+                    <div class="w-full flex flex-col items-center gap-4 mb-8">
+                        <% @news.each do |news| %>
+                            <%= link_to news_path(news.id), class: "w-full flex items-center justify-between bg-white md:bg-zinc-100 shadow-sm md:shadow-md rounded-xl p-3 pr-1", data: { turbo: false } do %>
+                                <div>
+                                    <div class="flex items-center">
+                                        <p class="text-teal-700 font-bold mr-2"><%= news.published_at.match(/^(\d{4}-\d{2}-\d{2})/)[1] %></p>
+                                        <p class="bg-teal-500 text-white text-[10px] rounded-full align-middle px-[6px] py-[2px]"><%= news.category.first %></p>
+                                    </div>
+                                    <p class="mt-2 font-bold"><%= news.title %></p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-teal-700">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                </svg>
+                            <% end %>
+                        <% end %>
+                    </div>
+                    <%= link_to 'お知らせ一覧を見る', news_index_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full fixed bottom-13 right-0 sm:bottom-0 p-2">
+        <div class="flex justify-end p-2">
+            <div class="dropdown dropdown-top dropdown-end">
+                <div tabindex="0" role="button" class="flex justify-center items-center size-5 rounded-full shadow-sm">
+                    <div class="flex justify-end">
+                        <button type="button" class="size-10 rounded-full bg-teal-500/70 backdrop-blur-xs shadow-sm text-white">？</button>
+                    </div>
+                </div>
+                <div tabindex="0" class="dropdown-content menu z-1 w-80 p-0 pb-2 mb-1">
+                    <div class="bg-white/70 backdrop-blur-md border border-zinc-300 rounded-xl p-4">
+                        <p class="font-bold">Shortcut Hubへようこそ！</p>
+                        <p class="text-sm">このサイトはiPhoneのショートカットのレシピを閲覧したり、投稿したりすることができるプラットフォームです。ショートカットをダウンロードするには会員登録（無料）してください。</p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <%= link_to "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "flex items-center justify-between bg-teal-700 pl-3 pr-1 py-1 rounded-full text-white", data: { turbo: false } do %>
+                                <p class="text-xs mr-2">使い方はこちら</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+                            <% end %>
+                            <% unless user_signed_in? %>
+                                <%= link_to new_user_registration_path, class: " flex items-center justify-between bg-teal-700 pl-3 pr-1 py-1 rounded-full text-white", data: { turbo: false } do %>
+                                    <p class="text-xs mr-2">会員登録はこちら</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
