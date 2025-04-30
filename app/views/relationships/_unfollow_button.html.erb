@@ -1,0 +1,1 @@
+<%= link_to "フォロー中", relationships_path(user.id), id: "unfollow-button-for-user-#{user.id}", data: { turbo_method: :delete }, class: "px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
