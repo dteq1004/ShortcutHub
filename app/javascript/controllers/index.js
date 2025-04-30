@@ -15,3 +15,6 @@ application.register("tab", TabController)
 
 import TagController from "./tag_controller"
 application.register("tag", TagController)
+
+import TitleCountController from "./title_count_controller"
+application.register("title-count", TitleCountController)

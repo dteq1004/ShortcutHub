@@ -1,8 +1,8 @@
 class Shortcut < ApplicationRecord
   before_create :set_id
 
-  validates :title, presence: true, length: { maximum: 255 }
-  validates :description, presence: true, length: { maximum: 65_535 }, on: :update
+  validates :title, presence: true, length: { maximum: 50 }
+  validates :description, presence: true, length: { maximum: 100 }, on: :update
   validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
 
   has_many :instructions, dependent: :destroy
