@@ -26,25 +26,16 @@
         <%= f.hidden_field :status, value: @shortcut.status, id: "shortcut_status" %>
     </div>
     <div class="flex flex-col justify-center items-center pt-10 px-4">
-        <div class="rounded-xl shadow-xl bg-white mb-3 mx-21 w-44">
-            <div id="icon_preview" class="flex justify-center p-3 rounded-t-xl bg-teal-500">
-                <%= image_tag "shortcuts/#{@shortcut.icon}.svg" %>
-            </div>
-            <%= f.text_area :title,
-                class: "auto-adjust whitespace-normal h-auto w-full text-base p-2 pb-0 outline-none resize-none overflow-hidden",
-                placeholder: "ここにタイトルを入力してください",
-                required: true,
-                minlength: "3",
-                maxlength: "50"
-            %>
-            <div class="flex items-center px-1 pb-2 opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-                <p class="pl-1 text-[12px]"><%= current_user.name %></p>
-            </div>
+        <% if @shortcut.status == "draft" %>
+            <div id="icon_preview" class="col-span-1 aspect-3/4 h-40 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-zinc-500">
+        <% elsif @shortcut.status == "published" %>
+            <div id="icon_preview" class="col-span-1 aspect-3/4 h-40 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-teal-500">
+        <% else %>
+            <div id="icon_preview" class="col-span-1 aspect-3/4 h-40 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-zinc-300">
+        <% end %>
+            <%= image_tag "shortcuts/#{@shortcut.icon}.svg", class: "size-8" %>
+            <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10% hover:bg-zinc-100 active:bg-zinc-100/50"></div>
         </div>
-        <p class="mb-4 text-xs">タイトルはタップで変更できます</p>
         <button type="button" id="icon_select" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">アイコンを選択</button>
         <%= f.hidden_field :icon, value: @shortcut.icon, id: "shortcut_icon" %>
         <dialog id="icon_modal" class="modal">
@@ -59,84 +50,98 @@
                 </div>
             </div>
         </dialog>
-        <div class="w-full flex flex-col items-center">
-            <div class="md:max-w-2xl">
-                <div class="w-full flex justify-start items-center mb-2">
-                    <p class="mr-1 font-bold">説明</p>
-                    <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+        <div class="w-full flex justify-between mb-2">
+            <div class="flex justify-start items-center">
+                <p class="mr-1 font-bold">タイトル</p>
+                <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+            </div>
+        </div>
+        <%= f.text_field :title,
+            class: "w-full validator border border-zinc-300 focus:border-teal-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+            placeholder: "ここにタイトルを入力してください",
+            required: true,
+            pattern: "[A-Za-z][A-Za-z0-9\-]*",
+            minlength: "3",
+            maxlength: "50"
+        %>
+        <p class="w-full validator-hint mb-2 text-start mt-0 p-1">
+            3文字以上で50文字以内で入力してください
+        </p>
+        <div class="w-full flex justify-start items-center mb-2">
+            <p class="mr-1 font-bold">説明</p>
+            <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+        </div>
+        <%= f.text_area :description,
+            autofocus: true,
+            placeholder: "ショートカットの説明を入力してください",
+            required: true,
+            class: "w-full validator auto-adjust resize-none h-10 border border-zinc-300 focus:border-teal-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+            pattern: "[A-Za-z][A-Za-z0-9\-]*",
+            minlength: "3",
+            maxlength: "100"
+        %>
+        <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
+            3文字以上で100文字以内で入力してください
+        </p>
+        <div class="w-full flex justify-between items-center mb-2 px-[2px]">
+            <div class="flex items-center">
+                <p class="mr-1 font-bold">URL</p>
+                <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+            </div>
+            <div class="dropdown dropdown-top dropdown-end">
+                <div tabindex="0" role="button" class="flex justify-center items-center size-5 rounded-full bg-teal-500 shadow-sm">
+                    <p class="text-white text-xs font-bold">？</p>
                 </div>
-                <%= f.text_area :description,
-                    placeholder: "ショートカットの説明を入力してください",
-                    required: true,
-                    class: "validator auto-adjust resize-none h-10 border border-zinc-300 focus:border-teal-500 bg-white w-full rounded-xl px-2 py-2 outline-none overflow-hidden",
-                    pattern: "[A-Za-z][A-Za-z0-9\-]*",
-                    minlength: "3",
-                    maxlength: "100"
-                %>
-                <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
-                    3文字以上で100文字以内で入力してください
-                </p>
-                <div class="w-full flex justify-between items-center mb-2 px-[2px]">
-                    <div class="flex items-center">
-                        <p class="mr-1 font-bold">URL</p>
-                        <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
-                    </div>
-                    <div class="dropdown dropdown-top dropdown-end">
-                        <div tabindex="0" role="button" class="flex justify-center items-center size-5 rounded-full bg-teal-500 shadow-sm">
-                            <p class="text-white text-xs font-bold">？</p>
-                        </div>
-                        <div tabindex="0" class="dropdown-content menu bg-zinc-100 rounded-box z-1 w-52 p-2 mb-1 shadow-sm">
-                            <p>URLの共有方法がわからない方は
-                                <%= link_to "こちら", root_path, class: "underline decoration-teal-700 text-teal-700" %>
-                            </p>
-                        </div>
-                    </div>
+                <div tabindex="0" class="dropdown-content menu bg-zinc-100 rounded-box z-1 w-52 p-2 mb-1 shadow-sm">
+                    <p>URLの共有方法がわからない方は
+                        <%= link_to "こちら", root_path, class: "underline decoration-teal-700 text-teal-700" %>
+                    </p>
                 </div>
-                <%= f.url_field :download_url,
-                    autocomplete: "off",
-                    required: true,
-                    placeholder: "例）https://www.icloud.com/shortcuts/*****",
-                    class: "w-full h-10 bg-white py-4 px-3 rounded-xl validator outline-none border border-zinc-300 focus:border-teal-500 text-base",
-                    pattern: "^(https?://www.icloud.com/shortcuts/)?([a-zA-Z0-9]([a-zA-Z0-9-].*[a-zA-Z0-9])?.)+[a-zA-Z].*$"
-                %>
-                <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
-                    有効なURLを入力してください
-                </p>
-                <div class="w-full flex justify-start items-center mb-2">
-                    <p class="mr-1 font-bold">タグ</p>
-                    <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
-                </div>
-                <%= f.text_field :tag_names, required: true, class: "w-full tagify bg-white rounded-xl text-base", data: { controller: "tag"}, placeholder: "関連するタグを入力" %>
-                <p class="w-full text-xs text-start mb-2 p-1">作成したショートカットに関連するタグを入力（最大で５つ）</p>
-                <div class="w-full flex justify-start items-center mt-4 mb-2">
-                    <p class="ml-[2px] mr-1 font-bold">使い方</p>
-                    <p class="bg-zinc-500 text-[10px] text-white p-1 py-[2px] rounded-sm">任意</p>
-                </div>
-                <div data-controller="instruction" class="w-full">
-                    <div data-instruction-target="instructions" class="w-full flex flex-col gap-4 divide-y-1 divide-dotted divide-teal-500 px-[2px]">
-                        <% if @shortcut.instructions.present? %>
-                            <% @shortcut.instructions.each_with_index do |instruction, index| %>
-                                <div class="flex items-center gap-4 pb-4">
-                                    <div class="flex-none flex justify-center items-center bg-zinc-700 rounded-full size-5">
-                                        <p class="text-white text-xs"><%= index + 1 %></p>
-                                    </div>
-                                    <textarea class="resize-none overflow-hidden auto-adjust outline-none border border-zinc-300 focus:border-teal-700 h-10 w-full p-2 bg-white rounded-xl", placeholder="ここに使い方を入力してください", name="shortcut[instructions][]", required><%= instruction.content %></textarea>
-                                    <div class="dropdown dropdown-top dropdown-end">
-                                        <div tabindex="0" role="button" class="pb-2">...</div>
-                                        <div tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm">
-                                            <button data-action="click->instruction#remove" type="button" class="text-rose-500">
-                                                削除する
-                                            </button>
-                                        </div>
-                                    </div>
+            </div>
+        </div>
+        <%= f.url_field :download_url,
+            autocomplete: "off",
+            required: true,
+            placeholder: "例）https://www.icloud.com/shortcuts/*****",
+            class: "w-full h-10 bg-white py-4 px-3 rounded-xl validator outline-none border border-zinc-300 focus:border-teal-500 text-base",
+            pattern: "^(https?://www.icloud.com/shortcuts/)?([a-zA-Z0-9]([a-zA-Z0-9-].*[a-zA-Z0-9])?.)+[a-zA-Z].*$"
+        %>
+        <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
+            有効なURLを入力してください
+        </p>
+        <div class="w-full flex justify-start items-center mb-2">
+            <p class="mr-1 font-bold">タグ</p>
+            <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+        </div>
+        <%= f.text_field :tag_names, required: true, class: "w-full tagify bg-white rounded-xl text-base", data: { controller: "tag"}, placeholder: "関連するタグを入力" %>
+        <p class="w-full text-xs text-start mb-2 p-1">作成したショートカットに関連するタグを入力（最大で５つ）</p>
+        <div class="w-full flex justify-start items-center mt-4 mb-2">
+            <p class="ml-[2px] mr-1 font-bold">使い方</p>
+            <p class="bg-zinc-500 text-[10px] text-white p-1 py-[2px] rounded-sm">任意</p>
+        </div>
+        <div data-controller="instruction" class="w-full">
+            <div data-instruction-target="instructions" class="w-full flex flex-col gap-4 divide-y-1 divide-dotted divide-teal-500 px-[2px]">
+                <% if @shortcut.instructions.present? %>
+                    <% @shortcut.instructions.each_with_index do |instruction, index| %>
+                        <div class="flex items-center gap-4 pb-4">
+                            <div class="flex-none flex justify-center items-center bg-zinc-700 rounded-full size-5">
+                                <p class="text-white text-xs"><%= index + 1 %></p>
+                            </div>
+                            <textarea class="resize-none overflow-hidden auto-adjust outline-none border border-zinc-300 focus:border-teal-700 h-10 w-full p-2 bg-white rounded-xl", placeholder="ここに使い方を入力してください", name="shortcut[instructions][]", required><%= instruction.content %></textarea>
+                            <div class="dropdown dropdown-top dropdown-end">
+                                <div tabindex="0" role="button" class="pb-2">...</div>
+                                <div tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm">
+                                    <button data-action="click->instruction#remove" type="button" class="text-rose-500">
+                                        削除する
+                                    </button>
                                 </div>
-                            <% end %>
-                        <% end %>
-                    </div>
-                    <div class="flex justify-center">
-                        <button data-action="click->instruction#append" type="button" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">＋説明を追加する</button>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="flex justify-center">
+                <button data-action="click->instruction#append" type="button" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">＋説明を追加する</button>
             </div>
         </div>
     </div>
