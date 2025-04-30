@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   resources :news, only: [ :index, :show ]
   get "search", to: "searches#search"
   get "search/index", to: "searches#index"
+  get "follow", to: "follows#index"
+  get "follow/index_lazy", to: "follows#index_lazy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

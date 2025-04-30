@@ -45,8 +45,9 @@
                 <p>更新日：<%= l @shortcut.updated_at %></p>
             </div>
             <div class="flex justify-center my-5">
-                <div class="flex justify-center bg-teal-500 rounded-xl shadow-sm p-3">
-                    <%= image_tag "shortcuts/#{@shortcut.icon}.svg" %>
+                <div class="col-span-1 aspect-3/4 h-25 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative bg-teal-500">
+                    <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10% hover:bg-zinc-100 active:bg-zinc-100/50"></div>
+                    <%= image_tag "shortcuts/#{@shortcut.icon}.svg", class: "size-8" %>
                 </div>
             </div>
             <div class="w-full flex justify-center my-5 px-5">
@@ -116,10 +117,7 @@
                     <div class="flex flex-col justify-center">
                         <%= link_to user_path(@shortcut.user), class: "flex flex-col" do %>
                             <p class="text-base"><%= @shortcut.user.name %></p>
-                            <p class="mb-4 pl-1 text-xs text-zinc-500">@<%= @shortcut.user.uid %></p>
-                        <% end %>
-                        <% if user_signed_in? && @shortcut.user != current_user %>
-                            <%= render partial: "relationships/btn", locals: { user: @shortcut.user } %>
+                            <p class="pl-1 text-xs text-zinc-500">@<%= @shortcut.user.uid %></p>
                         <% end %>
                     </div>
                 </div>
