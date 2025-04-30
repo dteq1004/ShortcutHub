@@ -2,3 +2,9 @@ ja:
   time:
     formats:
       default: "%Y-%m-%d"
+  enums:
+    shortcut:
+      status:
+        draft: "下書き"
+        published: "公開中"
+        archived: "非公開"
