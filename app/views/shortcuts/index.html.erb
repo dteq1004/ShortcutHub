@@ -8,6 +8,6 @@
         <%= link_to "人気ランキング", root_path, class: "px-4 py-2 text-zinc-500 font-bold rounded-full hover:bg-zinc-100" %>
     </div>
     <%= turbo_frame_tag :shortcut_index_lazy, src: "shortcut/index_lazy", loading: :lazy do %>
-        <% render "shortcut_loading" %>
+        <%= render "shortcut_loading" %>
     <% end %>
 </div>

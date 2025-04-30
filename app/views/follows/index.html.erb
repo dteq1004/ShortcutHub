@@ -1,0 +1,9 @@
+<div class="w-screen p-4">
+    <div class="mb-10">
+        <h1 class="text-2xl text-zinc-700 font-bold">フォロー中</h1>
+        <p class="text-md text-teal-700 font-sans font-bold">followings</p>
+    </div>
+    <%= turbo_frame_tag :follow_index_lazy, src: "follow/index_lazy", loading: :lazy do %>
+        <%= render "shortcuts/shortcut_loading" %>
+    <% end %>
+</div>
