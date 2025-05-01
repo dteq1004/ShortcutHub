@@ -3,19 +3,18 @@
         <div class="flex flex-wrap md:max-w-3xl">
             <div class="w-full h-full p-4 md:order-last md:w-1/3 md:sticky md:top-0">
                 <div class="rounded-xl bg-white shadow-sm md:mb-4">
-                    <%= image_tag 'how-to-use-shortcut.png', class: "rounded-t-xl" %>
-                    <div class="flex justify-center p-4">
-                        <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
-                    </div>
-                </div>
-                <div class="rounded-xl bg-white shadow-sm max-md:hidden">
                     <%= image_tag 'how-to-use-shortcuthub.png', class: "rounded-t-xl" %>
                     <div class="flex justify-center p-4">
                         <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
                     </div>
                 </div>
+                <div class="rounded-xl bg-white shadow-sm max-md:hidden">
+                    <%= image_tag 'how-to-use-shortcut.png', class: "rounded-t-xl" %>
+                    <div class="flex justify-center p-4">
+                        <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
+                    </div>
+                </div>
             </div>
-
             <div class="w-full md:w-2/3 md:my-4">
                 <div class="px-4 pt-8 pb-10 bg-white max-md:bg-zinc-100 md:mb-2">
                     <div class="mb-10">
@@ -25,9 +24,10 @@
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                         <%= render partial: 'shortcuts/shortcut', collection: @shortcuts %>
                     </div>
-                    <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full active:bg-zinc-300", data: { turbo: false } %>
+                    <div class="w-full flex justify-center">
+                        <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "btn text-center text-white bg-teal-700 py-2 rounded-full active:bg-zinc-300", data: { turbo: false } %>
+                    </div>
                 </div>
-
                 <div class="px-4 pt-8 pb-10 md:bg-white md:mb-2">
                     <div class="mb-10">
                         <h1 class="text-2xl text-zinc-700 font-bold">公式のショートカット</h1>
@@ -38,7 +38,6 @@
                     </div>
                     <%= link_to '公式のショートカット一覧を見る', official_shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
                 </div>
-
                 <div class="px-4 pt-8 pb-10 bg-white max-md:bg-zinc-100 md:mb-2">
                     <div class="mb-10">
                         <h1 class="text-2xl text-zinc-700 font-bold">人気ランキング</h1>
@@ -49,7 +48,6 @@
                     </div>
                     <%= link_to 'ショートカット一覧を見る', shortcuts_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
                 </div>
-
                 <div class="px-4 pt-8 pb-10 md:bg-white md:mb-2">
                     <div class="mb-10">
                         <h1 class="text-2xl font-bold">お知らせ</h1>
@@ -75,6 +73,14 @@
                 </div>
             </div>
         </div>
+        <div class="p-4">
+            <div class="rounded-xl bg-white shadow-sm sm:hidden">
+                <%= image_tag 'how-to-use-shortcut.png', class: "rounded-t-xl" %>
+                <div class="flex justify-center p-4">
+                    <%= link_to '詳細はこちら', "https://youtu.be/Dah4Z6jRZvs?si=EPUEEH7WOyG-GivM", class: "w-full block py-2 text-center bg-teal-700 text-white font-bold rounded-full" %>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="w-full fixed bottom-15 right-2 sm:bottom-2 p-2">
         <div class="flex justify-end">
@@ -94,7 +100,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
                             <% end %>
                             <% unless user_signed_in? %>
-                                <%= link_to new_user_registration_path, class: " flex items-center justify-between bg-teal-700 pl-3 pr-1 py-1 rounded-full text-white", data: { turbo: false } do %>
+                                <%= link_to new_user_registration_path, class: "flex items-center justify-between bg-teal-700 pl-3 pr-1 py-1 rounded-full text-white", data: { turbo: false } do %>
                                     <p class="text-xs mr-2">会員登録はこちら</p>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
                                 <% end %>
