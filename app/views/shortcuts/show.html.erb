@@ -72,6 +72,7 @@
                             </div>
                         <% end %>
                         <%= render "favorites/btn", { shortcut: @shortcut } %>
+                        <%= render "bookmarks/bookmark_buttons", { shortcut: @shortcut } %>
                     </div>
                 <% else %>
                     <div class="flex justify-between btn btn-outline px-1 rounded-full w-full" onclick="needLogin.showModal()">

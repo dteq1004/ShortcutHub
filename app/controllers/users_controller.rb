@@ -32,6 +32,10 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
   end
 
+  def bookmarks
+    @bookmark_shortcuts = current_user.bookmark_shortcuts.includes(:user).order(updated_at: :desc)
+  end
+
   private
 
   def user_params
