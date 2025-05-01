@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_shortcuts, through: :favorites, source: :shortcut
+
   has_one_attached :avatar
   validates :avatar, content_type: { in: %w[image/jpeg image/gif image/png], message: "有効なフォーマットではありません" }, size: { less_than: 5.megabytes, message: " 5MBを超える画像はアップロードできません" }
 
@@ -35,6 +38,18 @@ class User < ApplicationRecord
 
   def followed?(other_user)
     followers.include?(other_user)
+  end
+
+  def favorite(shortcut)
+    favorite_shortcuts << shortcut
+  end
+
+  def unfavorite(shortcut)
+    favorite_shortcuts.destroy(shortcut)
+  end
+
+  def favorite?(shortcut)
+    favorite_shortcuts.include?(shortcut)
   end
 
   def to_param
