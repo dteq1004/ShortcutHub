@@ -1,0 +1,16 @@
+<div class="flex flex-col items-center">
+    <%= render partial: "profile", locals: { shortcuts_count: current_user.shortcuts.count, user: current_user } %>
+    <%= render "tab" %>
+    <div class="w-full sm:max-w-2xl p-3">
+        <div class="flex justify-between items-center my-5">
+            <p class="text-xl font-bold ml-1">保存した投稿</p>
+        </div>
+        <% if @bookmark_shortcuts.present? %>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <%= render partial: 'shortcuts/shortcut', collection: @bookmark_shortcuts %>
+            </div>
+        <% else %>
+            <p class="ml-1">保存したショートカットはありません</p>
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<% if current_user.bookmark?(shortcut) %>
+    <%= render "bookmarks/unbookmark", { shortcut: shortcut } %>
+<% else %>
+    <%= render "bookmarks/bookmark", { shortcut: shortcut } %>
+<% end %>
