@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   end
   post "users/:id/relationships", to: "relationships#create", as: :relationships
   delete "users/:id/relationships", to: "relationships#destroy"
-  get "mypage" => "users#mypage"
+  get "mypage", to: "users#mypage"
+  get "bookmarks", to: "users#bookmarks"
   get "home/index_lazy", to: "homes#index_lazy"
   resources :shortcuts do
     member do
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
   get "follow", to: "follows#index"
   get "follow/index_lazy", to: "follows#index_lazy"
   resources :favorites, only: %i[ create destroy ]
+  resources :bookmarks, only: %i[ create destroy ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

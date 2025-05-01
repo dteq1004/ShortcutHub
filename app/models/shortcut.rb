@@ -9,6 +9,7 @@ class Shortcut < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
   has_many :favorites, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
 
   belongs_to :user
 
