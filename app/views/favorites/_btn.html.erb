@@ -1,0 +1,5 @@
+<% if current_user.favorite?(shortcut) %>
+    <%= render "favorites/unfavorite_button", { shortcut: shortcut } %>
+<% else %>
+    <%= render "favorites/favorite_button", { shortcut: shortcut } %>
+<% end %>

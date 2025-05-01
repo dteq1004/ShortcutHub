@@ -36,7 +36,6 @@
         </ul>
     </div>
 </div>
-
 <div class="w-full flex flex-col items-center">
     <div class="w-full flex flex-wrap md:max-w-3xl md:mt-4">
         <div class="w-full md:w-2/3 md:order-1 bg-teal-50 md:bg-white mb-2 max-md:shadow-[0_-1px_2px_rgba(0,0,0,0.1)]">
@@ -54,35 +53,58 @@
                 <h2 class="w-full text-zinc-700 text-xl font-bold wrap-break-word"><%= @shortcut.title %></h2>
             </div>
         </div>
-
         <div class="w-full md:w-2/3 md:order-3 bg-white p-4 mb-2">
             <div class="bg-zinc-200 py-4 px-3 rounded-lg text-sm">
                 <p><%= @shortcut.description %></p>
             </div>
         </div>
-
-        <div class="w-full md:w-2/3 md:order-4 flex bg-white mb-2 p-4">
-            <%= render partial: "tag", collection: @shortcut.tags %>
-        </div>
-
-        <div class="w-full md:w-2/3 md:order-5 bg-white p-4 mb-2 flex justify-between">
+        <div class="w-full md:w-2/3 md:order-4 bg-white p-4 mb-2 flex justify-between">
             <div class="flex flex-col justify-center items-center w-full">
-                <%= link_to @shortcut.download_url, target: :_blank, rel: "noopener noreferrer", class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
-                    <div class="w-full flex justify-between items-center">
-                        <div class="bg-white p-2 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500">
+                <% if user_signed_in? %>
+                    <div class="w-full flex gap-4">
+                        <%= link_to @shortcut.download_url, target: :_blank, rel: "noopener noreferrer", class: "grow btn px-1 bg-teal-500 rounded-full text-white" do %>
+                            <div class="w-full flex justify-between items-center">
+                                <div class="bg-white p-2 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                                </div>
+                                <p>ダウンロードする</p>
+                                <p></p>
+                            </div>
+                        <% end %>
+                        <%= render "favorites/btn", { shortcut: @shortcut } %>
+                    </div>
+                <% else %>
+                    <div class="flex justify-between btn btn-outline px-1 rounded-full w-full" onclick="needLogin.showModal()">
+                        <div class="bg-zinc-700 p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 stroke-white">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                             </svg>
                         </div>
                         <p>ダウンロードする</p>
                         <p></p>
                     </div>
+                    <dialog id="needLogin" class="modal p-4">
+                        <div class="modal-box bg-white p-0 rounded-xl">
+                            <div class="w-full flex flex-col justify-center bg-teal-100">
+                                <div class="w-full flex justify-center items-center h-40">
+                                    <%= image_tag 'need-login-icon.png', class: "h-50 object-cover" %>
+                                </div>
+                            </div>
+                            <div class="w-full flex flex-col items-center p-5">
+                                <h3 class="text-lg text-teal-700 font-bold">ログインするともっと便利に</h3>
+                                <p class="my-4">新規会員登録しログインすると、様々な機能を使えるようになります！</p>
+                                <form method="dialog" class="w-full flex flex-col items-center">
+                                    <%= link_to 'ログイン・新規会員登録（無料）', new_user_session_path, class: "w-full btn btn-accent rounded-full text-white my-2" %>
+                                    <button class="">また後で</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
                 <% end %>
             </div>
         </div>
-
         <% if @shortcut.instructions.present? %>
-            <div class="w-full md:w-2/3 md:order-6 bg-white mb-2 p-5">
+            <div class="w-full md:w-2/3 md:order-5 bg-white mb-2 p-5">
                 <div class="flex items-center mb-7">
                     <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
                     <p class="text-lg font-bold">使い方</p>
@@ -103,9 +125,9 @@
         <div class="w-full md:w-1/3 md:order-2 mb-2 md:pl-4 md:sticky md:top-4">
             <div class="bg-white p-4">
                 <div class="flex items-center mb-7">
-                        <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
-                        <p class="text-lg font-bold">作成者</p>
-                    </div>
+                    <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                    <p class="text-lg font-bold">作成者</p>
+                </div>
                 <div class="flex">
                     <div class="size-20 mr-4">
                         <% if @shortcut.user.avatar.present? %>
@@ -121,6 +143,15 @@
                         <% end %>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="w-full md:w-2/3 md:order-6 flex flex-col bg-white mb-2 p-4">
+            <div class="flex items-center mb-7">
+                <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                <p class="text-lg font-bold">関連するタグ</p>
+            </div>
+            <div class="flex flex-wrap">
+                <%= render partial: "tag", collection: @shortcut.tags %>
             </div>
         </div>
     </div>
