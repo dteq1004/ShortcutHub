@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_28_061605) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_01_022044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_28_061605) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "shortcut_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shortcut_id"], name: "index_favorites_on_shortcut_id"
+    t.index ["user_id", "shortcut_id"], name: "index_favorites_on_user_id_and_shortcut_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
   create_table "instructions", force: :cascade do |t|
     t.string "shortcut_id", null: false
     t.integer "step_number"
@@ -52,13 +62,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_28_061605) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followed_id"
+    t.string "follower_uid"
+    t.string "followed_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+    t.index ["followed_uid"], name: "index_relationships_on_followed_uid"
+    t.index ["follower_uid", "followed_uid"], name: "index_relationships_on_follower_uid_and_followed_uid", unique: true
+    t.index ["follower_uid"], name: "index_relationships_on_follower_uid"
   end
 
   create_table "shortcuts", id: :string, force: :cascade do |t|
@@ -106,6 +116,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_28_061605) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "favorites", "shortcuts"
+  add_foreign_key "favorites", "users"
   add_foreign_key "instructions", "shortcuts"
   add_foreign_key "shortcuts", "users"
   add_foreign_key "taggings", "shortcuts"

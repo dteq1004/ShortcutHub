@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "favorite-button-for-shortcut-#{@shortcut.id}" do %>
+    <%= render "favorites/unfavorite_button", shortcut: @shortcut %>
+<% end %>
