@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :users, param: :uid, only: %i[ show edit update destroy ] do
+    get "show_lazy", to: "users#show_lazy"
     member do
       get "followings", to: "relationships#followings"
       get "followers", to: "relationships#followers"
@@ -12,7 +13,11 @@ Rails.application.routes.draw do
   post "users/:id/relationships", to: "relationships#create", as: :relationships
   delete "users/:id/relationships", to: "relationships#destroy"
   get "mypage", to: "users#mypage"
+  get "mypage_lazy", to: "users#mypage_lazy"
   get "bookmarks", to: "users#bookmarks"
+  get "bookmarks_lazy", to: "users#bookmarks_lazy"
+  get "analytics", to: "users#analytics"
+  get "analytics_lazy", to: "users#analytics_lazy"
   get "home/index_lazy", to: "homes#index_lazy"
   resources :shortcuts do
     member do
