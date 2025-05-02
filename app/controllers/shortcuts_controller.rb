@@ -7,6 +7,9 @@ class ShortcutsController < ApplicationController
   end
 
   def index_lazy
+    unless request.headers["Turbo-Frame"]
+      redirect_to root_path
+    end
     @shortcuts = Shortcut.includes(:user).includes(:tags).where(status: :published).order(created_at: :desc)
   end
 
@@ -15,6 +18,7 @@ class ShortcutsController < ApplicationController
     if @shortcut.status != "published"
       redirect_to shortcuts_path
     end
+    @shortcut.increment!(:view_count)
   end
 
   def new

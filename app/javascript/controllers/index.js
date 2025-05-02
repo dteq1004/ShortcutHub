@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AnalyticsController from "./analytics_controller"
+application.register("analytics", AnalyticsController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

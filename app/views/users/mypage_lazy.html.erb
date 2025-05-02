@@ -1,0 +1,9 @@
+<%= turbo_frame_tag :mypage_lazy do %>
+    <% if @shortcuts.present? %>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <%= render partial: 'users/shortcut', collection: @shortcuts %>
+        </div>
+    <% else %>
+        <p class="ml-1">作成したショートカットはありません</p>
+    <% end %>
+<% end %>
