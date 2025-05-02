@@ -1,0 +1,100 @@
+<%= turbo_frame_tag :analytics_lazy do %>
+    <% if @shortcuts_view_count.present? || @shortcuts_favorite.present? || @shortcuts_bookmark.present? %>
+        <div class="bg-white rounded-xl p-2 pt-4">
+            <div class="mb-10 font-bold text-sm">
+                <button data-analytics-target="category" data-action="analytics#click" class="is-active text-white bg-teal-700 mr-1 px-3 py-1 rounded-full">視聴回数</button>
+                <button data-analytics-target="category" data-action="analytics#click" class="not-active text-zinc-500 hover:bg-zinc-100 mr-1 px-3 py-1  rounded-full">いいね数</button>
+                <button data-analytics-target="category" data-action="analytics#click" class="not-active text-zinc-500 hover:bg-zinc-100 mr-1 px-3 py-1  rounded-full">保存数</button>
+            </div>
+            <div data-analytics-target="content" class="w-full">
+                <% @shortcuts_view_count.each_with_index do |shortcut, index| %>
+                    <%= link_to shortcut_path(shortcut), class: "flex items-center mb-4", data: { turbo: false } do %>
+                        <div class="relative flex-none mr-3">
+                            <% if index == 0 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-500"><%= index + 1 %></p>
+                            <% elsif index == 1 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-zinc-500"><%= index + 1 %></p>
+                            <% elsif index == 2 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-700"><%= index + 1 %></p>
+                            <% else %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-zinc-700 font-bold"><%= index + 1 %></p>
+                            <% end %>
+                            <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
+                        </div>
+                        <div class="mr-2 flex-none">
+                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
+                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
+                            </div>
+                        </div>
+                        <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
+                        <div class="flex items-end ml-auto">
+                            <p class="text-xl mr-[2px]"><%= shortcut.view_count %></p>
+                            <p class="text-xs align-bottom pb-[2px]">回</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            <div data-analytics-target="content" class="w-full hidden">
+                <% @shortcuts_favorite.each_with_index do |shortcut, index| %>
+                    <%= link_to shortcut_path(shortcut), class: "flex items-center mb-4", data: { turbo: false } do %>
+                        <div class="relative flex-none mr-3">
+                            <% if index == 0 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-500"><%= index + 1 %></p>
+                            <% elsif index == 1 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-zinc-500"><%= index + 1 %></p>
+                            <% elsif index == 2 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-700"><%= index + 1 %></p>
+                            <% else %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-zinc-700 font-bold"><%= index + 1 %></p>
+                            <% end %>
+                            <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
+                        </div>
+                        <div class="mr-2 flex-none">
+                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
+                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
+                            </div>
+                        </div>
+                        <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
+                        <div class="flex items-end ml-auto">
+                            <p class="text-xl mr-[2px]"><%= shortcut.favorites_count || 0 %></p>
+                            <p class="text-xs align-bottom pb-[2px]">回</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            <div data-analytics-target="content" class="w-full hidden">
+                <% @shortcuts_bookmark.each_with_index do |shortcut, index| %>
+                    <%= link_to shortcut_path(shortcut), class: "flex items-center mb-4", data: { turbo: false } do %>
+                        <div class="relative flex-none mr-3">
+                            <% if index == 0 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-500"><%= index + 1 %></p>
+                            <% elsif index == 1 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-zinc-500"><%= index + 1 %></p>
+                            <% elsif index == 2 %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-700"><%= index + 1 %></p>
+                            <% else %>
+                                <p class="rounded-full size-7 text-center pt-[2px] text-zinc-700 font-bold"><%= index + 1 %></p>
+                            <% end %>
+                            <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
+                        </div>
+                        <div class="mr-2 flex-none">
+                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
+                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
+                            </div>
+                        </div>
+                        <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
+                        <div class="flex items-end ml-auto">
+                            <p class="text-xl mr-[2px]"><%= shortcut.bookmarks_count || 0 %></p>
+                            <p class="text-xs align-bottom pb-[2px]">回</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    <% else %>
+        <p class="ml-1">公開しているショートカットがありません</p>
+    <% end %>
+<% end %>

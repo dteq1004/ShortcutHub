@@ -1,0 +1,17 @@
+<%= turbo_frame_tag :show_lazy do %>
+    <div class="flex flex-col items-center">
+        <%= render partial: "profile", locals: { shortcuts_count: @shortcuts.count, user: @user } %>
+        <div class="w-full sm:max-w-2xl p-3">
+            <div class="flex justify-between items-center my-5">
+                <p class="text-xl font-bold ml-1">ショートカット</p>
+            </div>
+            <% if @shortcuts.present? %>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <%= render partial: 'users/shortcut', collection: @shortcuts %>
+                </div>
+            <% else %>
+                <p class="ml-1">作成したショートカットはありません</p>
+            <% end %>
+        </div>
+    </div>
+<% end %>

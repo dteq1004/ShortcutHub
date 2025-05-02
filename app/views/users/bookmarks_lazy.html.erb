@@ -1,0 +1,9 @@
+<%= turbo_frame_tag :bookmarks_lazy do %>
+    <% if @bookmark_shortcuts.present? %>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <%= render partial: 'shortcuts/shortcut', collection: @bookmark_shortcuts %>
+        </div>
+    <% else %>
+        <p class="ml-1">保存したショートカットはありません</p>
+    <% end %>
+<% end %>

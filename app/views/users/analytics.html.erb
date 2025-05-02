@@ -1,11 +1,12 @@
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center" data-controller="analytics">
     <%= render partial: "profile", locals: { shortcuts_count: current_user.shortcuts.count, user: current_user } %>
     <%= render "tab" %>
+
     <div class="w-full sm:max-w-2xl p-3">
         <div class="flex justify-between items-center my-5">
-            <p class="text-xl font-bold ml-1">保存した投稿</p>
+            <p class="text-xl font-bold ml-1">アナリティクス</p>
         </div>
-        <%= turbo_frame_tag :bookmarks_lazy, src: "bookmarks_lazy", loading: :lazy do %>
+        <%= turbo_frame_tag :analytics_lazy, src: "analytics_lazy", loading: :lazy do %>
             <div class="w-full flex justify-center mt-20">
                 <span class="loading loading-spinner loading-xl"></span>
             </div>
