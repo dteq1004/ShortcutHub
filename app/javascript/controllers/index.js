@@ -7,6 +7,9 @@ import { application } from "./application"
 import AnalyticsController from "./analytics_controller"
 application.register("analytics", AnalyticsController)
 
+import CommentReplyModalController from "./comment_reply_modal_controller"
+application.register("comment-reply-modal", CommentReplyModalController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

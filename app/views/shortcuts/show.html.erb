@@ -156,4 +156,27 @@
             </div>
         </div>
     </div>
+    <div class="w-full flex flex-col md:max-w-3xl">
+        <div class="w-full md:w-2/3 md:order-6 flex flex-col bg-white mb-2 p-4">
+            <div class="flex items-center mb-7">
+                <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                <p class="text-lg font-bold">コメント</p>
+            </div>
+            <%= render @comments %>
+            <%= turbo_frame_tag "comment_reply_modal" %>
+            <div>
+                <%= form_with model: @comment, url: shortcut_comments_path(@shortcut), class: "flex items-end gap-2 mt-3", id: "comment-form" do |f| %>
+                    <div class="grow flex items-start gap-2">
+                        <% if current_user.avatar.present? %>
+                            <%= image_tag current_user.avatar, class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
+                        <% else %>
+                            <%= image_tag "user_default_icon.png", class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
+                        <% end %>
+                        <%= f.text_area :body, id: "comment-input", placeholder: "コメントを入力してください", class: "grow auto-adjust h-10 px-3 py-2 border border-zinc-300 outline-none overflow-hidden rounded-xl text-base", onClick: "inputClick(event)", onBlur: "focusout(event)", required: true %>
+                    </div>
+                    <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
 </div>
