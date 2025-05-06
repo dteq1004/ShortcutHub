@@ -20,7 +20,7 @@ class ShortcutsController < ApplicationController
       redirect_to shortcuts_path
     end
     @shortcut.increment!(:view_count)
-    @comments = @shortcut.comments.includes(:user).order(created_at: :asc)
+    @comments = @shortcut.comments.includes(:user).where(parent_id: nil).order(created_at: :asc)
   end
 
   def new

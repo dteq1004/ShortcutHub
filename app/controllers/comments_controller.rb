@@ -1,6 +1,11 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    @comment = Comment.includes(:user).find(params[:id])
+    @shortcut = Shortcut.find(params[:shortcut_id])
+  end
+
   def create
     @comment = current_user.comments.build(comment_params)
     @comment.save
