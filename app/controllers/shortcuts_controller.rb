@@ -59,9 +59,8 @@ class ShortcutsController < ApplicationController
   end
 
   def destroy
-    shortcut = current_user.shortcuts.find(params[:id])
-    shortcut.destroy!
-    redirect_to mypage_path
+    @shortcut = current_user.shortcuts.find(params[:id])
+    @shortcut.destroy!
   end
 
   def archived

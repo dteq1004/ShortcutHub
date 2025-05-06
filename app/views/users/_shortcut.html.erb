@@ -1,6 +1,6 @@
-<div class="col-span-2 grid grid-cols-4 rounded-xl shadow-sm bg-white p-3">
+<div class="col-span-2 grid grid-cols-4 rounded-xl shadow-sm bg-white p-3" id="shortcut-<%= shortcut.id %>">
     <% if shortcut.status === 'published' %>
-        <%= link_to shortcut_path(shortcut) do %>
+        <%= link_to shortcut_path(shortcut), data: { turbo: false } do %>
             <div class="col-span-1 aspect-3/4 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative bg-teal-500">
                 <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10% hover:bg-zinc-100 active:bg-zinc-100/50"></div>
                 <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-8" %>
@@ -58,7 +58,7 @@
                         <% if shortcut.status == 'published' %>
                             <%= link_to '非公開にする', archived_shortcut_path(shortcut), class: "w-full p-1" %>
                         <% end %>
-                        <%= link_to '編集する', edit_shortcut_path(shortcut), class: "w-full p-1", data: { "turbolinks": false } %>
+                        <%= link_to '編集する', edit_shortcut_path(shortcut), class: "w-full p-1", data: { turbo: false } %>
                     </div>
                 </div>
             </div>
