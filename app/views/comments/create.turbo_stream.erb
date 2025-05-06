@@ -6,6 +6,9 @@
     <%= turbo_stream.append "comment-reply-list" do %>
         <%= render "comments/reply", reply: @comment %>
     <% end %>
+    <%= turbo_stream.replace "comment-reply-form" do %>
+        <%= render "comments/reply_form", comment: @parent_comment, shortcut: @comment.shortcut %>
+    <% end %>
 <% else %>
     <%= turbo_stream.append "comment-list" do %>
         <%= render "comments/comment", comment: @comment %>

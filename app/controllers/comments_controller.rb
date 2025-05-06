@@ -7,6 +7,9 @@ class CommentsController < ApplicationController
   end
 
   def create
+    if params[:comment][:parent_id].present?
+      @parent_comment = Comment.find(params[:comment][:parent_id])
+    end
     @comment = current_user.comments.build(comment_params)
     @comment.save
   end
