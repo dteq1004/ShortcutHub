@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     member do
       get :archived
     end
+    resources :comments, only: %i[ create update destroy ], shallow: true
   end
   get "shortcut/index_lazy", to: "shortcuts#index_lazy"
   get "tags/search" => "shortcuts#search"

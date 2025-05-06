@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_shortcuts, through: :bookmarks, source: :shortcut
 
+  has_many :comments, dependent: :destroy
+
   has_one_attached :avatar
   validates :avatar, content_type: { in: %w[image/jpeg image/gif image/png], message: "有効なフォーマットではありません" }, size: { less_than: 5.megabytes, message: " 5MBを超える画像はアップロードできません" }
 
