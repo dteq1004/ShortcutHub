@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "comment_reply_modal" do %>
-    <div class="fixed inset-0 w-screen h-screen pt-4 flex items-center justify-center z-50 bg-gray-500/70" data-controller="comment-reply-modal" data-comment-reply-modal-target="backGround" data-action="click->comment-reply-modal#closeBackground">
+    <div class="fixed inset-0 w-screen h-screen pt-4 flex items-center justify-center z-50 bg-gray-500/70" data-controller="comment-reply-modal" data-comment-reply-modal-target="backGround">
         <div class="w-full h-full bg-white rounded-t-xl overflow-y-scroll" data-comment-reply-modal-target="commentReplyModal">
             <div class="sticky top-0">
                 <div class="flex justify-between items-center bg-white p-2">
@@ -46,17 +46,19 @@
                     <% end %>
                 </div>
             <% end %>
-            <%= form_with model: Comment.new, url: shortcut_comments_path(@shortcut), class: "fixed w-full bg-zinc-50 p-4 bottom-0 flex items-end gap-2", id: "comment-form" do |f| %>
-                <%= f.hidden_field :parent_id, value: @comment.id %>
-                <div class="grow flex items-start gap-2">
-                    <% if current_user.avatar.present? %>
-                        <%= image_tag current_user.avatar, class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
-                    <% else %>
-                        <%= image_tag "user_default_icon.png", class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
-                    <% end %>
-                    <%= f.text_area :body, id: "comment-input", placeholder: "返信を入力", class: "grow auto-adjust h-10 px-3 py-2 border border-zinc-300 bg-white outline-none overflow-hidden rounded-xl text-base", onClick: "inputClick(event)", onBlur: "focusout(event)", required: true %>
-                </div>
-                <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
+            <% if user_signed_in? %>
+                <%= form_with model: Comment.new, url: shortcut_comments_path(@shortcut), class: "fixed w-full bg-zinc-50 p-4 bottom-0 flex items-end gap-2", id: "comment-form" do |f| %>
+                    <%= f.hidden_field :parent_id, value: @comment.id %>
+                    <div class="grow flex items-start gap-2">
+                        <% if current_user.avatar.present? %>
+                            <%= image_tag current_user.avatar, class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
+                        <% else %>
+                            <%= image_tag "user_default_icon.png", class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
+                        <% end %>
+                        <%= f.text_area :body, id: "comment-input", placeholder: "返信を入力", class: "grow auto-adjust h-10 px-3 py-2 border border-zinc-300 bg-white outline-none overflow-hidden rounded-xl text-base", required: true %>
+                    </div>
+                    <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
+                <% end %>
             <% end %>
         </div>
     </div>
