@@ -16,10 +16,4 @@ export default class extends Controller {
   closeModal() {
     this.backGroundTarget.classList.add("hidden")
   }
-
-  closeBackground(event) {
-    if(event.target === this.backGroundTarget) {
-      this.closeModal()
-    }
-  }
 }

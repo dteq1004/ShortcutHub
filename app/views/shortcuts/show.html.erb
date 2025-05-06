@@ -164,7 +164,7 @@
             </div>
             <%= render @comments %>
             <%= turbo_frame_tag "comment_reply_modal" %>
-            <div>
+            <% if user_signed_in? %>
                 <%= form_with model: @comment, url: shortcut_comments_path(@shortcut), class: "flex items-end gap-2 mt-3", id: "comment-form" do |f| %>
                     <div class="grow flex items-start gap-2">
                         <% if current_user.avatar.present? %>
@@ -176,7 +176,7 @@
                     </div>
                     <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
                 <% end %>
-            </div>
+            <% end %>
         </div>
     </div>
 </div>
