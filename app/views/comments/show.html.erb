@@ -26,26 +26,11 @@
                     </div>
                 </div>
             </div>
-            <% if @comment.replies.present? %>
-                <div class="w-full overflow-y-scroll mb-22 pl-11 pt-4 pr-4">
-                    <% @comment.replies.each do |reply| %>
-                        <div class="w-full flex mb-6">
-                            <div class="size-8 mr-2">
-                                <% if reply.user.avatar.present? %>
-                                    <%= image_tag reply.user.avatar, class: "rounded-full object-cover aspect-1/1" %>
-                                <% else %>
-                                    <%= image_tag "user_default_icon.png", class: "rounded-full object-cover aspect-1/1" %>
-                                <% end %>
-                            </div>
-                            <div class="w-full">
-                                <p class="text-xs text-zinc-700 font-bold"><%= reply.user.name %></p>
-                                <p class="text-xs text-zinc-500 mb-2">@<%= reply.user.uid %></p>
-                                <p class=""><%= reply.body %></p>
-                            </div>
-                        </div>
-                    <% end %>
-                </div>
-            <% end %>
+            <div class="w-full overflow-y-scroll mb-22 pl-11 pt-4 pr-4" id="comment-reply-list">
+                <% if @comment.replies.present? %>
+                    <%= render partial: "comments/reply", collection: @comment.replies %>
+                <% end %>
+            </div>
             <% if user_signed_in? %>
                 <%= form_with model: Comment.new, url: shortcut_comments_path(@shortcut), class: "fixed w-full bg-zinc-50 p-4 bottom-0 flex items-end gap-2", id: "comment-form" do |f| %>
                     <%= f.hidden_field :parent_id, value: @comment.id %>

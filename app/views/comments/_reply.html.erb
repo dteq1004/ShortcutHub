@@ -1,0 +1,14 @@
+<div class="w-full flex mb-6">
+    <div class="size-8 mr-2">
+        <% if reply.user.avatar.present? %>
+            <%= image_tag reply.user.avatar, class: "rounded-full object-cover aspect-1/1" %>
+        <% else %>
+            <%= image_tag "user_default_icon.png", class: "rounded-full object-cover aspect-1/1" %>
+        <% end %>
+    </div>
+    <div class="w-full">
+        <p class="text-xs text-zinc-700 font-bold"><%= reply.user.name %></p>
+        <p class="text-xs text-zinc-500 mb-2">@<%= reply.user.uid %></p>
+        <p class=""><%= reply.body %></p>
+    </div>
+</div>
