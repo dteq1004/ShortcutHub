@@ -22,6 +22,9 @@ application.register("hello", HelloController)
 import InstructionController from "./instruction_controller"
 application.register("instruction", InstructionController)
 
+import ShortcutIndexController from "./shortcut_index_controller"
+application.register("shortcut-index", ShortcutIndexController)
+
 import TabController from "./tab_controller"
 application.register("tab", TabController)
 
