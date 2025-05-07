@@ -10,6 +10,12 @@ application.register("analytics", AnalyticsController)
 import CommentReplyModalController from "./comment_reply_modal_controller"
 application.register("comment-reply-modal", CommentReplyModalController)
 
+import EditCommentModalController from "./edit_comment_modal_controller"
+application.register("edit-comment-modal", EditCommentModalController)
+
+import EditReplyModalController from "./edit_reply_modal_controller"
+application.register("edit-reply-modal", EditReplyModalController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

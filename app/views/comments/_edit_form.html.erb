@@ -1,12 +1,11 @@
-<%= form_with model: comment, url: shortcut_comments_path(shortcut), class: "w-full flex items-end gap-2", id: "comment-reply-form" do |f| %>
-    <%= f.hidden_field :parent_id, value: parent_comment_id %>
+<%= form_with model: comment, url: shortcut_comment_path(shortcut), class: "flex items-end gap-2 mt-3", id: "edit-comment-form", data: { action: "turbo:submit-end->edit-comment-modal#close" } do |f| %>
     <div class="grow flex items-start gap-2">
         <% if current_user.avatar.present? %>
             <%= image_tag current_user.avatar, class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
         <% else %>
             <%= image_tag "user_default_icon.png", class: "flex-none size-8 aspect-1/1 object-cover rounded-full mt-1" %>
         <% end %>
-        <%= f.text_area :body, id: "comment-input", placeholder: "返信を入力", class: "grow auto-adjust h-10 px-3 py-2 border border-zinc-300 bg-white outline-none overflow-hidden rounded-xl text-base", required: true %>
+        <%= f.text_area :body, id: "comment-input", placeholder: "コメントを入力してください", class: "grow auto-adjust h-10 px-3 py-2 border border-zinc-300 outline-none overflow-hidden rounded-xl text-base", required: true %>
     </div>
     <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
 <% end %>
