@@ -1,5 +1,22 @@
 <%= turbo_frame_tag :shortcut_index_lazy do %>
-    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
-        <%= render @shortcuts %>
-    </div>
+    <% if @latest_shortcuts.present? %>
+        <div class="mb-10 font-bold">
+            <button data-shortcut-index-target="category" data-action="shortcut-index#click" class="is-active text-white bg-teal-700 mr-1 px-3 py-1 rounded-full">新着</button>
+            <button data-shortcut-index-target="category" data-action="shortcut-index#click" class="not-active text-zinc-500 hover:bg-zinc-100 mr-1 px-3 py-1  rounded-full">人気ランキング</button>
+        </div>
+        <div data-shortcut-index-target="content" class="w-full">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
+                <%= render @latest_shortcuts %>
+            </div>
+        </div>
+        <div data-shortcut-index-target="content" class="w-full hidden">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
+                <% @popular_shortcuts.each_with_index do |shortcut, index| %>
+                    <%= render partial: "homes/ranking_shortcut", locals: { shortcut: shortcut, index: index } %>
+                <% end %>
+            </div>
+        </div>
+    <% else %>
+        <p>投稿されているショートカットはありません</p>
+    <% end %>
 <% end %>

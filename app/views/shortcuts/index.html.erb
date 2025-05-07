@@ -1,13 +1,13 @@
-<div class="p-4">
+<div class="p-4" data-controller="shortcut-index">
     <div class="mb-4">
         <h1 class="text-2xl text-zinc-700 font-bold">ショートカット一覧</h1>
         <p class="text-md text-teal-700 font-sans font-bold">Shortcuts</p>
     </div>
-    <div class="py-4">
-        <%= link_to "新着", shortcuts_path, class: "mr-2 px-4 py-2 text-white bg-teal-700 rounded-full font-bold" %>
-        <%= link_to "人気ランキング", root_path, class: "px-4 py-2 text-zinc-500 font-bold rounded-full hover:bg-zinc-100" %>
-    </div>
     <%= turbo_frame_tag :shortcut_index_lazy, src: "shortcut/index_lazy", loading: :lazy do %>
+        <div class="flex items-center mb-10 font-bold">
+            <p class="text-white bg-teal-700 mr-2 px-3 py-1 rounded-full">新着</p>
+            <p class="text-zinc-500 hover:bg-zinc-100 mr-1 px-3 py-1  rounded-full">人気ランキング</p>
+        </div>
         <%= render "shortcut_loading" %>
     <% end %>
 </div>
