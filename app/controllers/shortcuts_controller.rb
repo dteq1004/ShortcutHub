@@ -10,7 +10,14 @@ class ShortcutsController < ApplicationController
     unless request.headers["Turbo-Frame"]
       redirect_to root_path
     end
-    @shortcuts = Shortcut.includes(:user).includes(:tags).where(status: :published).order(created_at: :desc)
+    @latest_shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc).page(params[:page])
+    @popular_shortcuts = Shortcut
+      .includes(:user)
+      .where(status: :published)
+      .select('shortcuts.*,
+        COALESCE(view_count, 0) + COALESCE((SELECT COUNT(*) FROM bookmarks WHERE bookmarks.shortcut_id = shortcuts.id), 0) * 10 + COALESCE((SELECT COUNT(*) FROM favorites WHERE favorites.shortcut_id = shortcuts.id), 0) * 5 AS total_count')
+      .order('total_count DESC')
+      .limit(10)
   end
 
   def show

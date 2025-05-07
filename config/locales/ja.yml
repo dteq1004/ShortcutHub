@@ -8,3 +8,7 @@ ja:
         draft: "下書き"
         published: "公開中"
         archived: "非公開"
+  views:
+    pagination:
+      previous: "←前のページへ"
+      next: "次のページへ→"
