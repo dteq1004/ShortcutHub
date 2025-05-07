@@ -1,4 +1,4 @@
-<%= form_with model: comment, url: shortcut_comments_path(shortcut), class: "w-full flex items-end gap-2", id: "comment-reply-form" do |f| %>
+<%= form_with model: comment, url: shortcut_comment_path(shortcut), class: "w-full flex items-end gap-2", id: "edit-comment-reply-form", data: { action: "turbo:submit-end->edit-reply-modal#close" } do |f| %>
     <%= f.hidden_field :parent_id, value: parent_comment_id %>
     <div class="grow flex items-start gap-2">
         <% if current_user.avatar.present? %>

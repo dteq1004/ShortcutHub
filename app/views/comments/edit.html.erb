@@ -1,0 +1,39 @@
+<% if @comment.parent_id.nil? %>
+    <%= turbo_frame_tag "edit_comment_form" do %>
+        <div class="fixed inset-0 w-screen p-4 flex items-center justify-center z-50 bg-gray-500/70 backdrop-blur-sm" data-controller="edit-comment-modal" data-edit-comment-modal-target="backGround">
+            <div class="w-full bg-white rounded-xl">
+                <div class="flex justify-between items-center p-2">
+                    <div class="flex items-center p-2">
+                        <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                        <p class="text-lg font-bold">コメントを編集</p>
+                    </div>
+                    <div data-action="click->edit-comment-modal#closeModal" class="p-2 rounded-full shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <%= render "edit_form", comment: @comment, shortcut: @comment.shortcut %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+<% else %>
+    <%= turbo_frame_tag "edit_comment_reply_form" do %>
+        <div class="fixed inset-0 w-screen p-4 flex items-center justify-center z-50 bg-gray-500/70 backdrop-blur-sm" data-controller="edit-reply-modal" data-edit-reply-modal-target="backGround">
+            <div class="w-full bg-white rounded-xl">
+                <div class="flex justify-between items-center p-2">
+                    <div class="flex items-center p-2">
+                        <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                        <p class="text-lg font-bold">コメントを編集</p>
+                    </div>
+                    <div data-action="click->edit-reply-modal#closeModal" class="p-2 rounded-full shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <%= render "edit_reply_form", comment: @comment, parent_comment_id: @parent_comment_id, shortcut: @comment.shortcut %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+<% end %>

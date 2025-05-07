@@ -1,0 +1,12 @@
+<% if @comment.errors.present? %>
+<% elsif @comment.parent_id.present? %>
+    <%= turbo_stream.update "comment_#{@comment.id}", partial: "comments/reply", locals: { reply: @comment } %>
+    <%= turbo_stream.replace "edit-comment-reply-form" do %>
+        <%= render "comments/edit_reply_form", comment: Comment.new, parent_comment_id: @parent_comment_id, shortcut: @comment.shortcut %>
+    <% end %>
+<% else %>
+    <%= turbo_stream.update @comment %>
+    <%= turbo_stream.replace "edit-comment-form" do %>
+        <%= render "comments/edit_form", comment: Comment.new, shortcut: @comment.shortcut %>
+    <% end %>
+<% end %>

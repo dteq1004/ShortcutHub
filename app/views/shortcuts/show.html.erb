@@ -166,6 +166,7 @@
             </div>
             <%= turbo_frame_tag "comment_reply_modal" %>
             <% if user_signed_in? %>
+                <%= turbo_frame_tag "edit_comment_form" %>
                 <%= render "comments/form", comment: @comment, shortcut: @shortcut %>
             <% else %>
                 <div class="bg-zinc-100 rounded-xl p-4">
