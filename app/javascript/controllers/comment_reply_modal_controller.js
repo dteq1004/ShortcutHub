@@ -5,9 +5,11 @@ export default class extends Controller {
   static targets = ["backGround"]
 
   connect() {
+    document.querySelector("body").classList.add("overflow-hidden")
   }
 
   closeModal() {
     this.backGroundTarget.classList.add("hidden")
+    document.querySelector("body").classList.remove("overflow-hidden")
   }
 }
