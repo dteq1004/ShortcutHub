@@ -13,5 +13,13 @@ class HomesController < ApplicationController
       .limit(10)
     @official_shortcuts = OFFICIAL_SHORTCUTS
     @news = News.page(offset: 0, limit: 3)
+    @users = User
+      .select('users.*, COUNT(shortcuts.id) AS shortcut_count')
+      .joins(:shortcuts)
+      .where('shortcuts.created_at >= ?', 1.month.ago) # 過去1ヶ月の投稿に絞る
+      .where(shortcuts: { status: :published })
+      .group('users.id')
+      .order('shortcut_count DESC')
+      .limit(3)
   end
 end
