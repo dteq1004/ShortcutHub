@@ -8,6 +8,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
                 <%= render @latest_shortcuts %>
             </div>
+            <%= paginate @latest_shortcuts %>
         </div>
         <div data-shortcut-index-target="content" class="w-full hidden">
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
