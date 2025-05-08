@@ -1,9 +1,9 @@
 <div class="flex justify-center pt-22">
     <%= form_with model: @shortcut, class: "w-full", data: { controller: "title-count", title_count_character_count_value: 50 } do |f| %>
         <div class="w-full flex flex-col justify-center items-center px-4">
-            <div class="col-span-1 aspect-3/4 h-40 flex-none flex justify-center items-center rounded-s-lg rounded-e-sm shadow-md relative bg-zinc-500 mb-4">
-                <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10% hover:bg-zinc-100 active:bg-zinc-100/50"></div>
-                <%= image_tag "icon1.svg", class: "size-8" %>
+            <div class="col-span-1 flex-none flex justify-center items-center overflow-hidden rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-zinc-100">
+                <%= image_tag "shortcut_default_thumbnail.png", class: "aspect-2/3 h-40" %>
+                <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
             </div>
             <div class="w-full flex justify-between mb-2">
                 <div class="flex justify-start items-center">

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     end
     resources :comments, only: %i[ show create edit update destroy ]
   end
+  post "shortcuts/generate_thumbnail", to: "shortcuts#generate_thumbnail"
   get "shortcut/index_lazy", to: "shortcuts#index_lazy"
   get "tags/search" => "shortcuts#search"
   resources :official_shortcuts, only: %i[ index show ]
