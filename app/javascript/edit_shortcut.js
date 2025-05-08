@@ -18,6 +18,7 @@ document.addEventListener("turbo:load", function() {
     const thumbnailModal = document.querySelector("#thumbnail_modal")
     const title_confirm = document.querySelector("#shortcut_title_confirm")
     const title_input = document.querySelector("#shortcut_title")
+    const closeModalBtn = document.querySelector("#close_thumbnail_modal_btn")
     thumbnailBtn.addEventListener("click", () => {
         thumbnailModal.showModal()
         title_confirm.textContent = title_input.value
@@ -27,7 +28,9 @@ document.addEventListener("turbo:load", function() {
             thumbnailModal.close();
         }
     });
-
+    closeModalBtn.addEventListener("click", () => {
+        thumbnailModal.close();
+    })
     document.getElementById("create_thumbnail").addEventListener("click", function(e) {
         const shortcut_title = title_input.value;
         const shortcut_id = document.querySelector("#shortcut_id").textContent

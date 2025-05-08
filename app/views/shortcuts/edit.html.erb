@@ -41,10 +41,15 @@
                 <div class="modal-box p-4" id="thumbnail_modal_container">
                     <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
                     <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
-                    <div class="">
-                        <p id="shortcut_title_confirm"></p>
+                    <div class="bg-zinc-100 rounded-xl p-4 mb-4">
+                        <p class="text-lg font-bold text-zinc-700" id="shortcut_title_confirm"></p>
                     </div>
-                    <button type="button" id="create_thumbnail" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">画像を生成する</button>
+                    <div class="flex items-end mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-rose-500"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
+                        <p class="font-bold text-rose-700 ml-2">画像は一度しか作成できません</p>
+                    </div>
+                    <button type="button" id="create_thumbnail" class="w-full btn bg-teal-500 shadow-sm rounded-full text-white mb-4">画像を生成する</button>
+                    <button type="button" id="close_thumbnail_modal_btn" class="w-full text-center">また後で</button>
                     <p class="hidden" id="shortcut_id"><%= @shortcut.id %></p>
                 </div>
             </dialog>
