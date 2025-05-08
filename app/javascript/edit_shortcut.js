@@ -50,6 +50,7 @@ document.addEventListener("turbo:load", function() {
             document.getElementById('shortcut_thumbnail_preview').src = data.image_url; // 新しい画像に入れ替え
             document.querySelector("body").classList.remove("overflow-hidden")
             document.querySelector("#thumbnail_loading").classList.add("hidden")
+            thumbnailBtn.classList.add("hidden")
         })
         .catch(error => {
             alert("画像生成に失敗しました");

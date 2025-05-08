@@ -35,18 +35,20 @@
             <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
         </div>
         <% if @shortcut.thumbnail.attached? %>
-        <% else %>
+        <% elsif current_user.can_generate_thumbnail_this_month? %>
             <button type="button" id="thumbnail_modal_btn" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">画像を生成する</button>
             <dialog id="thumbnail_modal" class="modal">
                 <div class="modal-box p-4" id="thumbnail_modal_container">
                     <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
                     <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
                     <div class="bg-zinc-100 rounded-xl p-4 mb-4">
-                        <p class="text-lg font-bold text-zinc-700" id="shortcut_title_confirm"></p>
+                        <p class="text-lg font-bold text-zinc-700 break-words" id="shortcut_title_confirm"></p>
                     </div>
                     <div class="flex items-end mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-rose-500"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
-                        <p class="font-bold text-rose-700 ml-2">画像は一度しか作成できません</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-amber-300"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
+                        <p class="ml-2">
+                            画像は<span class="text-rose-700 font-bold text-lg">月に一度</span>しか作成できません
+                        </p>
                     </div>
                     <button type="button" id="create_thumbnail" class="w-full btn bg-teal-500 shadow-sm rounded-full text-white mb-4">画像を生成する</button>
                     <button type="button" id="close_thumbnail_modal_btn" class="w-full text-center">また後で</button>
@@ -61,6 +63,9 @@
                     </div>
                 </div>
             </div>
+        <% else %>
+            <p>生成回数の上限に達しています。</p>
+            <p class="mb-4">次回生成できるのは<%= l current_user.next_generate_date %>です。</p>
         <% end %>
         <div class="w-full flex justify-between mb-2">
             <div class="flex justify-start items-center">
