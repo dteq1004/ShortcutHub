@@ -22,10 +22,17 @@
                             <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
                         </div>
                         <div class="mr-2 flex-none">
-                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
-                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
-                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
-                            </div>
+                            <% if shortcut.thumbnail.attached? %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag shortcut.thumbnail, class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% else %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag "shortcut_default_thumbnail.png", class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% end %>
                         </div>
                         <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
                         <div class="flex items-end ml-auto">
@@ -51,10 +58,17 @@
                             <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
                         </div>
                         <div class="mr-2 flex-none">
-                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
-                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
-                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
-                            </div>
+                            <% if shortcut.thumbnail.attached? %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag shortcut.thumbnail, class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% else %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag "shortcut_default_thumbnail.png", class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% end %>
                         </div>
                         <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
                         <div class="flex items-end ml-auto">
@@ -80,10 +94,17 @@
                             <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
                         </div>
                         <div class="mr-2 flex-none">
-                            <div class="aspect-3/4 flex justify-center items-center p-2 rounded-s-md rounded-e-xs shadow-sm relative bg-teal-500">
-                                <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
-                                <%= image_tag "shortcuts/#{shortcut.icon}.svg", class: "size-5" %>
-                            </div>
+                            <% if shortcut.thumbnail.attached? %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag shortcut.thumbnail, class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% else %>
+                                <div class="flex-none flex justify-center items-center overflow-hidden rounded-s-md rounded-e-xs shadow-sm relative bg-zinc-100 aspect-2/3 w-10">
+                                    <%= image_tag "shortcut_default_thumbnail.png", class: "aspect-2/3" %>
+                                    <div class="h-full w-full absolute left-0 rounded-s-md rounded-e-xs bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
+                                </div>
+                            <% end %>
                         </div>
                         <p class="text-sm truncate mr-2"><%= shortcut.title %></p>
                         <div class="flex items-end ml-auto">

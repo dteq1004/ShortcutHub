@@ -85,7 +85,41 @@ class ShortcutsController < ApplicationController
     render json: @tags
   end
 
+  def openai_show
+    image_base64 = params[:b64_json]
+
+    # Base64のデコード
+    image_bytes = Base64.decode64(image_base64).force_encoding('ASCII-8BIT')
+
+    # 画像をブラウザに表示
+    send_data image_bytes, type: 'image/png', disposition: 'inline'
+  end
+
+  def generate_thumbnail
+    prompt = generate_prompt(params[:shortcut_title])
+    image_base64 = OpenaiImageGenerator.new(prompt).generate_image
+    image_bytes = Base64.decode64(image_base64)
+    shortcut = Shortcut.find(params[:shortcut_id])
+    shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
+    shortcut.assign_attributes(title: params[:shortcut_title])
+    shortcut.save!
+    render json: { image_url: url_for(shortcut.thumbnail) } # 生成した画像のURLを返す
+  end
+
   private
+
+  def generate_prompt(title)
+    <<~PROMPT
+      Create a vertically-oriented thumbnail image that explains an iPhone Shortcut, based on the title provided.
+      - The image should clearly communicate what the Shortcut does, just by looking at it
+      - Use bold and outlined, readable Japanese text in large font
+      - Include relevant icons or illustrations
+      - Use a flat, friendly, modern style with clear visual hierarchy
+      - Background and text colors should be randomly selected but must maintain high contrast and good visibility
+      - Avoid any unrelated decorations or confusing elements
+      - Shortcut title:「#{title}」
+    PROMPT
+  end
 
   def shortcut_new_params
     params.require(:shortcut).permit(:title, :status)

@@ -1,9 +1,9 @@
 class Shortcut < ApplicationRecord
   before_create :set_id
 
-  validates :title, presence: true, length: { maximum: 50 }
-  validates :description, presence: true, length: { maximum: 100 }, on: :update
-  validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
+  # validates :title, presence: true, length: { maximum: 50 }
+  # validates :description, presence: true, length: { maximum: 100 }, on: :update
+  # validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
 
   has_many :instructions, dependent: :destroy
   has_many :taggings, dependent: :destroy
@@ -13,6 +13,8 @@ class Shortcut < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   belongs_to :user
+
+  has_one_attached :thumbnail
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
