@@ -14,10 +14,6 @@ document.addEventListener("turbo:load", function() {
         })
     })
 
-    document.querySelector("#confirm_btn").addEventListener("click", () => {
-        document.querySelector("#confirm_loading").classList.remove("hidden")
-    })
-
     const thumbnailBtn = document.querySelector("#thumbnail_modal_btn")
     const thumbnailModal = document.querySelector("#thumbnail_modal")
     const title_confirm = document.querySelector("#shortcut_title_confirm")
@@ -63,4 +59,8 @@ document.addEventListener("turbo:load", function() {
             document.querySelector("#thumbnail_loading").classList.add("hidden")
         });
     });
+
+    document.querySelector("#confirm_btn").addEventListener("click", () => {
+        document.querySelector("#confirm_loading").classList.remove("hidden")
+    })
 })
