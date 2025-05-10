@@ -37,9 +37,9 @@ class ShortcutsController < ApplicationController
   def create
     @shortcut = current_user.shortcuts.build(shortcut_new_params)
     if @shortcut.save
-      redirect_to edit_shortcut_path(@shortcut)
+      redirect_to edit_shortcut_path(@shortcut), notice: t("defaults.flash_message.created")
     else
-      flash.now[:alert] = "新規作成に失敗しました"
+      flash.now[:alert] = t("defaults.flash_message.not_created")
       render :new, status: :unprocessable_entity
     end
   end
@@ -86,6 +86,12 @@ class ShortcutsController < ApplicationController
   end
 
   def generate_thumbnail
+    unless current_user.confirmed?
+      render json: {
+        error: "画像を生成するにはメール認証を完了してください。"
+      }, status: :unauthorized
+      return
+    end
     unless current_user.can_generate_thumbnail_this_month?
       render json: {
         error: "今月はすでに生成済みです。次回は#{current_user.next_generate_date}以降に生成できます。"

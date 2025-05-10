@@ -6,14 +6,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    super
+    @user = User.new
+  end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      sign_in(@user)
+      flash[:notice] = "ユーザー登録が完了しました。認証メールをご確認ください。"
+      redirect_to root_path
+    else
+      flash.now[:alert] = "ユーザー登録に失敗しました。"
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -61,7 +70,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
+  def resend_confirmation
+    current_user.send_confirmation_instructions
+    redirect_to root_path, notice: '確認メールを再送信しました。'
+  end
+
   private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 
   def hide_header
     @show_header = false

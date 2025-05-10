@@ -12,10 +12,8 @@
       </div>
     </div>
   </div>
-
   <%= form_with model: @user, url: user_registration_path do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
-
     <div class="p-6 sm:px-20">
       <div class="mb-2">
         <%= f.label :email %>
@@ -25,7 +23,6 @@
         </div>
         <div class="validator-hint">正しいメールアドレスを入力してください</div>
       </div>
-
       <div class="mb-2">
         <%= f.label :password %>
         <div class="w-full flex items-center input validator rounded-lg my-1 pr-0">
@@ -34,7 +31,6 @@
         </div>
         <div class="validator-hint">半角英数字のみで8文字上入力してください</div>
       </div>
-
       <div>
         <%= f.label :password_confirmation %>
         <div class="w-full flex items-center input validator rounded-lg my-1 pr-0">
@@ -44,7 +40,6 @@
         <div class="validator-hint">パスワードを再入力してください</div>
       </div>
     </div>
-
     <div class="px-6 mb-5 sm:flex sm:justify-center">
       <p class="text-xs">
         本サービスに登録すると、
@@ -54,7 +49,6 @@
         に同意したことになります。
       </p>
     </div>
-
     <div class="flex justify-center px-6 sm:flex sm:justify-center">
       <%= f.submit "同意して登録", class: "w-full sm:max-w-1/2 btn btn-accent rounded-full text-white" %>
     </div>

@@ -9,7 +9,7 @@
             <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "px-3 py-2 bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
             <button type="button" id="openPublishedModal" class="ml-2 px-3 py-2 bg-teal-500 rounded-full text-xs text-white font-bold">公開設定</button>
             <dialog id="published_modal" class="modal">
-                <div class="modal-box" id="publishedModalContainer">
+                <div class="modal-box p-4" id="publishedModalContainer">
                     <h3 class="text-lg font-bold">公開しますか？</h3>
                     <p class="py-4">
                         ｢<%= link_to "投稿ガイドライン", root_path, class: "text-teal-700" %>」をご確認のうえ投稿してください
@@ -39,20 +39,46 @@
             <button type="button" id="thumbnail_modal_btn" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">画像を生成する</button>
             <dialog id="thumbnail_modal" class="modal">
                 <div class="modal-box p-4" id="thumbnail_modal_container">
-                    <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
-                    <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
-                    <div class="bg-zinc-100 rounded-xl p-4 mb-4">
-                        <p class="text-lg font-bold text-zinc-700 break-words" id="shortcut_title_confirm"></p>
-                    </div>
-                    <div class="flex items-end mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-amber-300"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
-                        <p class="ml-2">
-                            画像は<span class="text-rose-700 font-bold text-lg">月に一度</span>しか作成できません
-                        </p>
-                    </div>
-                    <button type="button" id="create_thumbnail" class="w-full btn bg-teal-500 shadow-sm rounded-full text-white mb-4">画像を生成する</button>
-                    <button type="button" id="close_thumbnail_modal_btn" class="w-full text-center">また後で</button>
-                    <p class="hidden" id="shortcut_id"><%= @shortcut.id %></p>
+                    <% if current_user.confirmed? %>
+                        <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
+                        <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
+                        <div class="bg-zinc-100 rounded-xl p-4 mb-4">
+                            <p class="text-lg font-bold text-zinc-700 break-words" id="shortcut_title_confirm"></p>
+                        </div>
+                        <div class="flex items-end mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-amber-300"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
+                            <p class="ml-2">
+                                画像は<span class="text-rose-700 font-bold text-lg">月に一度</span>しか作成できません
+                            </p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-3">
+                            <button type="button" id="create_thumbnail" class="col-span-1 py-2 bg-teal-500 rounded-sm text-sm text-white font-bold">画像を生成する</button>
+                            <button type="button" id="close_modal_btn" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
+                        </div>
+                        <p class="hidden" id="shortcut_id"><%= @shortcut.id %></p>
+                    <% else %>
+                        <p class="text-lg font-bold mb-4">メールアドレスの認証が完了していません。</p>
+                        <p class="mb-4">Shortcut Hubのすべての機能をご利用いただくには、メールアドレスの認証が必要です。</p>
+                        <p>現在ご登録のメールアドレス</p>
+                        <div class="bg-zinc-100 rounded-xl p-4 mb-4">
+                            <p class="text-lg font-bold text-zinc-700 break-words"><%= current_user.email %></p>
+                        </div>
+                        <div class="flex mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-amber-300 flex-none"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
+                            <p class="ml-2">
+                                認証メールを送信ボタンを押すとホームに戻ります。<span class="text-rose-700 font-bold">保存してない内容は失われます</span>
+                            </p>
+                        </div>
+                        <div class="mt-2 grid grid-cols-2 gap-3">
+                            <div class="col-span-1 relative">
+                                <%= link_to "認証メールを送信", resend_confirmation_path, class: "btn py-2 bg-teal-500 rounded-sm text-sm text-white font-bold", data: { turbo_method: :post }, id: "confirm_btn"  %>
+                                <div id="confirm_loading" class="bg-teal-700 flex justify-center items-center absolute top-0 left-0 rounded-sm w-full h-full hidden">
+                                    <div class="loading loading-spinner loading-xs text-white"></div>
+                                </div>
+                            </div>
+                            <button type="button" id="close_modal_btn" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
+                        </div>
+                    <% end %>
                 </div>
             </dialog>
             <div class="fixed top-0 left-0 z-[9999] h-screen w-screen bg-zinc-900/70 hidden" id="thumbnail_loading">
