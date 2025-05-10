@@ -1,0 +1,7 @@
+<% flash.each do |message_type, message| %>
+    <div class="fixed top-10 z-50 w-screen flex justify-center" id="flash">
+        <div class="<%= flash_background_color(message_type) %> rounded-full flex justify-center px-3 py-2 opacity-90 font-bold">
+            <p class="text-white text-xs"><%= message %></p>
+        </div>
+    </div>
+<% end %>

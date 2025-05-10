@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+  devise_scope :user do
+    post "resend_confirmation", to: "users/registrations#resend_confirmation", as: :resend_confirmation
+  end
   resources :users, param: :uid, only: %i[ show edit update destroy ] do
     get "show_lazy", to: "users#show_lazy"
     member do
@@ -18,7 +21,10 @@ Rails.application.routes.draw do
   get "bookmarks_lazy", to: "users#bookmarks_lazy"
   get "analytics", to: "users#analytics"
   get "analytics_lazy", to: "users#analytics_lazy"
-  get "home/index_lazy", to: "homes#index_lazy"
+  get "home/latest_shortcuts", to: "homes#latest_shortcuts"
+  get "home/popular_shortcuts", to: "homes#popular_shortcuts"
+  get "home/user_ranking", to: "homes#user_ranking"
+  get "home/news", to: "homes#news"
   resources :shortcuts do
     member do
       get :archived

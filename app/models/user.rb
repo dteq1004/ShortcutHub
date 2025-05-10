@@ -3,7 +3,7 @@ class User < ApplicationRecord
   before_create :set_account_uid
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
 
   has_many :shortcuts, dependent: :destroy
 
@@ -28,6 +28,15 @@ class User < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, on: :update
   validates :email, presence: true, uniqueness: { case_insensitive: true }, format: { with: Devise.email_regexp }
+
+  def can_generate_thumbnail_this_month?
+    return true if thumbnail_created_at.nil?
+    thumbnail_created_at < Time.current.beginning_of_month
+  end
+
+  def next_generate_date
+    Time.current.end_of_month.to_date + 1.day
+  end
 
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)

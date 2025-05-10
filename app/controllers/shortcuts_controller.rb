@@ -37,9 +37,9 @@ class ShortcutsController < ApplicationController
   def create
     @shortcut = current_user.shortcuts.build(shortcut_new_params)
     if @shortcut.save
-      redirect_to edit_shortcut_path(@shortcut)
+      redirect_to edit_shortcut_path(@shortcut), notice: t("defaults.flash_message.created")
     else
-      flash.now[:alert] = "新規作成に失敗しました"
+      flash.now[:alert] = t("defaults.flash_message.not_created")
       render :new, status: :unprocessable_entity
     end
   end
@@ -71,10 +71,10 @@ class ShortcutsController < ApplicationController
   end
 
   def archived
-    shortcut = current_user.shortcuts.find(params[:id])
-    shortcut.status = "archived"
-    if shortcut.save
-      redirect_to mypage_path, notice: "非公開にしました！"
+    @shortcut = current_user.shortcuts.find(params[:id])
+    @shortcut.status = "archived"
+    if @shortcut.save
+      render turbo_stream: turbo_stream.replace("shortcut-#{@shortcut.id}", partial: "users/shortcut", locals: { shortcut: @shortcut } )
     else
       redirect_to mypage_path, alert: "エラーが発生しました"
     end
@@ -85,17 +85,19 @@ class ShortcutsController < ApplicationController
     render json: @tags
   end
 
-  def openai_show
-    image_base64 = params[:b64_json]
-
-    # Base64のデコード
-    image_bytes = Base64.decode64(image_base64).force_encoding('ASCII-8BIT')
-
-    # 画像をブラウザに表示
-    send_data image_bytes, type: 'image/png', disposition: 'inline'
-  end
-
   def generate_thumbnail
+    unless current_user.confirmed?
+      render json: {
+        error: "画像を生成するにはメール認証を完了してください。"
+      }, status: :unauthorized
+      return
+    end
+    unless current_user.can_generate_thumbnail_this_month?
+      render json: {
+        error: "今月はすでに生成済みです。次回は#{current_user.next_generate_date}以降に生成できます。"
+      }, status: :forbidden
+      return
+    end
     prompt = generate_prompt(params[:shortcut_title])
     image_base64 = OpenaiImageGenerator.new(prompt).generate_image
     image_bytes = Base64.decode64(image_base64)
@@ -103,6 +105,7 @@ class ShortcutsController < ApplicationController
     shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
     shortcut.assign_attributes(title: params[:shortcut_title])
     shortcut.save!
+    current_user.update!(thumbnail_created_at: Time.current)
     render json: { image_url: url_for(shortcut.thumbnail) } # 生成した画像のURLを返す
   end
 

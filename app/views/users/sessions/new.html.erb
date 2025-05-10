@@ -12,9 +12,12 @@
       <% end %>
     </div>
   </div>
-
+  <% if flash[:recaptcha_error] %>
+    <div class="text">
+      <p><span class="error"><%= flash[:recaptcha_error] %></span></p>
+    </div>
+  <% end %>
   <%= form_with model: @user, url: new_user_session_path do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
     <div class="p-6 sm:px-20">
       <div class="mb-5">
         <%= f.label :email %>
@@ -37,8 +40,22 @@
         </div>
       </div>
     </div>
+    <%# hidden_field_tag "recaptcha_token", "", id: "recaptcha_token" %>
+    <%# if @show_checkbox_recaptcha %>
+      <%# recaptcha_tags %>
+    <%# else %>
+      <%# recaptcha_v3(action: 'login', site_key: Rails.application.credentials.recaptcha_site_key) %>
+    <%# end %>
     <div class="flex justify-center px-6 sm:flex sm:justify-center">
       <%= f.submit "ログイン", class: "w-full sm:max-w-1/2 btn btn-accent rounded-full text-white" %>
     </div>
   <% end %>
 </div>
+<%# <script src="https://www.google.com/recaptcha/api.js?render=<%# Rails.application.credentials.recaptcha_site_key %>"></script>
+<script>
+  grecaptcha.ready(function() {
+    grecaptcha.execute(<%# Rails.application.credentials.recaptcha_site_key %>, { action: "login"}).then(function(token) {
+      document.getElementById("recaptcha_token").value = token;
+    });
+  });
+</script> %>

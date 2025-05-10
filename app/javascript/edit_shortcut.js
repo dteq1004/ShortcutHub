@@ -14,10 +14,15 @@ document.addEventListener("turbo:load", function() {
         })
     })
 
+    document.querySelector("#confirm_btn").addEventListener("click", () => {
+        document.querySelector("#confirm_loading").classList.remove("hidden")
+    })
+
     const thumbnailBtn = document.querySelector("#thumbnail_modal_btn")
     const thumbnailModal = document.querySelector("#thumbnail_modal")
     const title_confirm = document.querySelector("#shortcut_title_confirm")
     const title_input = document.querySelector("#shortcut_title")
+    const closeModalBtn = document.querySelector("#close_modal_btn")
     thumbnailBtn.addEventListener("click", () => {
         thumbnailModal.showModal()
         title_confirm.textContent = title_input.value
@@ -27,7 +32,9 @@ document.addEventListener("turbo:load", function() {
             thumbnailModal.close();
         }
     });
-
+    closeModalBtn.addEventListener("click", () => {
+        thumbnailModal.close();
+    })
     document.getElementById("create_thumbnail").addEventListener("click", function(e) {
         const shortcut_title = title_input.value;
         const shortcut_id = document.querySelector("#shortcut_id").textContent
@@ -47,6 +54,7 @@ document.addEventListener("turbo:load", function() {
             document.getElementById('shortcut_thumbnail_preview').src = data.image_url; // 新しい画像に入れ替え
             document.querySelector("body").classList.remove("overflow-hidden")
             document.querySelector("#thumbnail_loading").classList.add("hidden")
+            thumbnailBtn.classList.add("hidden")
         })
         .catch(error => {
             alert("画像生成に失敗しました");

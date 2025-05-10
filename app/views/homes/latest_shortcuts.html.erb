@@ -1,0 +1,5 @@
+<%= turbo_frame_tag :home_latest_shortcuts do %>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <%= render partial: 'shortcuts/shortcut', collection: @latest_shortcuts %>
+    </div>
+<% end %>
