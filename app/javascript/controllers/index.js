@@ -16,6 +16,9 @@ application.register("edit-comment-modal", EditCommentModalController)
 import EditReplyModalController from "./edit_reply_modal_controller"
 application.register("edit-reply-modal", EditReplyModalController)
 
+import EditShortcutController from "./edit_shortcut_controller"
+application.register("edit-shortcut", EditShortcutController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
