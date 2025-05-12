@@ -59,7 +59,7 @@
                     <div tabindex="0" class="flex flex-col items-center dropdown-content menu bg-white border border-zinc-200 rounded-box z-1 w-28 mb-1 p-1 shadow-sm divide-y divide-zinc-300">
                         <%= link_to '削除する', shortcut_path(shortcut), class: "w-full text-rose-500 font-bold p-1", data: { turbo_method: :delete, turbo_confirm: "削除してよろしいですか？" } %>
                         <% if shortcut.status == 'published' %>
-                            <%= link_to '非公開にする', archived_shortcut_path(shortcut), class: "w-full p-1" %>
+                            <%= link_to '非公開にする', archived_shortcut_path(shortcut), class: "w-full p-1", data: { turbo: false } %>
                         <% end %>
                         <%= link_to '編集する', edit_shortcut_path(shortcut), class: "w-full p-1", data: { turbo: false } %>
                     </div>
