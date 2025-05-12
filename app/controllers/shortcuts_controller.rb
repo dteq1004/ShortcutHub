@@ -81,7 +81,7 @@ class ShortcutsController < ApplicationController
     @shortcut = current_user.shortcuts.find(params[:id])
     @shortcut.status = "archived"
     if @shortcut.save
-      render turbo_stream: turbo_stream.replace("shortcut-#{@shortcut.id}", partial: "users/shortcut", locals: { shortcut: @shortcut } )
+      redirect_to mypage_path, notice: "非公開にしました"
     else
       redirect_to mypage_path, alert: "エラーが発生しました"
     end
