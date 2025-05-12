@@ -2,12 +2,13 @@
     <%= javascript_include_tag "edit_shortcut", "data-turbo-track": "reload", type: "module" %>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 <% end %>
-<%= form_with model: @shortcut, url: shortcut_path, method: :put do |f| %>
+<%= form_with model: @shortcut, url: shortcut_path, method: :put, data: { controller: "edit-shortcut", action: "input->edit-shortcut#validSubmit" } do |f| %>
     <div class="w-full bg-white p-2 flex justify-end shadow-sm">
         <% if @shortcut.status != "published" %>
             <%= javascript_include_tag "published_shortcut", "data-turbo-track": "reload", type: "module" %>
-            <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "px-3 py-2 bg-zinc-700 rounded-full text-xs text-zinc-100 font-bold" %>
-            <button type="button" id="openPublishedModal" class="ml-2 px-3 py-2 bg-teal-500 rounded-full text-xs text-white font-bold">公開設定</button>
+            <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "btn btn-neutral rounded-full bg-zinc-700 shadow-sm" %>
+            <%= f.button "公開する", type: "button", id: "openPublishedModal", class: "
+            ml-2 btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
             <dialog id="published_modal" class="modal">
                 <div class="modal-box p-4" id="publishedModalContainer">
                     <h3 class="text-lg font-bold">公開しますか？</h3>
@@ -21,7 +22,7 @@
                 </div>
             </dialog>
         <% else %>
-            <%= f.button "内容更新", type: "button", onClick: "submit()", class: "px-3 py-2 bg-teal-500 rounded-full text-xs text-zinc-100 font-bold" %>
+            <%= f.button "内容更新", type: "button", onClick: "submit()", class: "btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
         <% end %>
         <%= f.hidden_field :status, value: @shortcut.status, id: "shortcut_status" %>
     </div>
@@ -99,33 +100,33 @@
                 <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
             </div>
         </div>
-        <%= f.text_field :title,
-            class: "w-full validator border border-zinc-300 focus:border-teal-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
-            placeholder: "ここにタイトルを入力してください",
-            required: true,
-            pattern: "[A-Za-z][A-Za-z0-9\-]*",
-            minlength: "3",
-            maxlength: "50"
-        %>
-        <p class="w-full validator-hint mb-2 text-start mt-0 p-1">
-            3文字以上で50文字以内で入力してください
-        </p>
+        <div class="w-full" data-action="input->edit-shortcut#titleValidation">
+            <%= f.text_field :title,
+                class: "w-full validator border border-zinc-300 focus:border-zinc-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+                placeholder: "ここにタイトルを入力してください",
+                required: true,
+                minlength: "3",
+                maxlength: "50",
+                data: { edit_shortcut_target: "title" }
+            %>
+            <p class="w-full h-6 text-xs text-start text-rose-500 mb-2 mt-0 p-1", data-edit-shortcut-target="error_title"></p>
+        </div>
         <div class="w-full flex justify-start items-center mb-2">
             <p class="mr-1 font-bold">説明</p>
             <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
         </div>
-        <%= f.text_area :description,
-            autofocus: true,
-            placeholder: "ショートカットの説明を入力してください",
-            required: true,
-            class: "w-full validator auto-adjust resize-none h-10 border border-zinc-300 focus:border-teal-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
-            pattern: "[A-Za-z][A-Za-z0-9\-]*",
-            minlength: "3",
-            maxlength: "100"
-        %>
-        <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
-            3文字以上で100文字以内で入力してください
-        </p>
+        <div class="w-full" data-action="input->edit-shortcut#descriptionValidation">
+            <%= f.text_area :description,
+                autofocus: true,
+                placeholder: "ショートカットの説明を入力してください",
+                required: true,
+                class: "w-full auto-adjust resize-none h-10 border border-zinc-300 focus:border-zinc-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+                minlength: "3",
+                maxlength: "100",
+                data: { edit_shortcut_target: "description" }
+            %>
+            <p class="w-full h-6 text-xs text-start text-rose-500 mb-2 mt-0 p-1", data-edit-shortcut-target="error_description"></p>
+        </div>
         <div class="w-full flex justify-between items-center mb-2 px-[2px]">
             <div class="flex items-center">
                 <p class="mr-1 font-bold">URL</p>
@@ -135,26 +136,29 @@
                 <div tabindex="0" role="button" class="flex justify-center items-center size-5 rounded-full bg-teal-500 shadow-sm">
                     <p class="text-white text-xs font-bold">？</p>
                 </div>
-                <div tabindex="0" class="dropdown-content menu bg-zinc-100 rounded-box z-1 w-52 p-2 mb-1 shadow-sm">
-                    <p>URLの共有方法がわからない方は
-                        <%= link_to "こちら", root_path, class: "underline decoration-teal-700 text-teal-700" %>
-                    </p>
+                <div tabindex="0" class="dropdown-content menu bg-white/30 backdrop-blur-md rounded-box z-1 w-60 p-2 mb-1 shadow-sm">
+                    <p>URLの共有方法</p>
+                    <div class="text-xs">
+                        <p>1. ショートカットアプリから作成したショートカットを長押し</p>
+                        <p>2. 共有をタップ</p>
+                        <p>3. iCloudリンクをコピーをタップ</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <%= f.url_field :download_url,
-            autocomplete: "off",
-            required: true,
-            placeholder: "例）https://www.icloud.com/shortcuts/*****",
-            class: "w-full h-10 bg-white py-4 px-3 rounded-xl validator outline-none border border-zinc-300 focus:border-teal-500 text-base",
-            pattern: "^(https?://www.icloud.com/shortcuts/)?([a-zA-Z0-9]([a-zA-Z0-9-].*[a-zA-Z0-9])?.)+[a-zA-Z].*$"
-        %>
-        <p class="validator-hint mb-2 text-start w-full mt-0 p-1">
-            有効なURLを入力してください
-        </p>
+        <div class="w-full" data-action="input->edit-shortcut#urlValidation">
+            <%= f.url_field :download_url,
+                autocomplete: "off",
+                required: true,
+                placeholder: "例）https://www.icloud.com/shortcuts/*****",
+                class: "w-full h-10 bg-white py-4 px-3 rounded-xl outline-none border border-zinc-300 focus:border-zinc-500 text-base",
+                data: { edit_shortcut_target: "url" }
+            %>
+            <p class="w-full h-6 text-xs text-start text-rose-500 mb-2 mt-0 p-1", data-edit-shortcut-target="error_url"></p>
+        </div>
         <div class="w-full flex justify-start items-center mb-2">
             <p class="mr-1 font-bold">タグ</p>
-            <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
+            <p class="bg-zinc-500 text-[10px] text-white p-1 py-[2px] rounded-sm">任意</p>
         </div>
         <%= f.text_field :tag_names, required: true, class: "w-full tagify bg-white rounded-xl text-base", data: { controller: "tag"}, placeholder: "関連するタグを入力" %>
         <p class="w-full text-xs text-start mb-2 p-1">作成したショートカットに関連するタグを入力（最大で５つ）</p>

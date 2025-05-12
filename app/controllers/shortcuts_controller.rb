@@ -37,7 +37,8 @@ class ShortcutsController < ApplicationController
   def create
     @shortcut = current_user.shortcuts.build(shortcut_new_params)
     if @shortcut.save
-      redirect_to edit_shortcut_path(@shortcut), notice: t("defaults.flash_message.created")
+      flash[:notice] = t("defaults.flash_message.created")
+      redirect_to edit_shortcut_path(@shortcut)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created")
       render :new, status: :unprocessable_entity
@@ -59,8 +60,14 @@ class ShortcutsController < ApplicationController
           @shortcut.instructions.create(step_number: index + 1, content: instruction)
         end
       end
+      if params[:shortcut][:status] == "published"
+        flash[:notice] = "投稿を公開しました"
+      else
+        flash[:notice] = "下書きを保存しました"
+      end
       redirect_to user_path(current_user)
     else
+      flash[:alert] = "エラーが発生しました。"
       render :edit, status: :unprocessable_entity
     end
   end

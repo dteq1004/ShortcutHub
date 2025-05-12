@@ -42,16 +42,47 @@
         <div class="w-full order-3 md:w-2/3 md:shrink">
             <div class="bg-white p-4 mb-2 flex justify-between">
                 <div class="flex flex-col justify-center items-center w-full">
-                    <%= link_to @shortcut["download_url"], class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
-                        <div class="w-full flex justify-between items-center">
-                            <div class="bg-white p-2 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500">
+                    <% if user_signed_in? %>
+                        <div class="w-full flex gap-4">
+                            <%= link_to @shortcut["download_url"], class: "w-full btn px-1 bg-teal-500 rounded-full text-white" do %>
+                                <div class="w-full flex justify-between items-center">
+                                    <div class="bg-white p-2 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                        </svg>
+                                    </div>
+                                    <p>ダウンロードする</p>
+                                    <p></p>
+                                </div>
+                            <% end %>
+                        </div>
+                    <% else %>
+                        <div class="flex justify-between btn btn-outline px-1 rounded-full w-full" onclick="needLogin.showModal()">
+                            <div class="bg-zinc-700 p-2 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 stroke-white">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                 </svg>
                             </div>
                             <p>ダウンロードする</p>
                             <p></p>
                         </div>
+                        <dialog id="needLogin" class="modal p-4">
+                            <div class="modal-box bg-white p-0 rounded-xl">
+                                <div class="w-full flex flex-col justify-center bg-teal-100">
+                                    <div class="w-full flex justify-center items-center h-40">
+                                        <%= image_tag 'need-login-icon.png', class: "h-50 object-cover" %>
+                                    </div>
+                                </div>
+                                <div class="w-full flex flex-col items-center p-5">
+                                    <h3 class="text-lg text-teal-700 font-bold">ログインするともっと便利に</h3>
+                                    <p class="my-4">新規会員登録しログインすると、様々な機能を使えるようになります！</p>
+                                    <form method="dialog" class="w-full flex flex-col items-center">
+                                        <%= link_to 'ログイン・新規会員登録（無料）', new_user_session_path, class: "w-full btn btn-accent rounded-full text-white my-2" %>
+                                        <button class="">また後で</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
                     <% end %>
                 </div>
             </div>
