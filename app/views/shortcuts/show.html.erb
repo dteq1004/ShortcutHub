@@ -1,5 +1,5 @@
 <div class="flex justify-between items-center bg-white sticky z-40 top-0 p-2 shadow-sm md:hidden">
-    <%= link_to user_path(@shortcut.user), class: "flex items-center " do %>
+    <%= link_to user_path(@shortcut.user), class: "flex items-center" do %>
         <div class="size-6">
             <% if @shortcut.user.avatar.present? %>
                 <%= image_tag @shortcut.user.avatar, class: "rounded-full object-cover aspect-1/1" %>
