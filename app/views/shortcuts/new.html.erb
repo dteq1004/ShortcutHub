@@ -1,4 +1,4 @@
-<div class="flex justify-center pt-22">
+<div class="flex justify-center pt-24">
     <%= form_with model: @shortcut, class: "w-full", data: { controller: "title-count", title_count_character_count_value: 50 } do |f| %>
         <div class="w-full flex flex-col justify-center items-center px-4">
             <div class="col-span-1 flex-none flex justify-center items-center overflow-hidden rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-zinc-100">
@@ -10,22 +10,24 @@
                     <p class="mr-1 font-bold">タイトル</p>
                     <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
                 </div>
-                <p data-title-count-target="output"></p>
+                <p data-title-count-target="count"></p>
             </div>
-            <%= f.text_field :title,
-                autofocus: true,
-                class: "w-full validator border border-zinc-300 focus:border-teal-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
-                placeholder: "ここにタイトルを入力してください",
-                required: true,
-                pattern: "[A-Za-z][A-Za-z0-9\-]*",
-                minlength: "3",
-                maxlength: "50",
-                data: { title_count_target: "field", action: "keyup->title-count#change" }
-            %>
-            <p class="w-full validator-hint mb-2 text-start mt-0 p-1">
-                3文字以上で50文字以内で入力してください
-            </p>
-            <%= f.submit "詳細の入力へ", class: "btn btn-accent rounded-full shadow-xl text-white my-4" %>
+            <div class="w-full", data-action="input->title-count#change">
+                <%= f.text_field :title,
+                    autofocus: true,
+                    class: "w-full border border-zinc-300 focus:border-zinc-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+                    placeholder: "ここにタイトルを入力してください",
+                    required: true,
+                    pattern: "[A-Za-z][A-Za-z0-9\-]*",
+                    minlength: "3",
+                    maxlength: "50",
+                    data: { title_count_target: "title" }
+                %>
+                <p class="w-full h-6 text-xs text-start text-rose-500 mb-2 mt-0 p-1", data-title-count-target="error_title"></p>
+                <div class="w-full flex justify-center">
+                    <%= f.submit "詳細の入力へ", class: "btn btn-accent rounded-full shadow-sm text-white my-4", disabled: true, data: { title_count_target: "submit" } %>
+                </div>
+            </div>
         </div>
     <% end %>
 </div>

@@ -6,8 +6,9 @@
     <div class="w-full bg-white p-2 flex justify-end shadow-sm">
         <% if @shortcut.status != "published" %>
             <%= javascript_include_tag "published_shortcut", "data-turbo-track": "reload", type: "module" %>
-            <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "px-3 py-2 rounded-full text-xs text-zinc-100 font-bold bg-zinc-700" %>
-            <%= f.button "公開する", type: "button", id: "openPublishedModal", class: "ml-2 px-3 py-2 rounded-full text-xs text-white font-bold bg-teal-500/50", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
+            <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "btn btn-neutral rounded-full bg-zinc-700 shadow-sm" %>
+            <%= f.button "公開する", type: "button", id: "openPublishedModal", class: "
+            ml-2 btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
             <dialog id="published_modal" class="modal">
                 <div class="modal-box p-4" id="publishedModalContainer">
                     <h3 class="text-lg font-bold">公開しますか？</h3>
@@ -21,7 +22,7 @@
                 </div>
             </dialog>
         <% else %>
-            <%= f.button "内容更新", type: "button", onClick: "submit()", class: "px-3 py-2 bg-teal-500 rounded-full text-xs text-zinc-100 font-bold" %>
+            <%= f.button "内容更新", type: "button", onClick: "submit()", class: "btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
         <% end %>
         <%= f.hidden_field :status, value: @shortcut.status, id: "shortcut_status" %>
     </div>
