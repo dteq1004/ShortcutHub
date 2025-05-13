@@ -10,7 +10,7 @@
             <%= f.button "公開する", type: "button", id: "openPublishedModal", class: "
             ml-2 btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
             <dialog id="published_modal" class="modal">
-                <div class="modal-box p-4" id="publishedModalContainer">
+                <div class="modal-box p-4 bg-white" id="publishedModalContainer">
                     <h3 class="text-lg font-bold">公開しますか？</h3>
                     <p class="py-4">
                         ｢<%= link_to "投稿ガイドライン", root_path, class: "text-teal-700" %>」をご確認のうえ投稿してください
@@ -39,7 +39,7 @@
         <% elsif current_user.can_generate_thumbnail_this_month? %>
             <button type="button" id="thumbnail_modal_btn" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">画像を生成する</button>
             <dialog id="thumbnail_modal" class="modal">
-                <div class="modal-box p-4" id="thumbnail_modal_container">
+                <div class="modal-box p-4 bg-white" id="thumbnail_modal_container">
                     <% if current_user.confirmed? %>
                         <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
                         <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
@@ -102,7 +102,7 @@
         </div>
         <div class="w-full" data-action="input->edit-shortcut#titleValidation">
             <%= f.text_field :title,
-                class: "w-full validator border border-zinc-300 focus:border-zinc-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
+                class: "w-full border border-zinc-300 focus:border-zinc-500 bg-white rounded-xl px-2 py-2 outline-none overflow-hidden",
                 placeholder: "ここにタイトルを入力してください",
                 required: true,
                 minlength: "3",

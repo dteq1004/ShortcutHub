@@ -152,15 +152,17 @@
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/3 md:order-6 flex flex-col bg-white mb-2 p-4">
-            <div class="flex items-center mb-7">
-                <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
-                <p class="text-lg font-bold">関連するタグ</p>
+        <% if @shortcut.tags.present? %>
+            <div class="w-full md:w-2/3 md:order-6 flex flex-col bg-white mb-2 p-4">
+                <div class="flex items-center mb-7">
+                    <span class="block w-1 h-6 bg-teal-700 mr-2"></span>
+                    <p class="text-lg font-bold">関連するタグ</p>
+                </div>
+                <div class="flex flex-wrap">
+                    <%= render partial: "tag", collection: @shortcut.tags %>
+                </div>
             </div>
-            <div class="flex flex-wrap">
-                <%= render partial: "tag", collection: @shortcut.tags %>
-            </div>
-        </div>
+        <% end %>
     </div>
     <div class="w-full flex flex-col md:max-w-3xl">
         <div class="w-full md:w-2/3 md:order-6 flex flex-col bg-white mb-2 p-4">
