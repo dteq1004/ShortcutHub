@@ -9,3 +9,17 @@
     </div>
     <%= f.submit "↑", id: "comment-submit-button", class: "flex-none bg-teal-500 text-white px-4 py-1 mb-1 rounded-full" %>
 <% end %>
+<script>
+    document.querySelector(".auto-adjust").addEventListener("input", (e) => {
+        let lineHeight = Number(e.rows);
+        while(e.scrollHeight > e.offsetHeight) {
+            lineHeight++;
+            e.rows = lineHeight;
+        }
+        e.target.style.height = 0
+        e.target.style.height = e.target.scrollHeight + "px"
+        if(e.target.offsetHeight < 40){
+            e.target.style.height = 40 + "px"
+        }
+    })
+</script>
