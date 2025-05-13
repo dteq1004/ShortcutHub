@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= content_for(:title) || "Shortcut Hub" %></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="fff">
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
+
+        <%= yield :head %>
+
+        <link rel="manifest" href="/manifest.json">
+        <link rel="icon" href="/icon.png" type="image/png">
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/icon.png">
+        <%= favicon_link_tag "favicon.ico" %>
+        <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+        <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+        <style>
+        a, button {
+            -webkit-tap-highlight-color: rgba(100, 100, 100, .5);
+        }
+        </style>
+    </head>
+
+    <body class="bg-teal-50 text-zinc-900">
+        <% if @show_header %>
+            <%= render "shared/header" %>
+        <% end %>
+        <%= render "shared/dock" %>
+        <main class="min-h-screen">
+            <%= yield %>
+        </main>
+        <%= render "shared/footer" %>
+    </body>
+</html>

@@ -54,4 +54,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "homes#index"
+  get "*path", to: "application#render404"
 end
