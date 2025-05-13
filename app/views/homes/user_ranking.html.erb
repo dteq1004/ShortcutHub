@@ -1,31 +1,33 @@
 <%= turbo_frame_tag :home_user_ranking do %>
-    <% @users.each_with_index do |user, index| %>
-        <%= link_to user_path(user), class: "flex items-center py-4", data: { turbo: false } do %>
-            <div class="relative flex-none mr-3">
-                <% if index == 0 %>
-                    <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-500"><%= index + 1 %></p>
-                <% elsif index == 1 %>
-                    <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-zinc-500"><%= index + 1 %></p>
-                <% elsif index == 2 %>
-                    <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-700"><%= index + 1 %></p>
-                <% end %>
-                <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
-            </div>
-            <div class="mr-2 flex-none">
-                <% if user.avatar.present? %>
-                    <%= image_tag user.avatar, class: "size-10 aspect-square object-cover rounded-full" %>
-                <% else %>
-                    <%= image_tag "user_default_icon.png", class: "size-10" %>
-                <% end %>
-            </div>
-            <div class="mr-2">
-                <p class="text-sm truncate text-zinc-700 font-bold"><%= user.name %></p>
-                <p class="text-sm truncate text-zinc-500">@<%= user.uid %></p>
-            </div>
-            <div class="flex items-end ml-auto">
-                <p class="text-xl mr-[2px] text-zinc-900"><%= user.shortcuts.count %></p>
-                <p class="text-xs align-bottom pb-[2px] text-zinc-700">投稿</p>
-            </div>
+    <div class="mb-8 bg-white rounded-xl shadow-sm px-2">
+        <% @users.each_with_index do |user, index| %>
+            <%= link_to user_path(user), class: "flex items-center py-4", data: { turbo: false } do %>
+                <div class="relative flex-none mr-3">
+                    <% if index == 0 %>
+                        <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-500"><%= index + 1 %></p>
+                    <% elsif index == 1 %>
+                        <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-zinc-500"><%= index + 1 %></p>
+                    <% elsif index == 2 %>
+                        <p class="rounded-full size-7 text-center pt-[2px] text-white font-bold bg-yellow-700"><%= index + 1 %></p>
+                    <% end %>
+                    <div class="absolute rounded-full size-7 top-0 left-0 bg-linear-135 from-white/10 from-0% via-white/70 via-25% to-white/20 to-45%"></div>
+                </div>
+                <div class="mr-2 flex-none">
+                    <% if user.avatar.present? %>
+                        <%= image_tag user.avatar, class: "size-10 aspect-square object-cover rounded-full" %>
+                    <% else %>
+                        <%= image_tag "user_default_icon.png", class: "size-10" %>
+                    <% end %>
+                </div>
+                <div class="mr-2">
+                    <p class="text-sm truncate text-zinc-700 font-bold"><%= user.name %></p>
+                    <p class="text-sm truncate text-zinc-500">@<%= user.uid %></p>
+                </div>
+                <div class="flex items-end ml-auto">
+                    <p class="text-xl mr-[2px] text-zinc-900"><%= user.shortcuts.count %></p>
+                    <p class="text-xs align-bottom pb-[2px] text-zinc-700">投稿</p>
+                </div>
+            <% end %>
         <% end %>
-    <% end %>
+    </div>
 <% end %>
