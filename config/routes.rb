@@ -54,5 +54,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "homes#index"
-  get "*path", to: "application#render404"
+  get "*path", to: "application#render404", constraints: lambda {
+    |req| !req.path.start_with?("/rails/active_storage")
+  }
 end
