@@ -60,21 +60,23 @@
                     <h1 class="text-2xl text-zinc-700 font-bold">月間ユーザーランキング</h1>
                     <p class="text-md text-teal-700 font-sans font-bold">Monthly User Ranking</p>
                 </div>
-                <div class="mb-8 bg-white rounded-xl shadow-sm px-2 divide-y divide-zinc-100">
-                    <%= turbo_frame_tag :home_user_ranking, src: "home/user_ranking", loading: :lazy do %>
-                        <div class="col-span-2 grid grid-cols-4 rounded-xl shadow-sm bg-white p-3 animate-pulse">
-                            <div class="col-span-1 aspect-3/4 flex-none rounded-s-lg rounded-e-sm shadow-md bg-zinc-300"></div>
-                            <div class="col-span-3 grid grid-cols-4 pl-4">
-                                <div class="col-span-4 h-5 bg-zinc-300"></div>
-                                <div class="col-span-1 h-5 bg-zinc-300"></div>
-                                <div class="col-span-3 h-3 mb-4"></div>
-                                <div class="col-span-2 flex flex-col justify-end">
-                                    <div class="h-4 bg-zinc-300"></div>
+                <%= turbo_frame_tag :home_user_ranking, src: "home/user_ranking", loading: :lazy do %>
+                    <div class="mb-8 bg-white rounded-xl shadow-sm px-2">
+                        <% 3.times do %>
+                            <div class="flex items-center animate-pulse py-4">
+                                <div class="size-7 rounded-full flex-none bg-zinc-300 mr-3"></div>
+                                <div class="size-10 rounded-full flex-none bg-zinc-300 mr-2"></div>
+                                <div class="w-full flex justify-between">
+                                    <div>
+                                        <div class="h-4 w-20 bg-zinc-300 mb-1"></div>
+                                        <div class="h-3 w-17 bg-zinc-300"></div>
+                                    </div>
+                                    <div class="h-6 w-10 bg-zinc-300"></div>
                                 </div>
                             </div>
-                        </div>
-                    <% end %>
-                </div>
+                        <% end %>
+                    </div>
+                <% end %>
             </div>
             <div class="px-4 pt-8 pb-10 bg-white max-md:bg-zinc-100 md:mb-2">
                 <div class="mb-10">
@@ -82,16 +84,16 @@
                     <p class="text-md text-teal-700 font-sans font-bold ml-[2px]">Information</p>
                 </div>
                 <%= turbo_frame_tag :home_news, src: "home/news", loading: :lazy do %>
-                    <div class="col-span-2 grid grid-cols-4 rounded-xl shadow-sm bg-white p-3 animate-pulse">
-                        <div class="col-span-1 aspect-3/4 flex-none rounded-s-lg rounded-e-sm shadow-md bg-zinc-300"></div>
-                        <div class="col-span-3 grid grid-cols-4 pl-4">
-                            <div class="col-span-4 h-5 bg-zinc-300"></div>
-                            <div class="col-span-1 h-5 bg-zinc-300"></div>
-                            <div class="col-span-3 h-3 mb-4"></div>
-                            <div class="col-span-2 flex flex-col justify-end">
-                                <div class="h-4 bg-zinc-300"></div>
+                    <div class="w-full flex flex-col items-center gap-4 mb-8">
+                        <% 3.times do %>
+                            <div class="w-full bg-white shadow-sm rounded-xl p-3 pr-1 animate-pulse">
+                                <div class="flex mb-4">
+                                    <div class="h-5 w-25 bg-zinc-300 mr-2"></div>
+                                    <div class="h-5 w-18 bg-zinc-300 rounded-full"></div>
+                                </div>
+                                <div class="h-7 w-60 bg-zinc-300"></div>
                             </div>
-                        </div>
+                        <% end %>
                     </div>
                 <% end %>
                 <%= link_to 'お知らせ一覧を見る', news_index_path, class: "block text-center text-white bg-teal-700 mx-8 py-2 rounded-full", data: { turbo: false } %>
