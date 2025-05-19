@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :shortcuts, dependent: :destroy
 
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy, inverse_of: :follower
-  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy, inverse_of: :follower
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy, inverse_of: :followed
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
@@ -20,6 +20,9 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
 
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visitor_id", dependent: :destroy, inverse_of: :visitor
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy, inverse_of: :visited
+
   has_one_attached :avatar
   validates :avatar, content_type: { in: %w[image/jpeg image/png], message: "有効なフォーマットではありません" }, size: { less_than: 5.megabytes, message: " 5MBを超える画像はアップロードできません" }
 
@@ -28,6 +31,13 @@ class User < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, on: :update
   validates :email, presence: true, uniqueness: { case_insensitive: true }, format: { with: Devise.email_regexp }
+
+  def create_notification_follow!(current_user)
+    temp = Notification.where(visitor_id: current_user.id, visited_id: id, action: "follow")
+    return if temp.present?
+    notification = current_user.active_notifications.new(visited_id: id, action: "follow")
+    notification.save if notification.valid?
+  end
 
   def can_generate_thumbnail_this_month?
     return true if thumbnail_created_at.nil?

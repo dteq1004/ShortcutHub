@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   get "follow/index_lazy", to: "follows#index_lazy"
   resources :favorites, only: %i[ create destroy ]
   resources :bookmarks, only: %i[ create destroy ]
+  resources :notifications, only: :index
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

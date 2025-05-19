@@ -4,6 +4,7 @@ class FavoritesController < ApplicationController
   def create
     @shortcut = Shortcut.find(params[:shortcut_id])
     current_user.favorite(@shortcut)
+    @shortcut.create_notification_favorite!(current_user)
   end
 
   def destroy

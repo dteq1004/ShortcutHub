@@ -15,6 +15,8 @@ class CommentsController < ApplicationController
     end
     @comment = current_user.comments.build(comment_params)
     @comment.save
+    shortcut = Shortcut.find(params[:shortcut_id])
+    shortcut.create_notification_comment!(current_user, @comment.id)
   end
 
   def edit

@@ -5,10 +5,16 @@
             <button data-shortcut-index-target="category" data-action="shortcut-index#click" class="not-active text-zinc-500 hover:bg-zinc-100 mr-1 px-3 py-1  rounded-full">人気ランキング</button>
         </div>
         <div data-shortcut-index-target="content" class="w-full">
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
-                <%= render @latest_shortcuts %>
-            </div>
-            <%= paginate @latest_shortcuts %>
+            <%= turbo_frame_tag "shortcuts-page-#{@latest_shortcuts.current_page}" do %>
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
+                    <%= render @latest_shortcuts %>
+                </div>
+                <% if @latest_shortcuts.next_page.present? %>
+                    <%= turbo_frame_tag "shortcuts-page-#{@latest_shortcuts.next_page}", loading: :lazy, src: path_to_next_page(@latest_shortcuts) do %>
+                        <%= render "shortcuts/shortcut_loading" %>
+                    <% end %>
+                <% end %>
+            <% end %>
         </div>
         <div data-shortcut-index-target="content" class="w-full hidden">
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 my-4">
