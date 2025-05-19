@@ -11,12 +11,37 @@ class Shortcut < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   belongs_to :user
 
   has_one_attached :thumbnail
 
   enum status: { draft: 0, published: 1, archived: 2 }
+
+  def create_notification_favorite!(current_user)
+    temp = Notification.where(visitor_id: current_user.id, visited_id: user_id, shortcut_id: id, action: "favorite")
+    return if temp.present?
+
+    notification = current_user.active_notifications.new(shortcut_id: id, visited_id: user_id, action: "favorite")
+    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.save if notification.valid?
+  end
+
+  def create_notification_bookmark!(current_user)
+    temp = Notification.where(visitor_id: current_user.id, visited_id: user_id, shortcut_id: id, action: "bookmark")
+    return if temp.present?
+
+    notification = current_user.active_notifications.new(shortcut_id: id, visited_id: user_id, action: "bookmark")
+    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.save if notification.valid?
+  end
+
+  def create_notification_comment!(current_user, comment_id)
+    notification = current_user.active_notifications.new(visitor_id: current_user.id, visited_id: user_id, shortcut_id: id, comment_id: comment_id, action: "comment")
+    notification.checked = true if notification.visitor_id == notification.visited_id
+    notification.save if notification.valid?
+  end
 
   def tag_names
     # NOTE: pluckだと新規作成失敗時に値が残らない(返り値がnilになる)

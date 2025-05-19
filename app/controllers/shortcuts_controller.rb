@@ -75,6 +75,9 @@ class ShortcutsController < ApplicationController
   def destroy
     @shortcut = current_user.shortcuts.find(params[:id])
     @shortcut.destroy!
+    respond_to do |format|
+      format.turbo_stream { flash.now[:notice] = "削除しました"}
+    end
   end
 
   def archived

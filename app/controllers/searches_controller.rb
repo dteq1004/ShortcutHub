@@ -10,7 +10,7 @@ class SearchesController < ApplicationController
   end
 
   def search
-    @tags = Tag.where(id: Tagging.group(:tag_id).order("count_tag_id desc").limit(5).count(:tag_id).keys)
+    @tags = Tag.where(id: Tagging.group(:tag_id).order("count_tag_id desc").limit(10).count(:tag_id).keys)
   end
 
   private

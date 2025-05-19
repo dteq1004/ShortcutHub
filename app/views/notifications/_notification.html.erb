@@ -1,0 +1,65 @@
+<% visitor = notification.visitor %>
+<% visited = notification.visited %>
+<div class="flex items-start rounded-xl p-2 bg-white">
+    <div class="flex-none relative pr-2 mr-4">
+        <% if visitor.avatar.present? %>
+            <%= image_tag visitor.avatar, class: "aspect-square size-10 rounded-full object-cover" %>
+        <% else %>
+            <%= image_tag "user_default_icon.png", class: "aspect-square size-10" %>
+        <% end %>
+        <% case notification.action %>
+        <% when "favorite" then %>
+            <div class="absolute flex justify-center items-center right-0 -bottom-1 bg-rose-500 rounded-full p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 fill-white"><path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" /></svg>
+            </div>
+        <% when "follow" then %>
+            <div class="absolute flex justify-center items-center right-0 -bottom-1 bg-teal-500 rounded-full p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 fill-white"><path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" /></svg>
+            </div>
+        <% when "bookmark" then %>
+            <div class="absolute flex justify-center items-center right-0 -bottom-1 bg-amber-500 rounded-full p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 fill-white"><path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z" clip-rule="evenodd" /></svg>
+            </div>
+        <% when "comment" then %>
+            <div class="absolute flex justify-center items-center right-0 -bottom-1 bg-fuchsia-500 rounded-full p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 fill-white"><path fill-rule="evenodd" d="M5.337 21.718a6.707 6.707 0 0 1-.533-.074.75.75 0 0 1-.44-1.223 3.73 3.73 0 0 0 .814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 0 1-4.246.997Z" clip-rule="evenodd" /></svg>
+            </div>
+        <% end %>
+    </div>
+    <div class="w-full flex flex-col">
+        <div class="flex justify-between text-sm">
+            <%= link_to user_path(visitor.uid) do %>
+                <p class="font-bold"><%= visitor.name %><span class="font-medium">が</span></p>
+            <% end %>
+            <p class="text-xs text-zinc-500"><%= l notification.created_at %></p>
+        </div>
+        <div class="text-sm">
+            <% case notification.action %>
+            <% when "favorite" then %>
+                <div class="flex">
+                    <%= link_to shortcut_path(notification.shortcut) do %>
+                        <p class="link">あなたの投稿</p>
+                    <% end %>
+                    <p>にいいねしました</p>
+                </div>
+            <% when "follow" then %>
+                <p>あなたをフォローしました</p>
+            <% when "bookmark" then %>
+                <div class="flex">
+                    <%= link_to shortcut_path(notification.shortcut) do %>
+                        <p class="link">あなたの投稿</p>
+                    <% end %>
+                    <p>を保存しました</p>
+                </div>
+            <% when "comment" then %>
+                <div class="flex mb-1">
+                    <%= link_to shortcut_path(notification.shortcut) do %>
+                        <p class="link">あなたの投稿</p>
+                    <% end %>
+                    <p>にコメントしました</p>
+                </div>
+                <p class="text-xs"><%= notification.comment.body %></p>
+            <% end %>
+        </div>
+    </div>
+</div>

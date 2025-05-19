@@ -1,2 +1,2 @@
-<%= turbo_stream.remove "shortcut-#{@shortcut.id}" do %>
-<% end %>
+<%= turbo_stream.prepend "body", partial: "shared/flash_message" %>
+<%= turbo_stream.remove "shortcut-#{@shortcut.id}" %>
