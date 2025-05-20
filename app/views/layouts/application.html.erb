@@ -17,6 +17,7 @@
     <%= favicon_link_tag "favicon.ico" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= display_meta_tags(default_meta_tags) %>
     <style>
       a, button {
         -webkit-tap-highlight-color: rgba(100, 100, 100, .5);
@@ -24,7 +25,7 @@
     </style>
   </head>
 
-  <body class="bg-teal-50 text-zinc-900">
+  <body class="bg-teal-50 text-zinc-900" id="body">
     <% if @show_header %>
       <%= render "shared/header" %>
     <% end %>
@@ -34,13 +35,5 @@
       <%= yield %>
     </main>
     <%= render "shared/footer" %>
-    <script>
-      setTimeout(function () {
-        const flash = document.getElementById('flash')
-        if (flash) {
-          flash.style.display = 'none';
-        }
-      }, 3000);
-    </script>
   </body>
 </html>

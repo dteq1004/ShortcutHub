@@ -189,6 +189,8 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    meta-tags (2.22.1)
+      actionpack (>= 6.0.0, < 8.1)
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
@@ -286,7 +288,6 @@ GEM
       i18n
     rdoc (6.13.1)
       psych (>= 4.0.0)
-    recaptcha (5.19.0)
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -396,12 +397,12 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   kaminari
+  meta-tags
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.2.1)
   rails-i18n
   ransack
-  recaptcha (~> 5.15)
   rubocop-rails-omakase
   selenium-webdriver
   sprockets-rails
