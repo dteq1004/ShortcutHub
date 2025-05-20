@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :news, only: %i[ index show ]
   get "search", to: "searches#search"
   get "search/index", to: "searches#index"
+  get "autocomplete", to: "searches#autocomplete"
   get "follow", to: "follows#index"
   get "follow/index_lazy", to: "follows#index_lazy"
   resources :favorites, only: %i[ create destroy ]
