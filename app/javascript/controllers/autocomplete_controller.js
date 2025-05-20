@@ -46,7 +46,7 @@ export default class extends Controller {
     data.forEach(item => {
       const li = document.createElement('li');
       li.textContent = item;
-      li.classList.add("p-2", "pl-4");
+      li.classList.add("p-2", "pl-4", "hover:bg-zinc-300");
       li.addEventListener('click', () => {
         this.selectResult(item);
       });
