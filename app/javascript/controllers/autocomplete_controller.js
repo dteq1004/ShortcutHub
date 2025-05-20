@@ -4,6 +4,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["form", "input", "results"]
 
+  connect() {
+    console.log('autocomplete connect')
+  }
+
   search() {
     clearTimeout(this.timeout)
 
