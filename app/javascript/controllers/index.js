@@ -7,6 +7,9 @@ import { application } from "./application"
 import AnalyticsController from "./analytics_controller"
 application.register("analytics", AnalyticsController)
 
+import AutocompleteController from "./autocomplete_controller"
+application.register("autocomplete", AutocompleteController)
+
 import CommentReplyModalController from "./comment_reply_modal_controller"
 application.register("comment-reply-modal", CommentReplyModalController)
 
@@ -18,6 +21,9 @@ application.register("edit-reply-modal", EditReplyModalController)
 
 import EditShortcutController from "./edit_shortcut_controller"
 application.register("edit-shortcut", EditShortcutController)
+
+import EditUserIconController from "./edit_user_icon_controller"
+application.register("edit-user-icon", EditUserIconController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
