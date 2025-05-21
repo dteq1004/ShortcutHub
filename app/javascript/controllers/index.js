@@ -13,6 +13,9 @@ application.register("autocomplete", AutocompleteController)
 import CommentReplyModalController from "./comment_reply_modal_controller"
 application.register("comment-reply-modal", CommentReplyModalController)
 
+import DeleteUserController from "./delete_user_controller"
+application.register("delete-user", DeleteUserController)
+
 import EditCommentModalController from "./edit_comment_modal_controller"
 application.register("edit-comment-modal", EditCommentModalController)
 
@@ -21,6 +24,9 @@ application.register("edit-reply-modal", EditReplyModalController)
 
 import EditShortcutController from "./edit_shortcut_controller"
 application.register("edit-shortcut", EditShortcutController)
+
+import EditUserIconController from "./edit_user_icon_controller"
+application.register("edit-user-icon", EditUserIconController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
