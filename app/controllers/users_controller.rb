@@ -96,10 +96,11 @@ class UsersController < ApplicationController
   def confirm
     user = User.find_by(confirmation_token: params[:token])
     if user && user.confirmation_sent_at > 1.hour.ago
-      if user.update(email: user.unconfirmed_email)
-        user.update!(unconfirmed_email: nil, confirmation_token: nil)
+      user.skip_reconfirmation!
+      if user.update(email: user.unconfirmed_email, unconfirmed_email: nil, confirmation_token: nil)
         redirect_to mypage_path, notice: "メールアドレスの変更が完了しました"
       else
+        Rails.logger.error "Email change failed: #{user.errors.full_messages.join(', ')}"
         redirect_to mypage_path, alert: "メールアドレスの変更に失敗しました"
       end
     else
