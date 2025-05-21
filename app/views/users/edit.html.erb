@@ -27,15 +27,15 @@
                         <%= f.text_field :uid, placeholder: "半角英数字で入力してください", class: "w-full border-b border-zinc-500 outline-none p-1 text-base" %>
                     </div>
                 </div>
-                <div class="w-full flex justify-between items-center p-1">
-                    <div class="flex flex-col">
-                        <p>メールアドレス</p>
-                        <p><%= @user.email %></p>
-                    </div>
-                    <%= link_to '変更する', mypage_path, class: "flex-none px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold" %>
-                </div>
             </div>
         <% end %>
+        <div class="w-full flex justify-between items-center p-1">
+            <div class="flex flex-col">
+                <p>メールアドレス</p>
+                <p><%= @user.email %></p>
+            </div>
+            <%= link_to "変更する", user_email_path, class: "flex-none px-2 py-[6px] border border-zinc-700 rounded-full text-xs text-zinc-700 align-center font-bold", data: { turbo: false } %>
+        </div>
     </div>
     <div class="sm:max-w-2xl flex flex-col items-center mt-20">
         <%= link_to "アカウントを削除する", user_path, data: { turbo_method: :delete, turbo_confirm: "本当にアカウントを削除しますか？" }, class: "w-full mb-2 p-2 bg-white rounded-full border border-rose-500 text-rose-500 text-center" %>
@@ -52,4 +52,5 @@
         });
         fileReader.readAsDataURL(obj.files[0]);
     }
+
 </script>

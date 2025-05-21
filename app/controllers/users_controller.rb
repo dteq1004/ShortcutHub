@@ -23,8 +23,9 @@ class UsersController < ApplicationController
   def update
     @user.avatar.attach(params[:user][:avatar]) if @user.avatar.blank?
     if @user.update(user_params)
-      redirect_to mypage_path
+      redirect_to mypage_path, notice: "ユーザー情報を更新しました"
     else
+      flash.now[:alert] = "更新に失敗しました"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -64,6 +65,46 @@ class UsersController < ApplicationController
     @shortcuts_view_count = current_user.shortcuts.where(status: :published).order(view_count: :desc).limit(5)
     @shortcuts_bookmark = Shortcut.where(status: :published).select('shortcuts.*, COUNT(bookmarks.id) AS bookmarks_count').left_joins(:bookmarks).where(user_id: current_user.id).group('shortcuts.id').order('bookmarks_count DESC').limit(5)
     @shortcuts_favorite = Shortcut.where(status: :published).select('shortcuts.*, COUNT(favorites.id) AS favorites_count').left_joins(:favorites).where(user_id: current_user.id).group('shortcuts.id').order('favorites_count DESC').limit(5)
+  end
+
+  def email
+  end
+
+  def email_change
+    new_email = params[:user][:unconfirmed_email]
+    if new_email.blank?
+      redirect_to user_email_path, alert: "新しいメールアドレスを入力してください"
+      return
+    end
+
+    if new_email == current_user.email
+      redirect_to user_email_path, alert: "別のメールアドレスを入力してください"
+      return
+    end
+
+    token = SecureRandom.urlsafe_base64
+    current_user.update!(
+      unconfirmed_email: new_email,
+      confirmation_token: token,
+      confirmation_sent_at: Time.current
+    )
+
+    UserMailer.email_change_confirmation(current_user, token).deliver_now
+    redirect_to mypage_path, notice: "確認メールを送信しました"
+  end
+
+  def confirm
+    user = User.find_by(confirmation_token: params[:token])
+    if user && user.confirmation_sent_at > 1.hour.ago
+      if user.update(email: user.unconfirmed_email)
+        user.update!(unconfirmed_email: nil, confirmation_token: nil)
+        redirect_to mypage_path, notice: "メールアドレスの変更が完了しました"
+      else
+        redirect_to mypage_path, alert: "メールアドレスの変更に失敗しました"
+      end
+    else
+      redirect_to mypage_path, alert: "トークンが無効または期限切れです"
+    end
   end
 
   private

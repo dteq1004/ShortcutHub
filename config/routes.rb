@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks",
-    passwords: "users/passwords"
+    passwords: "users/passwords",
   }
   devise_scope :user do
     post "resend_confirmation", to: "users/registrations#resend_confirmation", as: :resend_confirmation
@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   end
   post "users/:id/relationships", to: "relationships#create", as: :relationships
   delete "users/:id/relationships", to: "relationships#destroy"
+  get "user/email", to: "users#email"
+  post "user/email", to: "users#email_change"
+  get "user/confirm", to: "users#confirm"
   get "mypage", to: "users#mypage"
   get "mypage_lazy", to: "users#mypage_lazy"
   get "bookmarks", to: "users#bookmarks"
