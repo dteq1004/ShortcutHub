@@ -3,7 +3,7 @@ class User < ApplicationRecord
   before_create :set_account_uid
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_many :shortcuts, dependent: :destroy
 
@@ -31,6 +31,14 @@ class User < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, on: :update
   validates :email, presence: true, uniqueness: { case_insensitive: true }, format: { with: Devise.email_regexp }
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.name = auth.info.name
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+    end
+  end
 
   def create_notification_follow!(current_user)
     temp = Notification.where(visitor_id: current_user.id, visited_id: id, action: "follow")

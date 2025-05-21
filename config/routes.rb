@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   get "terms_of_use", to: "static_pages#terms_of_use"
   get "privacypolicy", to: "static_pages#privacypolicy"
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    sessions: "users/sessions",
+    registrations: "users/registrations",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
   devise_scope :user do
     post "resend_confirmation", to: "users/registrations#resend_confirmation", as: :resend_confirmation

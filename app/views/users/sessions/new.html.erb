@@ -40,22 +40,18 @@
         </div>
       </div>
     </div>
-    <%# hidden_field_tag "recaptcha_token", "", id: "recaptcha_token" %>
-    <%# if @show_checkbox_recaptcha %>
-      <%# recaptcha_tags %>
-    <%# else %>
-      <%# recaptcha_v3(action: 'login', site_key: Rails.application.credentials.recaptcha_site_key) %>
-    <%# end %>
     <div class="flex justify-center px-6 sm:flex sm:justify-center">
       <%= f.submit "ログイン", class: "w-full sm:max-w-1/2 btn btn-accent rounded-full text-white" %>
     </div>
   <% end %>
+  <div class="w-full flex items-center mt-15 mb-8 px-6">
+    <div class="grow h-1 bg-zinc-300"></div>
+    <p class="px-1">または</p>
+    <div class="grow h-1 bg-zinc-300"></div>
+  </div>
+  <div class="w-full flex justify-center">
+    <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false } do %>
+        <%= image_tag "google_btn.png", class: "h-10" %>
+    <% end %>
+  </div>
 </div>
-<%# <script src="https://www.google.com/recaptcha/api.js?render=<%# Rails.application.credentials.recaptcha_site_key %>"></script>
-<script>
-  grecaptcha.ready(function() {
-    grecaptcha.execute(<%# Rails.application.credentials.recaptcha_site_key %>, { action: "login"}).then(function(token) {
-      document.getElementById("recaptcha_token").value = token;
-    });
-  });
-</script> %>
