@@ -1,7 +1,7 @@
 <footer class="footer footer-horizontal footer-center bg-teal-900 text-gray-100 text-base-content p-10 pb-16">
     <nav class="grid grid-cols-2 sm:grid-cols-5 gap-4">
         <a class="link link-hover">サイトの使い方</a>
-        <a class="link link-hover">投稿ガイドライン</a>
+        <%= link_to "ガイドライン", guideline_path, class: "link link-hover" %>
         <%= link_to "利用規約", terms_of_use_path, class: "link link-hover" %>
         <%= link_to "プライバシーポリシー", privacypolicy_path, class: "link link-hover" %>
         <%= link_to "お問い合わせ", "https://forms.gle/VktLMPaTuzYPgST16", class: "link link-hover" %>
