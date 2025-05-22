@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "terms_of_use", to: "static_pages#terms_of_use"
   get "privacypolicy", to: "static_pages#privacypolicy"
+  get "guideline", to: "static_pages#guideline"
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations",
