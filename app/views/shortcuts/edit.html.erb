@@ -1,30 +1,28 @@
 <%= content_for :head do %>
-    <%= javascript_include_tag "edit_shortcut", "data-turbo-track": "reload", type: "module" %>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 <% end %>
 <%= form_with model: @shortcut, url: shortcut_path, method: :put, data: { controller: "edit-shortcut", action: "input->edit-shortcut#validSubmit" } do |f| %>
     <div class="w-full bg-white p-2 flex justify-end shadow-sm">
         <% if @shortcut.status != "published" %>
-            <%= javascript_include_tag "published_shortcut", "data-turbo-track": "reload", type: "module" %>
             <%= f.button "下書きを保存", type: "button", onClick: "submit()", class: "btn btn-neutral rounded-full bg-zinc-700 shadow-sm" %>
-            <%= f.button "公開する", type: "button", id: "openPublishedModal", class: "
-            ml-2 btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
-            <dialog id="published_modal" class="modal">
-                <div class="modal-box p-4 bg-white" id="publishedModalContainer">
+            <%= f.button "公開する", type: "button", class: "
+            ml-2 btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn", action: "click->edit-shortcut#showPublishedModal" } %>
+            <dialog class="modal" data-edit-shortcut-target="published_modal" data-action="click->edit-shortcut#clickOutsidePublishedModal">
+                <div class="modal-box p-4 bg-white" id="published_modal_container">
                     <h3 class="text-lg font-bold">公開しますか？</h3>
                     <p class="py-4">
-                        ｢<%= link_to "投稿ガイドライン", root_path, class: "text-teal-700" %>」をご確認のうえ投稿してください
+                        ｢<%= link_to "投稿ガイドライン", guideline_path, class: "text-teal-700" %>」をご確認のうえ投稿してください
                     </p>
                     <div class="mt-2 grid grid-cols-2 gap-3">
                         <%= f.button "公開する", type: "button", onClick: "submit()", class: "col-span-1 py-2 bg-teal-500 rounded-sm text-sm text-white font-bold" %>
-                        <button type="button" id="closePublishedModal" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
+                        <button type="button" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold" data-action="click->edit-shortcut#closePublishedModal">閉じる</button>
                     </div>
                 </div>
             </dialog>
         <% else %>
             <%= f.button "内容更新", type: "button", onClick: "submit()", class: "btn btn-accent rounded-full shadow-sm text-white", disabled: true, data: { edit_shortcut_target: "published_btn" } %>
         <% end %>
-        <%= f.hidden_field :status, value: @shortcut.status, id: "shortcut_status" %>
+        <%= f.hidden_field :status, value: @shortcut.status, data: { edit_shortcut_target: "shortcut_status" } %>
     </div>
     <div class="flex flex-col justify-center items-center pt-10 px-4">
         <div class="col-span-1 flex-none flex justify-center items-center overflow-hidden rounded-s-lg rounded-e-sm shadow-md relative mb-4 bg-zinc-100">
@@ -36,27 +34,44 @@
             <div class="h-full w-full absolute left-0 rounded-s-lg rounded-e-sm bg-gradient-to-r from-white/0 from-0% via-white/50 via-4% to-white/10 to-10%"></div>
         </div>
         <% if @shortcut.thumbnail.attached? %>
-        <% elsif current_user.can_generate_thumbnail_this_month? %>
-            <button type="button" id="thumbnail_modal_btn" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-4">画像を生成する</button>
-            <dialog id="thumbnail_modal" class="modal">
+        <% else %>
+            <button type="button" data-action="click->edit-shortcut#showThumbnailModal" data-edit-shortcut-target="thumbnail_btn" class="btn bg-white shadow-sm rounded-full text-zinc-700 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>画像を生成する
+            </button>
+            <p class="mb-4 text-xs" id="credit">現在のクレジット残高：<%= current_user.credits * 10 %></p>
+            <dialog data-edit-shortcut-target="thumbnail_modal" data-action="click->edit-shortcut#clickOutsideThumbnailModal" class="modal">
                 <div class="modal-box p-4 bg-white" id="thumbnail_modal_container">
                     <% if current_user.confirmed? %>
                         <p class="text-xl font-bold mb-4">サムネイル画像を生成</p>
                         <p class="text-lg mb-4">下記のタイトルで画像を生成してよろしいですか？</p>
                         <div class="bg-zinc-100 rounded-xl p-4 mb-4">
-                            <p class="text-lg font-bold text-zinc-700 break-words" id="shortcut_title_confirm"></p>
+                            <p class="text-lg font-bold text-zinc-700 break-words" data-edit-shortcut-target="shortcut_title_confirm"></p>
                         </div>
-                        <div class="flex items-end mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-amber-300"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>
-                            <p class="ml-2">
-                                画像は<span class="text-rose-700 font-bold text-lg">月に一度</span>しか作成できません
-                            </p>
+                        <div class="flex rounded-xl bg-amber-100/70 border border-amber-300 mb-6 p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="flex-none size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>
+                            <p class="text-sm ml-2">画像の生成"1回"で"10クレジット"消費します（現在のクレジット残高：<%= current_user.credits * 10 %>）</p>
                         </div>
                         <div class="mt-2 grid grid-cols-2 gap-3">
-                            <button type="button" id="create_thumbnail" class="col-span-1 py-2 bg-teal-500 rounded-sm text-sm text-white font-bold">画像を生成する</button>
-                            <button type="button" id="close_modal_btn" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
+                            <% if current_user.credits >= 1 %>
+                                <div class="col-span-1 flex flex-col justify-center items-center bg-teal-500 rounded-sm text-white py-1" data-action="click->edit-shortcut#createThumbnail">
+                                    <p class="text-sm font-bold">画像を生成する</p>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
+                                        <p class="text-[12px] pl-1">10クレジット</p>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <div class="col-span-1 flex flex-col justify-center items-center bg-teal-500/50 rounded-sm text-white py-1">
+                                    <p class="text-sm font-bold">画像を生成する</p>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
+                                        <p class="text-[12px] pl-1">10クレジット</p>
+                                    </div>
+                                </div>
+                            <% end %>
+                            <button type="button" data-action="click->edit-shortcut#closeThumbnailModal" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
                         </div>
-                        <p class="hidden" id="shortcut_id"><%= @shortcut.id %></p>
+                        <p class="hidden" data-edit-shortcut-target="shortcut_id"><%= @shortcut.id %></p>
                     <% else %>
                         <p class="text-lg font-bold mb-4">メールアドレスの認証が完了していません。</p>
                         <p class="mb-4">Shortcut Hubのすべての機能をご利用いただくには、メールアドレスの認証が必要です。</p>
@@ -72,12 +87,12 @@
                         </div>
                         <div class="mt-2 grid grid-cols-2 gap-3">
                             <div class="col-span-1 relative">
-                                <%= link_to "認証メールを送信", resend_confirmation_path, class: "w-full btn py-2 bg-teal-500 rounded-sm text-sm text-white font-bold", data: { turbo_method: :post }, id: "confirm_btn"  %>
-                                <div id="confirm_loading" class="bg-teal-700 flex justify-center items-center absolute top-0 left-0 rounded-sm w-full h-full hidden">
+                                <%= link_to "認証メールを送信", resend_confirmation_path, class: "w-full btn py-2 bg-teal-500 rounded-sm text-sm text-white font-bold", data: { turbo_method: :post, action: "click->edit-shortcut#confirmSubmit" } %>
+                                <div id="confirm_loading" class="bg-teal-500 flex justify-center items-center absolute top-0 left-0 rounded-sm w-full h-full hidden" data-edit-shortcut-target="confirm_loading">
                                     <div class="loading loading-spinner loading-xs text-white"></div>
                                 </div>
                             </div>
-                            <button type="button" id="close_modal_btn" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
+                            <button type="button" data-action="click->edit-shortcut#closeThumbnailModal" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold">閉じる</button>
                         </div>
                     <% end %>
                 </div>
@@ -90,9 +105,6 @@
                     </div>
                 </div>
             </div>
-        <% else %>
-            <p>生成回数の上限に達しています。</p>
-            <p class="mb-4">次回生成できるのは<%= l current_user.next_generate_date %>です。</p>
         <% end %>
         <div class="w-full flex justify-between mb-2">
             <div class="flex justify-start items-center">
