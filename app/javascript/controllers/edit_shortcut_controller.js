@@ -16,13 +16,29 @@ export default class extends Controller {
     "thumbnail_modal",
     "thumbnail_btn",
     "shortcut_title_confirm",
-    "shortcut_id"
+    "shortcut_id",
+    "image_modal",
+    "image_preview",
+    "shortcut_image_input",
+    "shortcut_image_result",
+    "image_preview_container",
+    "shortcut_thumbnail_preview"
   ]
+
   connect() {
     this.titleValidation()
+    this.autoAdjust()
     this.descriptionValidation()
     this.urlValidation()
     this.validSubmit()
+    this.dragging = false
+    this.startX = 0
+    this.startY = 0
+    this.offsetX = 0
+    this.offsetY = 0
+    this.frameHeight = this.image_preview_containerTarget.offsetHeight
+    this.frameWidth = this.image_preview_containerTarget.offsetWidth
+    this.lockAxis = null
   }
 
   titleValidation() {
@@ -45,19 +61,23 @@ export default class extends Controller {
     }
   }
 
+  autoAdjust() {
+    const descriptionInput = document.querySelector("#shortcut_description")
+    let lineHeight = Number(descriptionInput.rows)
+    if(descriptionInput.scrollHeight > descriptionInput.offsetHeight) {
+      lineHeight++;
+      descriptionInput.rows = lineHeight;
+    }
+    descriptionInput.style.height = 0
+    descriptionInput.style.height = descriptionInput.scrollHeight + "px"
+    if(descriptionInput.offsetHeight < 40){
+        descriptionInput.style.height = 40 + "px"
+    }
+  }
+
   descriptionValidation() {
     const descriptionInput = this.descriptionTarget
     const descriptionError = this.error_descriptionTarget
-    // let lineHeight = Number(descriptionInput.rows)
-    // while(descriptionInput.scrollHeight > descriptionInput.offsetHeight) {
-    //   lineHeight++;
-    //   descriptionInput.rows = lineHeight;
-    // }
-    // descriptionInput.style.height = 0
-    // descriptionInput.style.height = descriptionInput.scrollHeight + "px"
-    // if(descriptionInput.offsetHeight < 40){
-    //     descriptionInput.style.height = 40 + "px"
-    // }
     if (descriptionInput.value === "") {
       descriptionInput.classList.remove("border-zinc-300", "focus:border-zinc-500", "border-teal-500", "focus:border-teal-500")
       descriptionInput.classList.add("border-rose-500", "focus:border-rose-500")
@@ -104,6 +124,125 @@ export default class extends Controller {
       }
     } else {
       publishedBtn.disabled = true
+    }
+  }
+
+  previewImage() {
+    this.image_modalTarget.show();
+    const file = this.shortcut_image_inputTarget.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      this.image_previewTarget.src = e.target.result
+      this.image_previewTarget.onload = () => {
+        const img = this.image_previewTarget
+        const aspectRatio = img.naturalWidth / img.naturalHeight
+        const frameRatio = 2 / 3
+        if (aspectRatio < frameRatio) {
+          this.scaledWidth = this.frameWidth
+          this.scaledHeight = this.frameWidth / aspectRatio
+          this.lockAxis = "x"
+        } else {
+          this.scaledHeight = this.frameHeight
+          this.scaledWidth = this.frameHeight * aspectRatio
+          this.lockAxis = "y"
+        }
+        img.style.width = `${this.scaledWidth}px`
+        img.style.height = `${this.scaledHeight}px`
+        img.style.position = "absolute"
+        img.style.maxWidth = "none"
+        img.style.maxHeight = "none"
+        this.offsetX = 0
+        this.offsetY = 0
+        this.updateTransform()
+        this.dragging = false
+        this.startX = 0
+        this.startY = 0
+      }
+    }
+    reader.readAsDataURL(file)
+  }
+
+  cropImage() {
+    const img = this.image_previewTarget
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    canvas.width = this.frameWidth
+    canvas.height = this.frameHeight
+    ctx.drawImage(
+      img,
+      this.offsetX,
+      this.offsetY,
+      this.scaledWidth,
+      this.scaledHeight
+    )
+    const croppedData = canvas.toDataURL("image/png")
+    this.shortcut_thumbnail_previewTarget.src = croppedData
+    this.shortcut_image_resultTarget.value = croppedData
+    this.closeImageModal()
+  }
+
+  startDrag(event) {
+    this.dragging = true
+    this.startX = this.getClientX(event)
+    this.startY = this.getClientY(event)
+    event.preventDefault()
+  }
+
+  drag(event) {
+    if (!this.dragging) return
+    const currentX = this.getClientX(event)
+    const currentY = this.getClientY(event)
+    let dx = currentX - this.startX
+    let dy = currentY - this.startY
+    this.startX = currentX
+    this.startY = currentY
+    if (this.lockAxis === "x") {
+      this.offsetY += dy
+    } else if (this.lockAxis === "y") {
+      this.offsetX += dx
+    }
+    this.constrainPosition()
+    this.updateTransform()
+  }
+
+  endDrag() {
+    this.dragging = false
+  }
+
+  constrainPosition() {
+    if (this.lockAxis === "x") {
+      this.offsetX = 0
+      const maxOffsetY = 0
+      const minOffsetY = this.frameHeight - this.scaledHeight
+      this.offsetY = Math.min(maxOffsetY, Math.max(minOffsetY, this.offsetY))
+    } else if (this.lockAxis === "y") {
+      this.offsetY = 0
+      const maxOffsetX = 0
+      const minOffsetX = this.frameWidth - this.scaledWidth
+      this.offsetX = Math.min(maxOffsetX, Math.max(minOffsetX, this.offsetX))
+    }
+  }
+
+  updateTransform() {
+    this.image_previewTarget.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`
+  }
+
+  getClientX(event) {
+    return event.touches ? event.touches[0].clientX : event.clientX
+  }
+
+  getClientY(event) {
+    return event.touches ? event.touches[0].clientY : event.clientY
+  }
+
+  closeImageModal() {
+    this.image_modalTarget.close();
+  }
+
+  clickOutsideImageModal(event) {
+    if (event.target.closest("#image_modal_container") === null) {
+      this.closeImageModal()
     }
   }
 
@@ -168,7 +307,7 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('shortcut_thumbnail_preview').src = data.image_url; // 新しい画像に入れ替え
+        document.getElementById('shortcut_thumbnail_preview').src = data.image_url;
         document.querySelector("body").classList.remove("overflow-hidden")
         document.querySelector("#thumbnail_loading").classList.add("hidden")
         document.querySelector("#credit").classList.add("hidden")

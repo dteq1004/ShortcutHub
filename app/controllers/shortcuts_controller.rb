@@ -61,6 +61,17 @@ class ShortcutsController < ApplicationController
           @shortcut.instructions.create(step_number: index + 1, content: instruction)
         end
       end
+      if params[:shortcut][:thumbnail_data].present?
+        @shortcut.thumbnail.purge if @shortcut.attached?
+        image_data = params[:shortcut][:thumbnail_data]
+        content_type, encoding, string = image_data.split(/[:;,]/)[1..3]
+        decoded_image = Base64.decode64(image_data.split(",")[1])
+        file = Tempfile.new(["thumbnail", ".png"])
+        file.binmode
+        file.write(decoded_image)
+        file.rewind
+        @shortcut.thumbnail.attach(io: file, filename: "thumbnail.png", content_type: content_type)
+      end
       if params[:shortcut][:status] == "published"
         flash[:notice] = "投稿を公開しました"
       else

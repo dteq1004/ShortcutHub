@@ -4,6 +4,35 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["instructions"];
 
+  connect() {
+    for (let i = 0; i < this.instructionsTarget.children.length; i++) {
+      const instructionInput = document.querySelector(`#instruction-${i}`)
+      let lineHeight = Number(instructionInput.rows)
+      if(instructionInput.scrollHeight > instructionInput.offsetHeight) {
+        lineHeight++;
+        instructionInput.rows = lineHeight;
+      }
+      instructionInput.style.height = 0
+      instructionInput.style.height = instructionInput.scrollHeight + "px"
+      if(instructionInput.offsetHeight < 40){
+        instructionInput.style.height = 40 + "px"
+      }
+    }
+  }
+
+  autoAdjust(event) {
+    let lineHeight = Number(event.target.rows)
+    if(event.target.scrollHeight > event.target.offsetHeight) {
+      lineHeight++;
+      event.target.rows = lineHeight;
+    }
+    event.target.style.height = 0
+    event.target.style.height = event.target.scrollHeight + "px"
+    if(event.target.offsetHeight < 40){
+      event.target.style.height = 40 + "px"
+    }
+  }
+
   append() {
     if (this.instructionsTarget.childElementCount > 9) {
       alert("これ以上追加できません")
@@ -25,9 +54,10 @@ export default class extends Controller {
     p.classList.add("text-white", "text-xs")
     p.textContent = step
     textarea.placeholder = "ここに使い方を入力してください"
-    textarea.classList.add("resize-none", "overflow-hidden", "auto-adjust", "outline-none","border", "border-transparent", "focus:border-teal-700", "h-10", "w-full", "p-2", "bg-white", "rounded-xl", "border-zinc-300")
+    textarea.classList.add("resize-none", "overflow-hidden", "auto-adjust", "outline-none","border", "border-transparent", "focus:border-teal-500", "h-10", "w-full", "p-2", "bg-white", "rounded-xl", "border-zinc-300")
     textarea.setAttribute("name", `shortcut[instructions][]`)
     textarea.setAttribute("required", true)
+    textarea.setAttribute("data-action", "input->instruction#autoAdjust")
     dropdownContainer.classList.add("dropdown", "dropdown-top", "dropdown-end")
     dropdownButton.setAttribute("tabindex", "0")
     dropdownButton.setAttribute("role", "button")
