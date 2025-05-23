@@ -62,7 +62,7 @@ class ShortcutsController < ApplicationController
         end
       end
       if params[:shortcut][:thumbnail_data].present?
-        @shortcut.thumbnail.purge if @shortcut.attached?
+        @shortcut.thumbnail.purge if @shortcut.thumbnail.attached?
         image_data = params[:shortcut][:thumbnail_data]
         content_type, encoding, string = image_data.split(/[:;,]/)[1..3]
         decoded_image = Base64.decode64(image_data.split(",")[1])
