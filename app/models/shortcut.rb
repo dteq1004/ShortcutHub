@@ -1,9 +1,12 @@
 class Shortcut < ApplicationRecord
   before_create :set_id
 
-  # validates :title, presence: true, length: { maximum: 50 }
-  # validates :description, presence: true, length: { maximum: 100 }, on: :update
-  # validates :download_url, presence: true, length: { maximum: 65_535 }, on: :update
+  validates :title, presence: true, length: { minimum: 3, maximum: 50 }
+  validates :description, presence: true, length: { minimum: 3, maximum: 100 }, on: :update, if: :published?
+  validates :download_url, presence: true, format: {
+    with: /\Ahttps:\/\/www\.icloud\.com\/shortcuts\/[a-zA-Z0-9]+\z/,
+    message: "は有効はiCloudショートカットのURLを指定してください"
+  }, on: :update, if: :published?
 
   has_many :instructions, dependent: :destroy
   has_many :taggings, dependent: :destroy

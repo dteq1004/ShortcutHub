@@ -49,6 +49,7 @@ class ShortcutsController < ApplicationController
   end
 
   def update
+    original_status = @shortcut.status
     @shortcut.assign_attributes(shortcut_update_params)
     @shortcut.tags = params.dig(:shortcut, :tag_names).split(",").uniq.map { |name| Tag.find_or_initialize_by(name: name.strip) }
     if @shortcut.save
@@ -60,6 +61,17 @@ class ShortcutsController < ApplicationController
           @shortcut.instructions.create(step_number: index + 1, content: instruction)
         end
       end
+      if params[:shortcut][:thumbnail_data].present?
+        @shortcut.thumbnail.purge if @shortcut.attached?
+        image_data = params[:shortcut][:thumbnail_data]
+        content_type, encoding, string = image_data.split(/[:;,]/)[1..3]
+        decoded_image = Base64.decode64(image_data.split(",")[1])
+        file = Tempfile.new(["thumbnail", ".png"])
+        file.binmode
+        file.write(decoded_image)
+        file.rewind
+        @shortcut.thumbnail.attach(io: file, filename: "thumbnail.png", content_type: content_type)
+      end
       if params[:shortcut][:status] == "published"
         flash[:notice] = "投稿を公開しました"
       else
@@ -67,7 +79,8 @@ class ShortcutsController < ApplicationController
       end
       redirect_to user_path(current_user)
     else
-      flash[:alert] = "エラーが発生しました。"
+      @shortcut.status = original_status
+      flash.now[:alert] = "エラーが発生しました。"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -102,9 +115,9 @@ class ShortcutsController < ApplicationController
       }, status: :unauthorized
       return
     end
-    unless current_user.can_generate_thumbnail_this_month?
+    unless current_user.credits >= 1
       render json: {
-        error: "今月はすでに生成済みです。次回は#{current_user.next_generate_date}以降に生成できます。"
+        error: "残高が不足しています"
       }, status: :forbidden
       return
     end
@@ -115,8 +128,8 @@ class ShortcutsController < ApplicationController
     shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
     shortcut.assign_attributes(title: params[:shortcut_title])
     shortcut.save!
-    current_user.update!(thumbnail_created_at: Time.current)
-    render json: { image_url: url_for(shortcut.thumbnail) } # 生成した画像のURLを返す
+    current_user.decrement!(:credits)
+    render json: { image_url: url_for(shortcut.thumbnail) }
   end
 
   private
@@ -135,11 +148,11 @@ class ShortcutsController < ApplicationController
   end
 
   def shortcut_new_params
-    params.require(:shortcut).permit(:title, :status)
+    params.require(:shortcut).permit(:title)
   end
 
   def shortcut_update_params
-    params.require(:shortcut).permit(:title, :icon, :description, :download_url, :status, :instructions)
+    params.require(:shortcut).permit(:title, :description, :download_url, :status, :instructions)
   end
 
   def ensure_user

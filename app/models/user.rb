@@ -47,15 +47,6 @@ class User < ApplicationRecord
     notification.save if notification.valid?
   end
 
-  def can_generate_thumbnail_this_month?
-    return true if thumbnail_created_at.nil?
-    thumbnail_created_at < Time.current.beginning_of_month
-  end
-
-  def next_generate_date
-    Time.current.end_of_month.to_date + 1.day
-  end
-
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
   end
