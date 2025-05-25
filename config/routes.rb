@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :shortcuts do
     member do
       get :archived
+      post :download
     end
     resources :comments, only: %i[ show create edit update destroy ]
   end
