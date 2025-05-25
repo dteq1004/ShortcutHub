@@ -35,6 +35,12 @@ class ShortcutsController < ApplicationController
   end
 
   def create
+    unless current_user.confirmed?
+      if current_user.shortcuts.present? && current_user.shortcuts.count >= 1
+        redirect_to root_path, alert: "メールアドレスを認証してください"
+        return
+      end
+    end
     @shortcut = current_user.shortcuts.build(shortcut_new_params)
     if @shortcut.save
       flash[:notice] = t("defaults.flash_message.created")
