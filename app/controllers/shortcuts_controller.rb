@@ -115,7 +115,7 @@ class ShortcutsController < ApplicationController
       }, status: :unauthorized
       return
     end
-    unless current_user.credits >= 1
+    unless current_user.credits >= 100
       render json: {
         error: "残高が不足しています"
       }, status: :forbidden
@@ -128,8 +128,20 @@ class ShortcutsController < ApplicationController
     shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
     shortcut.assign_attributes(title: params[:shortcut_title])
     shortcut.save!
-    current_user.decrement!(:credits)
+    current_user.decrement!(:credits, 100)
     render json: { image_url: url_for(shortcut.thumbnail) }
+  end
+
+  def download
+    shortcut = Shortcut.find(params[:id])
+    if shortcut.user === current_user
+      redirect_to shortcut.download_url, allow_other_host: true
+    elsif current_user.credits >= 1
+      current_user.decrement!(:credits)
+      redirect_to shortcut.download_url, allow_other_host: true
+    else
+      redirect_back fallback_location: shortcut_path(shortcut), alert: "ダウンロードの上限に達してます"
+    end
   end
 
   private

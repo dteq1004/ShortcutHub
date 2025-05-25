@@ -1,5 +1,5 @@
 <div class="flex justify-between items-center bg-white sticky z-40 top-0 p-2 shadow-sm md:hidden">
-    <%= link_to user_path(@shortcut.user), class: "flex items-center" do %>
+    <%= link_to user_path(@shortcut.user), class: "flex items-center", data: { turbo: false } do %>
         <div class="size-6">
             <% if @shortcut.user.avatar.present? %>
                 <%= image_tag @shortcut.user.avatar, class: "rounded-full object-cover aspect-1/1" %>
@@ -66,33 +66,53 @@
             </div>
         </div>
         <div class="w-full md:w-2/3 md:order-4 bg-white p-4 mb-2 flex justify-between">
-            <div class="flex flex-col justify-center items-center w-full">
+            <div class="w-full flex gap-4">
+                <div class="grow flex justify-between btn bg-teal-500 px-1 rounded-full" onclick="downloadModal.showModal()">
+                    <div class="bg-white p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 stroke-teal-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        </svg>
+                    </div>
+                    <p class="text-white">ダウンロードする</p>
+                    <p></p>
+                </div>
                 <% if user_signed_in? %>
-                    <div class="w-full flex gap-4">
-                        <%= link_to @shortcut.download_url, target: :_blank, rel: "noopener noreferrer", class: "grow btn px-1 bg-teal-500 rounded-full text-white" do %>
-                            <div class="w-full flex justify-between items-center">
-                                <div class="bg-white p-2 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="size-4 stroke-teal-500"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                                </div>
-                                <p>ダウンロードする</p>
-                                <p></p>
+                    <%= render "favorites/btn", { shortcut: @shortcut } %>
+                    <%= render "bookmarks/bookmark_buttons", { shortcut: @shortcut } %>
+                <% end %>
+                <dialog id="downloadModal" class="modal p-4">
+                    <div class="modal-box bg-white p-0 rounded-xl">
+                        <% if user_signed_in? %>
+                        <div class="p-4">
+                            <p class="text-xl font-bold mb-4">ダウンロードしますか？</p>
+                            <div class="flex rounded-xl bg-amber-100/70 border border-amber-300 mb-4 p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="flex-none size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>
+                                <p class="text-sm ml-2">ダウンロード"1回"で"1クレジット"消費します<br/>現在のクレジット残高：<span class="font-bold"><%= current_user.credits %></span></p>
                             </div>
-                        <% end %>
-                        <%= render "favorites/btn", { shortcut: @shortcut } %>
-                        <%= render "bookmarks/bookmark_buttons", { shortcut: @shortcut } %>
-                    </div>
-                <% else %>
-                    <div class="flex justify-between btn btn-outline px-1 rounded-full w-full" onclick="needLogin.showModal()">
-                        <div class="bg-zinc-700 p-2 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 stroke-white">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                            </svg>
+                            <p class="text-xs mb-1">※ショートカットアプリが起動します</p>
+                            <p class="text-xs mb-4">※一部のリンクは削除済みで正しく開けないことがあります</p>
+                            <div class="mt-2 grid grid-cols-2 gap-3">
+                                <% if current_user.credits >= 1 %>
+                                    <%= button_to download_shortcut_path(@shortcut), method: :post, form_class: "col-span-1 flex justify-center items-center bg-teal-500 rounded-sm text-white", form: { data: { turbo: false } }, class: "w-full flex flex-col justify-center py-1" do %>
+                                        <p class="text-sm font-bold">ダウンロードする</p>
+                                        <div class="w-full flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
+                                            <p class="text-[12px] pl-1">1クレジット</p>
+                                        </div>
+                                    <% end %>
+                                <% else %>
+                                    <div class="col-span-1 flex flex-col justify-center items-center bg-teal-500/50 rounded-sm text-white py-1">
+                                        <p class="text-sm font-bold">ダウンロードする</p>
+                                        <div class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
+                                            <p class="text-[12px] pl-1">1クレジット</p>
+                                        </div>
+                                    </div>
+                                <% end %>
+                                <button type="button" class="col-span-1 py-2 border border-zinc-300 rounded-sm text-xs text-zinc-500 font-bold" onclick="downloadModal.close()">閉じる</button>
+                            </div>
                         </div>
-                        <p>ダウンロードする</p>
-                        <p></p>
-                    </div>
-                    <dialog id="needLogin" class="modal p-4">
-                        <div class="modal-box bg-white p-0 rounded-xl">
+                        <% else %>
                             <div class="w-full flex flex-col justify-center bg-teal-100">
                                 <div class="w-full flex justify-center items-center h-40">
                                     <%= image_tag 'need-login-icon.png', class: "h-50 object-cover" %>
@@ -106,9 +126,9 @@
                                     <button class="">また後で</button>
                                 </form>
                             </div>
-                        </div>
-                    </dialog>
-                <% end %>
+                        <% end %>
+                    </div>
+                </dialog>
             </div>
         </div>
         <% if @shortcut.instructions.present? %>
@@ -144,7 +164,7 @@
                         <% end %>
                     </div>
                     <div class="flex flex-col justify-center">
-                        <%= link_to user_path(@shortcut.user), class: "flex flex-col" do %>
+                        <%= link_to user_path(@shortcut.user), class: "flex flex-col", data: { turbo: false } do %>
                             <p class="text-base"><%= @shortcut.user.name %></p>
                             <p class="pl-1 text-xs text-zinc-500">@<%= @shortcut.user.uid %></p>
                         <% end %>
