@@ -305,19 +305,28 @@ export default class extends Controller {
         },
         body: JSON.stringify({ shortcut_title: shortcut_title, shortcut_id: shortcut_id })
     })
-    .then(response => response.json())
+    .then(async response => {
+      document.querySelector("body").classList.remove("overflow-hidden")
+      document.querySelector("#thumbnail_loading").classList.add("hidden")
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert("画像生成に失敗しました: " + (errorData.error || "サーバーエラー"));
+        throw new Error(errorData.error || "サーバーエラー");
+      }
+      return response.json()
+    })
     .then(data => {
         document.getElementById('shortcut_thumbnail_preview').src = data.image_url;
-        document.querySelector("body").classList.remove("overflow-hidden")
-        document.querySelector("#thumbnail_loading").classList.add("hidden")
-        document.querySelector("#credit").classList.add("hidden")
-        this.thumbnail_btnTarget.classList.add("hidden")
+        const creditElement = document.querySelector("#credits");
+        const creditModalElement = document.querySelector("#credits_modal");
+        if (creditElement && creditModalElement && data.remaining_credits !== undefined) {
+          creditElement.textContent = data.remaining_credits
+          creditModalElement.textContent = data.remaining_credits
+        }
     })
     .catch(error => {
         alert("画像生成に失敗しました");
         console.error('Error:', error);
-        document.querySelector("body").classList.remove("overflow-hidden")
-        document.querySelector("#thumbnail_loading").classList.add("hidden")
     });
   }
 }

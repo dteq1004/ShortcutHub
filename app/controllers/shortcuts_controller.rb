@@ -127,15 +127,23 @@ class ShortcutsController < ApplicationController
       }, status: :forbidden
       return
     end
-    prompt = generate_prompt(params[:shortcut_title])
-    image_base64 = OpenaiImageGenerator.new(prompt).generate_image
-    image_bytes = Base64.decode64(image_base64)
-    shortcut = Shortcut.find(params[:shortcut_id])
-    shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
-    shortcut.assign_attributes(title: params[:shortcut_title])
-    shortcut.save!
-    current_user.decrement!(:credits, 100)
-    render json: { image_url: url_for(shortcut.thumbnail) }
+    begin
+      prompt = generate_prompt(params[:shortcut_title])
+      image_base64 = OpenaiImageGenerator.new(prompt).generate_image
+      image_bytes = Base64.decode64(image_base64)
+      shortcut = Shortcut.find(params[:shortcut_id])
+      shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
+      shortcut.assign_attributes(title: params[:shortcut_title])
+      shortcut.save!
+      current_user.decrement!(:credits, 100)
+      render json: {
+        image_url: url_for(shortcut.thumbnail),
+        remaining_credits: current_user.credits
+      }
+    rescue StandardError => e
+      Rails.logger.error("画像生成エラー：#{e.message}")
+      render json: { error: "画像生成に失敗しました：#{e.message}"}, status: :internal_server_error
+    end
   end
 
   def download
