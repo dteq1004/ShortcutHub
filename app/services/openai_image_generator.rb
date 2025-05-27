@@ -23,6 +23,11 @@ class OpenaiImageGenerator
       headers: @headers,
       body: body.to_json
     )
-    response.parsed_response["data"][0]["b64_json"]
+    if response.success?
+      response.parsed_response["data"][0]["b64_json"]
+    else
+      error_message = response.parsed_response["error"]&.dig("message") || "OpenAI API request failed"
+      raise StandardError.new("OpenAI Error: #{error_message}")
+    end
   end
 end
