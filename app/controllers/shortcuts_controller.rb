@@ -165,7 +165,7 @@ class ShortcutsController < ApplicationController
     title = shortcut.title
     thumbnail = shortcut.thumbnail.attached? ? shortcut.thumbnail : nil
     image = OgpCreator.build(title: title, thumbnail_attachment: thumbnail)
-    send_data image.read, type: "image/png", disposition: "inline"
+    send_data image.read, type: "image/png", disposition: "inline", filename: "ogp.png", stream: "true", status: 200, content_disposition: "inline", cache_control: "public, max-age=31536000"
   end
 
   private
