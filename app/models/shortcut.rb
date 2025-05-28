@@ -1,5 +1,6 @@
 class Shortcut < ApplicationRecord
   before_create :set_id
+  before_validation :sanitize_fields, on: :update, if: :published?
 
   validates :title, presence: true, length: { minimum: 3, maximum: 50 }
   validates :description, presence: true, length: { minimum: 3, maximum: 100 }, on: :update, if: :published?
@@ -66,5 +67,12 @@ class Shortcut < ApplicationRecord
     while self.id.blank? || Shortcut.find_by(id: self.id).present? do
       self.id = SecureRandom.urlsafe_base64(10)
     end
+  end
+
+  def sanitize_fields
+    helpers = ActionController::Base.helpers
+    self.title = helpers.strip_tags(title)
+    self.download_url = helpers.strip_tags(download_url)
+    self.description = helpers.sanitize(description, tags: [], attributes: [])
   end
 end
