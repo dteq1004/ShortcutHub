@@ -38,7 +38,9 @@ class OgpCreator
         c.draw "text 0,0 '#{title}'"
       end
     end
-    base_image
+    temp_file = Tempfile.new(["ogp_output", ".png"], binmode: true)
+    base_image.write(temp_file.path)
+    temp_file
   end
 
   private

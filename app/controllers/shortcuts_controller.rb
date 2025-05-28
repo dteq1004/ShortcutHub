@@ -165,7 +165,7 @@ class ShortcutsController < ApplicationController
     title = shortcut.title
     thumbnail = shortcut.thumbnail.attached? ? shortcut.thumbnail : nil
     image = OgpCreator.build(title: title, thumbnail_attachment: thumbnail)
-    send_data image.to_blob, type: "image/png", disposition: "inline"
+    send_data image.read, type: "image/png", disposition: "inline"
   end
 
   private
@@ -200,7 +200,7 @@ class ShortcutsController < ApplicationController
       type: "website",
       url: request.original_url,
       image: image_url,
-      locale: "ja-JP"
+      locale: "ja_JP"
     },
     twitter: {
       card: "summary_large_image",
