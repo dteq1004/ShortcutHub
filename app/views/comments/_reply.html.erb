@@ -30,7 +30,7 @@
                     </div>
                 <% end %>
             </div>
-            <p class=""><%= reply.body %></p>
+            <p class=""><%= simple_format(h(reply.body)) %></p>
         </div>
     </div>
 <% end %>
