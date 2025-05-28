@@ -1,7 +1,8 @@
 class ShortcutsController < ApplicationController
   before_action :hide_header, except: [:index, :index_lazy, :show]
-  before_action :authenticate_user!, except: [:index, :index_lazy, :show]
+  before_action :authenticate_user!, except: [:index, :index_lazy, :show, :ogp]
   before_action :ensure_user, only: [:edit, :update]
+  helper_method :prepare_meta_tags
 
   def index
   end
@@ -28,6 +29,7 @@ class ShortcutsController < ApplicationController
     end
     @shortcut.increment!(:view_count)
     @comments = @shortcut.comments.includes(:user).where(parent_id: nil).order(created_at: :asc)
+    prepare_meta_tags(@shortcut)
   end
 
   def new
@@ -158,6 +160,14 @@ class ShortcutsController < ApplicationController
     end
   end
 
+  def ogp
+    shortcut = Shortcut.find(params[:id])
+    title = shortcut.title
+    thumbnail = shortcut.thumbnail.attached? ? shortcut.thumbnail : nil
+    image = OgpCreator.build(title: title, thumbnail_attachment: thumbnail)
+    send_data image.to_blob, type: "image/png", disposition: "inline"
+  end
+
   private
 
   def generate_prompt(title)
@@ -179,6 +189,23 @@ class ShortcutsController < ApplicationController
 
   def shortcut_update_params
     params.require(:shortcut).permit(:title, :description, :download_url, :status, :instructions)
+  end
+
+  def prepare_meta_tags(shortcut)
+    image_url = ogp_shortcut_path(shortcut)
+    set_meta_tags og: {
+      site_name: "Shortcut Hub（ショートカットハブ）",
+      title: shortcut.title,
+      description: shortcut.description,
+      type: "website",
+      url: request.original_url,
+      image: image_url,
+      locale: "ja-JP"
+    },
+    twitter: {
+      card: "summary_large_image",
+      image: image_url
+    }
   end
 
   def ensure_user

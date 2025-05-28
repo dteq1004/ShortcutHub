@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     member do
       get :archived
       post :download
+      get :ogp
     end
     resources :comments, only: %i[ show create edit update destroy ]
   end

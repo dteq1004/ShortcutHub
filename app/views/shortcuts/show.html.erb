@@ -80,6 +80,7 @@
                     <%= render "favorites/btn", { shortcut: @shortcut } %>
                     <%= render "bookmarks/bookmark_buttons", { shortcut: @shortcut } %>
                 <% end %>
+                <% prepare_meta_tags @shortcut %>
                 <%= link_to "https://x.com/intent/tweet?text=#{u @shortcut.title}&url=#{CGI.escape(shortcut_url(@shortcut))}&hashtags=shortcuthub", target: "_blank", rel: "noopener", class: "flex justify-center items-center bg-black border-zinc-500 p-2 rounded-full" do %>
                     <%= image_tag "x-logo.svg", class: "size-6 object-fit" %>
                 <% end %>
