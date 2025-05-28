@@ -24,7 +24,7 @@ class OgpCreator
         thumb = apply_rounded_corners(thumb, radius: 30)
         base_image = base_image.composite(thumb) do |c|
           c.gravity "west"
-          c.geometry "+150+0"
+          c.geometry "+120+0"
         end
       end
       draw_text_on_right_half(base_image, title)
@@ -66,7 +66,7 @@ class OgpCreator
       c.fill "black"
       c.gravity "west"
       c.pointsize 60
-      c.draw "text 500,0 '#{text}'"
+      c.draw "text 450,0 '#{text}'"
     end
     text_image
   end

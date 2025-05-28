@@ -192,7 +192,7 @@ class ShortcutsController < ApplicationController
   end
 
   def prepare_meta_tags(shortcut)
-    image_url = ogp_shortcut_path(shortcut)
+    image_url = ogp_shortcut_url(shortcut)
     set_meta_tags og: {
       site_name: "Shortcut Hub（ショートカットハブ）",
       title: shortcut.title,
