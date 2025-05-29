@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations",
     omniauth_callbacks: "users/omniauth_callbacks",
-    passwords: "users/passwords",
+    passwords: "users/passwords"
   }
   devise_scope :user do
     post "resend_confirmation", to: "users/registrations#resend_confirmation", as: :resend_confirmation

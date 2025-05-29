@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :hide_header, only: [:new, :create]
+  before_action :hide_header, only: %i[ new create ]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -72,7 +72,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def resend_confirmation
     current_user.send_confirmation_instructions
-    redirect_to root_path, notice: '確認メールを再送信しました。'
+    redirect_to root_path, notice: "確認メールを再送信しました。"
   end
 
   private

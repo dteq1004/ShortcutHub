@@ -5,17 +5,14 @@ class OgpCreator
   GRAVITY = "center"
   TEXT_POSITION = "+100+100"
   FONT_SIZE = 60
-  INDENTION_COUNT = 10
-  ROW_LIMIT = 6
 
   def self.build(title:, thumbnail_attachment: nil)
     safe_title = sanitize_text(title)
     title = prepare_text(safe_title)
     base_image = MiniMagick::Image.open(BASE_IMAGE_PATH)
     base_image.resize "1200x630"
-    # output_path = Rails.root.join("tmp", "ogp_output_#{SecureRandom.hex(4)}.png")
     if thumbnail_attachment&.attached?
-      Tempfile.create(["thumb", ".png"]) do |thumb_file|
+      Tempfile.create([ "thumb", ".png" ]) do |thumb_file|
         thumb_file.binmode
         thumb_file.write(thumbnail_attachment.blob.download)
         thumb_file.rewind
@@ -38,12 +35,10 @@ class OgpCreator
         c.draw "text 0,0 '#{title}'"
       end
     end
-    temp_file = Tempfile.new(["ogp_output", ".png"], binmode: true)
+    temp_file = Tempfile.new([ "ogp_output", ".png" ], binmode: true)
     base_image.write(temp_file.path)
     temp_file
   end
-
-  private
 
   def self.apply_rounded_corners(image, radius:)
     mask = MiniMagick::Image.open(image.path)
@@ -82,6 +77,8 @@ class OgpCreator
   end
 
   def self.prepare_text(text)
-    text.to_s.scan(/.{1,#{INDENTION_COUNT}}/)[0...ROW_LIMIT].join("\n")
+    text.to_s.scan(/.{1,10}/)[0...6].join("\n")
   end
+
+  private_class_method :apply_rounded_corners, :draw_text_on_right_half, :sanitize_text, :prepare_text
 end

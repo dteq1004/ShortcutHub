@@ -36,31 +36,32 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem "active_storage_validations"
+gem "aws-sdk-s3", require: false
 gem "devise"
 gem "devise-i18n"
 gem "devise-i18n-views"
-gem "rails-i18n"
 gem "enum_help"
-gem "active_storage_validations"
-gem "aws-sdk-s3", require: false
-gem "ransack"
-gem "kaminari"
-gem "httpclient"
 gem "httparty"
+gem "httpclient"
+gem "kaminari"
 gem "meta-tags"
+gem "mini_magick"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
-gem "mini_magick"
+gem "rails-i18n"
+gem "ransack"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "rubocop", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "rubocop-rubycw", require: false
 end
 
 group :development do

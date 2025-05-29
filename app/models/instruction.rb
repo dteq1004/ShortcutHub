@@ -1,8 +1,8 @@
 class Instruction < ApplicationRecord
   before_validation :sanitize_instruction, on: :update
 
-  validates :step_number, presence: :true
-  validates :content, presence: :true
+  validates :step_number, presence: true
+  validates :content, presence: true
 
   belongs_to :shortcut
 
