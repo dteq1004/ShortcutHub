@@ -82,6 +82,7 @@ class ShortcutsController < ApplicationController
       end
       if params[:shortcut][:status] == "published"
         flash[:notice] = "投稿を公開しました"
+        GenerateOgpImageJob.perform_later(@shortcut.id) if @shortcut.needs_ogp_update?
       else
         flash[:notice] = "下書きを保存しました"
       end
@@ -192,7 +193,7 @@ class ShortcutsController < ApplicationController
   end
 
   def prepare_meta_tags(shortcut)
-    image_url = ogp_shortcut_url(shortcut)
+    image_url = shortcut.ogp_image.attached? ? url_for(shortcut.ogp_image) : nil
     set_meta_tags og: {
       site_name: "Shortcut Hub（ショートカットハブ）",
       title: shortcut.title,
