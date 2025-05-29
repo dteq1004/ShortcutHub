@@ -1,7 +1,7 @@
 class ShortcutsController < ApplicationController
-  before_action :hide_header, except: [ :index, :index_lazy, :show ]
-  before_action :authenticate_user!, except: [ :index, :index_lazy, :show, :ogp ]
-  before_action :ensure_user, only: [ :edit, :update ]
+  before_action :hide_header, except: %i[ index index_lazy show ]
+  before_action :authenticate_user!, except: %i[ index index_lazy show ogp ]
+  before_action :ensure_user, only: %i[ edit update ]
   helper_method :prepare_meta_tags
 
   def index
@@ -12,13 +12,8 @@ class ShortcutsController < ApplicationController
       redirect_to root_path
     end
     @latest_shortcuts = Shortcut.includes(:user).where(status: :published).order(created_at: :desc).page(params[:page])
-    @popular_shortcuts = Shortcut
-      .includes(:user)
-      .where(status: :published)
-      .select("shortcuts.*,
-        COALESCE(view_count, 0) + COALESCE((SELECT COUNT(*) FROM bookmarks WHERE bookmarks.shortcut_id = shortcuts.id), 0) * 10 + COALESCE((SELECT COUNT(*) FROM favorites WHERE favorites.shortcut_id = shortcuts.id), 0) * 5 AS total_count")
-      .order("total_count DESC")
-      .limit(10)
+    @popular_shortcuts = Shortcut.includes(:user).where(status: :published).select("shortcuts.*,
+        COALESCE(view_count, 0) + COALESCE((SELECT COUNT(*) FROM bookmarks WHERE bookmarks.shortcut_id = shortcuts.id), 0) * 10 + COALESCE((SELECT COUNT(*) FROM favorites WHERE favorites.shortcut_id = shortcuts.id), 0) * 5 AS total_count").order("total_count DESC").limit(10)
   end
 
   def show
@@ -72,7 +67,7 @@ class ShortcutsController < ApplicationController
       if params[:shortcut][:thumbnail_data].present?
         @shortcut.thumbnail.purge if @shortcut.thumbnail.attached?
         image_data = params[:shortcut][:thumbnail_data]
-        content_type, encoding, string = image_data.split(/[:;,]/)[1..3]
+        content_type, _encoding, _string = image_data.split(/[:;,]/)[1..3]
         decoded_image = Base64.decode64(image_data.split(",")[1])
         file = Tempfile.new([ "thumbnail", ".png" ])
         file.binmode

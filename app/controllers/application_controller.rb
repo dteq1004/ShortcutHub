@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render404
   before_action :set_header_visibility
 
-  def after_register_path_for(resource)
+  def after_register_path_for(_resource)
     root_path
   end
 

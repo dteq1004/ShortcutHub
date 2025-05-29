@@ -1,5 +1,5 @@
 class FollowsController < ApplicationController
-  before_action :authenticate_user!, only: [ :index, :index_lazy ]
+  before_action :authenticate_user!, only: %i[ index index_lazy ]
 
   def index
   end

@@ -21,7 +21,7 @@ class News
 
     body = JSON.parse(res.body, symbolize_names: true)
 
-    news = body[:contents].map do |content|
+    body[:contents].map do |content|
       new(
         id: content[:id],
         title: content[:title],

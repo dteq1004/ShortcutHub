@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [ :show, :show_lazy ]
-  before_action :ensure_user, only: [ :edit, :update, :destroy ]
+  before_action :authenticate_user!, except: %i[ show show_lazy ]
+  before_action :ensure_user, only: %i[ edit update destroy ]
 
   def show
     @user = User.find_by(uid: params[:uid])
