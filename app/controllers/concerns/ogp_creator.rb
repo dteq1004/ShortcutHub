@@ -15,7 +15,7 @@ class OgpCreator
     base_image.resize "1200x630"
     # output_path = Rails.root.join("tmp", "ogp_output_#{SecureRandom.hex(4)}.png")
     if thumbnail_attachment&.attached?
-      Tempfile.create(["thumb", ".png"]) do |thumb_file|
+      Tempfile.create([ "thumb", ".png" ]) do |thumb_file|
         thumb_file.binmode
         thumb_file.write(thumbnail_attachment.blob.download)
         thumb_file.rewind
@@ -38,7 +38,7 @@ class OgpCreator
         c.draw "text 0,0 '#{title}'"
       end
     end
-    temp_file = Tempfile.new(["ogp_output", ".png"], binmode: true)
+    temp_file = Tempfile.new([ "ogp_output", ".png" ], binmode: true)
     base_image.write(temp_file.path)
     temp_file
   end

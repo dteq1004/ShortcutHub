@@ -17,19 +17,19 @@ module ApplicationHelper
       description: "Shortcut Hub（ショートカットハブ）ではiPhoneをもっと便利にするためのショートカットのレシピを共有できるプラットフォームです。",
       keywords: "iPhone,ショートカット",
       canonical: request.original_url,
-      separator: '|',
-      og:{
+      separator: "|",
+      og: {
         site_name: :site,
         title: :title,
         description: :description,
-        type: 'website',
+        type: "website",
         url: request.original_url,
         image: image_url("ogp.png"),
         local: "ja-JP"
       },
       twitter: {
-        card: 'summary_large_image',
-        image: image_url('ogp.png')
+        card: "summary_large_image",
+        image: image_url("ogp.png")
       }
     }
   end

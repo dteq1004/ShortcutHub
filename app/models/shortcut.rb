@@ -59,11 +59,11 @@ class Shortcut < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["title", "description"]
+    [ "title", "description" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["taggings", "tags"]
+    [ "taggings", "tags" ]
   end
 
   private

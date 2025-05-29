@@ -3,7 +3,7 @@ class User < ApplicationRecord
   before_create :set_account_uid
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   has_many :shortcuts, dependent: :destroy
 
@@ -27,9 +27,9 @@ class User < ApplicationRecord
   validates :avatar, content_type: { in: %w[image/jpeg image/png], message: "有効なフォーマットではありません" }, size: { less_than: 5.megabytes, message: " 5MBを超える画像はアップロードできません" }
 
   VALID_UID_REGEX = /\A[a-zA-Z0-9]+\z/
-  validates :uid, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, format: { with: VALID_UID_REGEX }, on: :update
+  validates :uid, presence: true, uniqueness: true, length: { minimum: 3, maximum: 16 }, format: { with: VALID_UID_REGEX }, on: :update
 
-  validates :name, presence: true, uniqueness: true, length: { minimum:3, maximum: 16 }, on: :update
+  validates :name, presence: true, uniqueness: true, length: { minimum: 3, maximum: 16 }, on: :update
   validates :email, presence: true, uniqueness: { case_insensitive: true }, format: { with: Devise.email_regexp }
 
   def self.from_omniauth(auth)

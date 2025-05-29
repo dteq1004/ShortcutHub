@@ -1,5 +1,5 @@
 class News
-  require 'net/http'
+  require "net/http"
 
   attr_accessor :id, :title, :body, :published_at, :category
 
@@ -13,7 +13,7 @@ class News
 
   def self.page(offset: 0, limit: 10)
     uri = URI.parse("#{Rails.application.credentials.dig(:microcms, :news_url)}?offset=#{offset}&limit=#{limit}")
-    header = { 'X-MICROCMS-API-KEY': Rails.application.credentials.dig(:microcms, :api_key) }
+    header = { "X-MICROCMS-API-KEY": Rails.application.credentials.dig(:microcms, :api_key) }
     res = Net::HTTP.get_response(uri, header)
 
     raise ActiveRecord::RecordNotFound if res.code.to_i == 404
@@ -34,7 +34,7 @@ class News
 
   def self.find(id)
     uri = URI.parse("#{Rails.application.credentials.dig(:microcms, :news_url)}/#{id}")
-    header = { 'X-MICROCMS-API-KEY': Rails.application.credentials.dig(:microcms, :api_key) }
+    header = { "X-MICROCMS-API-KEY": Rails.application.credentials.dig(:microcms, :api_key) }
     res = Net::HTTP.get_response(uri, header)
 
     raise ActiveRecord::RecordNotFound if res.code.to_i == 404

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  before_action :hide_header, only: [:new, :create]
+  before_action :hide_header, only: [ :new, :create ]
   # prepend_before_action :verify_recaptcha, only: [:create]
   # before_action :configure_sign_in_params, only: [:create]
 

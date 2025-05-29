@@ -1,7 +1,7 @@
 class ShortcutsController < ApplicationController
-  before_action :hide_header, except: [:index, :index_lazy, :show]
-  before_action :authenticate_user!, except: [:index, :index_lazy, :show, :ogp]
-  before_action :ensure_user, only: [:edit, :update]
+  before_action :hide_header, except: [ :index, :index_lazy, :show ]
+  before_action :authenticate_user!, except: [ :index, :index_lazy, :show, :ogp ]
+  before_action :ensure_user, only: [ :edit, :update ]
   helper_method :prepare_meta_tags
 
   def index
@@ -15,9 +15,9 @@ class ShortcutsController < ApplicationController
     @popular_shortcuts = Shortcut
       .includes(:user)
       .where(status: :published)
-      .select('shortcuts.*,
-        COALESCE(view_count, 0) + COALESCE((SELECT COUNT(*) FROM bookmarks WHERE bookmarks.shortcut_id = shortcuts.id), 0) * 10 + COALESCE((SELECT COUNT(*) FROM favorites WHERE favorites.shortcut_id = shortcuts.id), 0) * 5 AS total_count')
-      .order('total_count DESC')
+      .select("shortcuts.*,
+        COALESCE(view_count, 0) + COALESCE((SELECT COUNT(*) FROM bookmarks WHERE bookmarks.shortcut_id = shortcuts.id), 0) * 10 + COALESCE((SELECT COUNT(*) FROM favorites WHERE favorites.shortcut_id = shortcuts.id), 0) * 5 AS total_count")
+      .order("total_count DESC")
       .limit(10)
   end
 
@@ -74,7 +74,7 @@ class ShortcutsController < ApplicationController
         image_data = params[:shortcut][:thumbnail_data]
         content_type, encoding, string = image_data.split(/[:;,]/)[1..3]
         decoded_image = Base64.decode64(image_data.split(",")[1])
-        file = Tempfile.new(["thumbnail", ".png"])
+        file = Tempfile.new([ "thumbnail", ".png" ])
         file.binmode
         file.write(decoded_image)
         file.rewind
@@ -98,7 +98,7 @@ class ShortcutsController < ApplicationController
     @shortcut = current_user.shortcuts.find(params[:id])
     @shortcut.destroy!
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "削除しました"}
+      format.turbo_stream { flash.now[:notice] = "削除しました" }
     end
   end
 
@@ -135,7 +135,7 @@ class ShortcutsController < ApplicationController
       image_base64 = OpenaiImageGenerator.new(prompt).generate_image
       image_bytes = Base64.decode64(image_base64)
       shortcut = Shortcut.find(params[:shortcut_id])
-      shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: 'image/png')
+      shortcut.thumbnail.attach(io: StringIO.new(image_bytes), filename: "thumbnail_#{params[:shortcut_id]}.png", content_type: "image/png")
       shortcut.assign_attributes(title: params[:shortcut_title])
       shortcut.save!
       current_user.decrement!(:credits, 100)
@@ -145,7 +145,7 @@ class ShortcutsController < ApplicationController
       }
     rescue StandardError => e
       Rails.logger.error("画像生成エラー：#{e.message}")
-      render json: { error: "画像生成に失敗しました：#{e.message}"}, status: :internal_server_error
+      render json: { error: "画像生成に失敗しました：#{e.message}" }, status: :internal_server_error
     end
   end
 

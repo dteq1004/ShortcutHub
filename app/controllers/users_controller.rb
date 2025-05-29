@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :show_lazy]
-  before_action :ensure_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [ :show, :show_lazy ]
+  before_action :ensure_user, only: [ :edit, :update, :destroy ]
 
   def show
     @user = User.find_by(uid: params[:uid])
@@ -63,8 +63,8 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
     @shortcuts_view_count = current_user.shortcuts.where(status: :published).order(view_count: :desc).limit(5)
-    @shortcuts_bookmark = Shortcut.where(status: :published).select('shortcuts.*, COUNT(bookmarks.id) AS bookmarks_count').left_joins(:bookmarks).where(user_id: current_user.id).group('shortcuts.id').order('bookmarks_count DESC').limit(5)
-    @shortcuts_favorite = Shortcut.where(status: :published).select('shortcuts.*, COUNT(favorites.id) AS favorites_count').left_joins(:favorites).where(user_id: current_user.id).group('shortcuts.id').order('favorites_count DESC').limit(5)
+    @shortcuts_bookmark = Shortcut.where(status: :published).select("shortcuts.*, COUNT(bookmarks.id) AS bookmarks_count").left_joins(:bookmarks).where(user_id: current_user.id).group("shortcuts.id").order("bookmarks_count DESC").limit(5)
+    @shortcuts_favorite = Shortcut.where(status: :published).select("shortcuts.*, COUNT(favorites.id) AS favorites_count").left_joins(:favorites).where(user_id: current_user.id).group("shortcuts.id").order("favorites_count DESC").limit(5)
   end
 
   def email
