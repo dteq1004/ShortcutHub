@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_25_052632) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_28_133649) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_25_052632) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.integer "view_count"
+    t.datetime "ogp_updated_at"
     t.index ["user_id"], name: "index_shortcuts_on_user_id"
   end
 

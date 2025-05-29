@@ -19,9 +19,14 @@ class Shortcut < ApplicationRecord
 
   belongs_to :user
 
-  has_one_attached :thumbnail
+  has_one_attached :thumbnail, dependent: :purge_later
+  has_one_attached :ogp_image, dependent: :purge_later
 
   enum status: { draft: 0, published: 1, archived: 2 }
+
+  def needs_ogp_update?
+    ogp_image.blank? || ogp_updated_at.nil? || ogp_updated_at < updated_at
+  end
 
   def create_notification_favorite!(current_user)
     temp = Notification.where(visitor_id: current_user.id, visited_id: user_id, shortcut_id: id, action: "favorite")
