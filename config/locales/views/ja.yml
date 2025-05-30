@@ -1,0 +1,6 @@
+ja:
+  defaults:
+    shortcut: "ショートカット"
+    title: "タイトル"
+    description: "説明"
+    download_url: "ダウンロードURL"
