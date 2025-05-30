@@ -131,7 +131,7 @@
         </div>
         <div class="w-full flex justify-between mb-2">
             <div class="flex justify-start items-center">
-                <p class="mr-1 font-bold">タイトル</p>
+                <%= f.label :title, "タイトル", class: "font-bold mr-1" %>
                 <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
             </div>
         </div>
@@ -147,7 +147,7 @@
             <p class="w-full h-6 text-xs text-start text-rose-500 mb-2 mt-0 p-1", data-edit-shortcut-target="error_title"></p>
         </div>
         <div class="w-full flex justify-start items-center mb-2">
-            <p class="mr-1 font-bold">説明</p>
+            <%= f.label :description, "説明", class: "font-bold mr-1" %>
             <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
         </div>
         <div class="w-full" data-action="input->edit-shortcut#descriptionValidation">
@@ -164,7 +164,7 @@
         </div>
         <div class="w-full flex justify-between items-center mb-2 px-[2px]">
             <div class="flex items-center">
-                <p class="mr-1 font-bold">URL</p>
+                <%= f.label :download_url, "URL", class: "font-bold mr-1" %>
                 <p class="bg-rose-500 text-[10px] text-white p-1 py-[2px] rounded-sm">必須</p>
             </div>
             <div class="dropdown dropdown-top dropdown-end">

@@ -99,13 +99,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_28_133649) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.string "follower_uid"
-    t.string "followed_uid"
+    t.integer "follower_id"
+    t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["followed_uid"], name: "index_relationships_on_followed_uid"
-    t.index ["follower_uid", "followed_uid"], name: "index_relationships_on_follower_uid_and_followed_uid", unique: true
-    t.index ["follower_uid"], name: "index_relationships_on_follower_uid"
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "shortcuts", id: :string, force: :cascade do |t|
@@ -116,7 +116,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_28_133649) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
-    t.integer "view_count"
+    t.integer "view_count", default: 0
     t.datetime "ogp_updated_at"
     t.index ["user_id"], name: "index_shortcuts_on_user_id"
   end

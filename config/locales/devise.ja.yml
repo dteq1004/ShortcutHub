@@ -20,8 +20,10 @@ ja:
     attributes:
       user:
         current_password: "現在のパスワード"
-        name: 名前
+        name: "ユーザーネーム"
+        uid: "ユーザーID"
         email: "メールアドレス"
+        unconfirmed_email: "新しいメールアドレス"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "次回から自動的にログイン"
