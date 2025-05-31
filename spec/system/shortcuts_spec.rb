@@ -23,7 +23,7 @@ RSpec.describe "Shortcuts", type: :system do
       end
 
       context "ショートカットの詳細ページにアクセス" do
-        let!(:shortcut) { create(:shortcut, :published_with_description)}
+        let!(:shortcut) { create(:shortcut, :published_with_description) }
         it "ショートカットの詳細情報が表示される" do
           visit shortcut_path(shortcut)
           expect(page).to have_content shortcut.title
