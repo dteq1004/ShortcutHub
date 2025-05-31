@@ -81,7 +81,7 @@ class ShortcutsController < ApplicationController
       else
         flash[:notice] = "下書きを保存しました"
       end
-      redirect_to user_path(current_user)
+      redirect_to mypage_path
     else
       @shortcut.status = original_status
       flash.now[:alert] = "エラーが発生しました。"
