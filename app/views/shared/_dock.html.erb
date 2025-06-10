@@ -17,7 +17,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="size-5 <%= request.path.include?("search") ? "stroke-white stroke-2" : "" %>"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
             <p class="text-[10px] <%= request.path.include?("search") ? "text-white font-bold" : "" %>">検索</p>
         <% end %>
-        <%= link_to mypage_path, class: "flex flex-col justify-items-start items-center pt-1 #{current_page?(mypage_path) || request.path.include?("/users/#{current_user.uid}") || current_page?(bookmarks_path) || current_page?(analytics_path) ? "bg-teal-500/70 rounded-full" :  "" }" do %>
+        <%= link_to mypage_path, class: "flex flex-col justify-items-start items-center pt-1 #{user_signed_in? || current_page?(mypage_path) || request.path.include?("/users/#{current_user.uid}") || current_page?(bookmarks_path) || current_page?(analytics_path) ? "bg-teal-500/70 rounded-full" :  "" }" do %>
             <% if user_signed_in? %>
                 <% if current_page?(mypage_path) || request.path.include?("/users/#{current_user.uid}") || current_page?(bookmarks_path) || current_page?(analytics_path) %>
                     <div class="size-5 rounded-full outline outline-offset-1 outline-white">
