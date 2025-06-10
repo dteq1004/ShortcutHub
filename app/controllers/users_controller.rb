@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     unless request.headers["Turbo-Frame"]
       redirect_to root_path
     end
-    @bookmark_shortcuts = current_user.bookmark_shortcuts.includes(:user).order(updated_at: :desc)
+    @bookmark_shortcuts = current_user.bookmark_shortcuts.includes(:user).where(status: :published).order(updated_at: :desc)
   end
 
   def analytics
