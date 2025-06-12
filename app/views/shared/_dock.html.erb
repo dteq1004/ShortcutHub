@@ -19,7 +19,7 @@
         <% end %>
         <% if user_signed_in? %>
             <%= link_to mypage_path, class: "flex flex-col justify-items-start items-center pt-1 #{current_page?(mypage_path) || request.path.include?("/users/#{current_user.uid}") || current_page?(bookmarks_path) || current_page?(analytics_path) ? "bg-teal-500/70 rounded-full" :  "" }" do %>
-                <div class="size-5 rounded-full outline outline-offset-1 outline-white">
+                <div class="size-5 rounded-full outline outline-offset-1 <%= current_page?(mypage_path) || request.path.include?("/users/#{current_user.uid}") || current_page?(bookmarks_path) || current_page?(analytics_path) ? "outline-white" : "outline-transparent" %>">
                     <% if current_user.avatar.present? %>
                         <%= image_tag current_user.avatar, class: "rounded-full object-cover aspect-1/1" %>
                     <% else %>
