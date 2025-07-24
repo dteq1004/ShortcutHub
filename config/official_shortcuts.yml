@@ -89,7 +89,7 @@
   title: "スピーカーから水を排出"
   description: "iPhoneが水没した時にスピーカーから水を出すためのショートカット"
   youtube_url: ""
-  download_url: ""
+  download_url: "https://www.icloud.com/shortcuts/cb421cc53c174311990695a7eacd4fb8"
   instructions:
     - step1: "上記のリンクからショートカットをダウンロード"
     - step2: "水没させてしまった時に、ショートカットアプリから水を排出（このショートカット）をタップすると音声が流れてスピーカーから水を排出することができます。"
