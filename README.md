@@ -38,11 +38,6 @@
 ・私が作成したショートカットも含め、様々な便利なショートカットをダウンロードすることができ、iPhone をより便利に使うことができる。
 ・自分で作成したショートカットを他者へ共有でき、iPhone のショートカットに特化したプラットフォームだからこそ他の SNS で共有するよりも、多くの人に自分で作ったショートカットを使ってもらえる。
 
-## ユーザーの獲得について
-
-- 総フォロワー 5 万人超の SNS アカウントでの発信。([TikTok](https://www.tiktok.com/@mike_iphone?_t=ZS-8vA5wzuRCWQ&_r=1)、[YouTube](https://youtube.com/channel/UC5MKBFQFZ1kD9MIeo8DCr7g?si=uXPEtbOgAyH68KPv)、[Instagram](https://www.instagram.com/mikeneko_iphone?igsh=Mm5tbDJpNHZhcDY3&utm_source=qr))
-- YouTube などのネット広告での宣伝。
-
 ## サービスの差別化ポイント・推しポイント
 
 - 同様のプラットフォームは現状存在しませんが、ショートカットのまとめサイトは存在しており、そのサービスと比較すると様々なショートカットを検索して見つけることができる点や、自分で作ったショートカットを公開できるという点が優れています。
